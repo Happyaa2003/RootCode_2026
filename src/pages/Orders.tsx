@@ -1,20 +1,18 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Plus, ChevronUp, ChevronDown, Snowflake } from 'lucide-react';
+import { Search, ChevronUp, ChevronDown } from 'lucide-react';
 import StatusBadge from '../components/common/StatusBadge';
 import Drawer from '../components/common/Drawer';
-import { orders } from '../data/mockData';
+import { useDataset } from '../context/DatasetContext';
+import { useCurrency } from '../context/CurrencyContext';
 import type { Order } from '../types';
 
 const riskClass = (score: number) =>
   score >= 60 ? 'risk-high' : score >= 30 ? 'risk-medium' : 'risk-low';
 
-const tempIcon = (temp: string) => {
-  if (temp === 'Chilled') return <Snowflake size={13} color="var(--brand)" />;
-  if (temp === 'Frozen') return <Snowflake size={13} color="#1E3A8A" />;
-  return null;
-};
-
 const OrdersPage: React.FC = () => {
+  const { orders } = useDataset();
+  const { formatPrice, currency } = useCurrency();
+
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [brandFilter, setBrandFilter] = useState('All');
@@ -23,8 +21,8 @@ const OrdersPage: React.FC = () => {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const statuses = ['All', 'Unassigned', 'Planned', 'En Route', 'At Risk', 'Delivered', 'Failed'];
-  const brands = ['All', 'Fresh', 'Style', 'Tech', 'Chilled'];
+  const statuses = ['All', 'Planned', 'Loading', 'En Route', 'At Risk', 'Delivered', 'Failed'];
+  const brands = ['All', 'Fresh', 'Style', 'Tech'];
 
   const filtered = useMemo(() => {
     let list = [...orders];
@@ -44,7 +42,7 @@ const OrdersPage: React.FC = () => {
       return sortDir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
     });
     return list;
-  }, [search, statusFilter, brandFilter, sortKey, sortDir]);
+  }, [orders, search, statusFilter, brandFilter, sortKey, sortDir]);
 
   const handleSort = (key: keyof Order) => {
     if (sortKey === key) setSortDir(d => d === 'asc' ? 'desc' : 'asc');
@@ -107,32 +105,30 @@ const OrdersPage: React.FC = () => {
           <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
             {filtered.length} of {orders.length} orders
           </span>
-          <button className="btn btn-primary">
-            <Plus size={16} /> Add Order
-          </button>
         </div>
       </div>
 
       {/* Table */}
       <div className="data-table-wrapper">
-        <table className="data-table">
+        <table className="data-table" style={{ fontSize: 12 }}>
           <thead>
             <tr>
-              <th onClick={() => handleSort('id')} className={sortKey === 'id' ? 'sorted' : ''}>
+              <th onClick={() => handleSort('id')} className={sortKey === 'id' ? 'sorted' : ''} style={{ width: 95 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>Order <SortIcon col="id" /></div>
               </th>
-              <th>Outlet</th>
-              <th>Brand</th>
-              <th>District</th>
-              <th>Window</th>
-              <th>Volume</th>
-              <th>Weight</th>
-              <th>Temp</th>
-              <th>Route</th>
-              <th onClick={() => handleSort('riskScore')} className={sortKey === 'riskScore' ? 'sorted' : ''}>
+              <th>Outlet Destination</th>
+              <th style={{ width: 75 }}>Brand</th>
+              <th style={{ width: 90 }}>District</th>
+              <th style={{ width: 110 }}>Time Window</th>
+              <th style={{ width: 140 }}>Estimated ETA & SLA</th>
+              <th style={{ width: 115, textAlign: 'right' }}>Item Price</th>
+              <th style={{ width: 110, textAlign: 'right' }}>Delivery Cost</th>
+              <th style={{ width: 105, textAlign: 'right' }}>Net Margin</th>
+              <th style={{ width: 100 }}>Dock Service</th>
+              <th onClick={() => handleSort('riskScore')} className={sortKey === 'riskScore' ? 'sorted' : ''} style={{ width: 65 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>Risk <SortIcon col="riskScore" /></div>
               </th>
-              <th>Status</th>
+              <th style={{ width: 100 }}>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -141,42 +137,101 @@ const OrdersPage: React.FC = () => {
                 key={order.id}
                 onClick={() => handleRowClick(order)}
                 className={selectedOrder?.id === order.id ? 'selected' : ''}
+                style={{ height: 38 }}
               >
                 <td>
                   <span style={{
                     fontWeight: 700, fontFamily: 'var(--font-mono)', fontSize: 11.5,
-                    background: 'var(--bg-muted)', padding: '3px 8px', borderRadius: 5,
-                    border: '1px solid var(--border)'
+                    color: 'var(--text-primary)'
                   }}>{order.id}</span>
                 </td>
-                <td>{order.outlet.name}</td>
-                <td className="secondary">{order.brand}</td>
+                <td style={{ fontWeight: 600 }}>{order.outlet.name}</td>
+                <td>
+                  <span style={{
+                    fontWeight: 600, fontSize: 11,
+                    color: order.brand === 'Fresh' ? '#16A34A' : order.brand === 'Style' ? '#7C3AED' : '#2563EB'
+                  }}>
+                    {order.brand}
+                  </span>
+                </td>
                 <td className="muted">{order.district}</td>
-                <td className="secondary" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                <td className="secondary" style={{ fontFamily: 'var(--font-mono)', fontSize: 11 }}>
                   {order.window.start}–{order.window.end}
                 </td>
-                <td className="secondary">{order.volume} m³</td>
-                <td className="secondary">{order.weight} kg</td>
+
+                {/* Estimated ETA & SLA */}
                 <td>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                    {tempIcon(order.temp)}
-                    <span className="muted" style={{ fontSize: 12 }}>{order.temp}</span>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 11.5, color: '#2563EB' }}>
+                        {order.estimatedArrivalETA || order.scheduledAt || order.window.start}
+                      </span>
+                      <span style={{
+                        fontSize: 9, fontWeight: 700, padding: '1px 5px', borderRadius: 3,
+                        background: (order.onTimeProbability ?? 95) >= 90 ? '#DCFCE7' : '#FEF3C7',
+                        color: (order.onTimeProbability ?? 95) >= 90 ? '#15803D' : '#B45309',
+                      }}>
+                        {order.onTimeProbability ?? 96}% SLA
+                      </span>
+                    </div>
+                    <div style={{ fontSize: 9.5, color: 'var(--text-muted)' }}>
+                      {order.estimatedTravelMin ?? 18}m leg · {order.estimatedServiceMin ?? order.serviceAllowanceMin ?? 15}m dock
+                    </div>
                   </div>
                 </td>
-                <td>
-                  {order.routeId ? (
-                    <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--brand)' }}>
-                      {order.routeId.replace('RT-', 'Route ')}
-                    </span>
-                  ) : (
-                    <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>—</span>
-                  )}
+
+                {/* Delivering Item Price */}
+                <td style={{ textAlign: 'right' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--text-primary)', fontSize: 11.5 }}>
+                    {formatPrice(order.itemPrice ?? 1240)}
+                  </div>
+                  <div style={{ fontSize: 9.5, color: 'var(--text-muted)' }}>
+                    {order.units ?? 40} units
+                  </div>
                 </td>
+
+                {/* Delivery Cost */}
+                <td style={{ textAlign: 'right' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-primary)', fontSize: 11.5 }}>
+                    {formatPrice(order.deliveryCost ?? 28.40)}
+                  </div>
+                  <div style={{
+                    display: 'inline-block', fontSize: 9, fontWeight: 700,
+                    padding: '1px 4px', borderRadius: 3, marginTop: 1,
+                    background: (order.costRatio ?? 3) > 5 ? '#FEE2E2' : '#DCFCE7',
+                    color: (order.costRatio ?? 3) > 5 ? '#DC2626' : '#16A34A',
+                  }}>
+                    {order.costRatio ?? '2.4'}% ratio
+                  </div>
+                </td>
+
+                {/* Net Margin */}
+                <td style={{ textAlign: 'right' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#059669', fontSize: 11.5 }}>
+                    {formatPrice(order.deliveryMargin ?? 1211.60, { includeSign: true })}
+                  </div>
+                  <div style={{ fontSize: 9.5, color: 'var(--text-muted)' }}>
+                    {Math.round(100 - (order.costRatio ?? 3))}%
+                  </div>
+                </td>
+
+                {/* Dock Service */}
                 <td>
-                  <span className={`risk-score ${riskClass(order.riskScore)}`} style={{ fontSize: 12, fontWeight: 700 }}>
+                  <span style={{
+                    fontSize: 10.5, fontFamily: 'var(--font-mono)',
+                    color: 'var(--text-secondary)'
+                  }}>
+                    {order.dockType || 'street'} · {order.serviceAllowanceMin || 18}m
+                  </span>
+                </td>
+
+                {/* Risk */}
+                <td>
+                  <span className={`risk-score ${riskClass(order.riskScore)}`} style={{ fontSize: 11, fontWeight: 700 }}>
                     {order.riskScore}%
                   </span>
                 </td>
+
                 <td><StatusBadge status={order.status} /></td>
               </tr>
             ))}
@@ -185,55 +240,110 @@ const OrdersPage: React.FC = () => {
       </div>
 
       {/* Order Detail Drawer */}
-      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} title={selectedOrder?.id ?? ''}>
+      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} title={`Order ${selectedOrder?.id ?? ''}`}>
         {selectedOrder && (
-          <>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-                <StatusBadge status={selectedOrder.status} />
-                {selectedOrder.temp !== 'Ambient' && (
-                  <span className={`tag tag-${selectedOrder.temp.toLowerCase()}`}>
-                    {selectedOrder.temp}
-                  </span>
-                )}
-                <span className={`risk-score ${riskClass(selectedOrder.riskScore)}`} style={{ fontSize: 13, fontWeight: 700, marginLeft: 'auto' }}>
-                  {selectedOrder.riskScore}% risk
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+              <StatusBadge status={selectedOrder.status} />
+              <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
+                {selectedOrder.outlet.name}
+              </span>
+            </div>
+
+            {/* Financial Card */}
+            <div style={{ background: 'var(--bg-subtle)', padding: 14, borderRadius: 8, border: '1px solid var(--border)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                  Delivering Cargo Valuation & Operational Cost
+                </span>
+                <span style={{ fontSize: 11, fontWeight: 700, color: '#16A34A', background: '#DCFCE7', padding: '2px 6px', borderRadius: 4 }}>
+                  {Math.round(100 - (selectedOrder.costRatio || 3))}% Net Margin
                 </span>
               </div>
-            </div>
 
-            <div>
-              <div className="drawer-section-label">Outlet</div>
-              <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 2 }}>{selectedOrder.outlet.name}</div>
-              <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>{selectedOrder.outlet.address}</div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{selectedOrder.outlet.district}</div>
-            </div>
-
-            <div>
-              <div className="drawer-section-label">Delivery Details</div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                {[
-                  { label: 'Brand', value: selectedOrder.brand },
-                  { label: 'Window', value: `${selectedOrder.window.start}–${selectedOrder.window.end}` },
-                  { label: 'Volume', value: `${selectedOrder.volume} m³` },
-                  { label: 'Weight', value: `${selectedOrder.weight} kg` },
-                  { label: 'Temperature', value: selectedOrder.temp },
-                  { label: 'Route', value: selectedOrder.routeId?.replace('RT-', 'Route ') ?? 'Unassigned' },
-                ].map((item, i) => (
-                  <div key={i}>
-                    <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>{item.label}</div>
-                    <div style={{ fontSize: 13, fontWeight: 600, marginTop: 2 }}>{item.value}</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: 12, marginBottom: 12 }}>
+                <div style={{ padding: '8px 10px', background: 'var(--bg-surface)', borderRadius: 6, border: '1px solid var(--border)' }}>
+                  <div style={{ fontSize: 10.5, color: 'var(--text-secondary)' }}>Item Merchandise Value</div>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', marginTop: 2 }}>
+                    {formatPrice(selectedOrder.itemPrice ?? 1240)}
                   </div>
-                ))}
+                  <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>
+                    {selectedOrder.units ?? 40} units · {selectedOrder.brand}
+                  </div>
+                </div>
+
+                <div style={{ padding: '8px 10px', background: 'var(--bg-surface)', borderRadius: 6, border: '1px solid var(--border)' }}>
+                  <div style={{ fontSize: 10.5, color: 'var(--text-secondary)' }}>Total Delivering Cost</div>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: '#2563EB', fontFamily: 'var(--font-mono)', marginTop: 2 }}>
+                    {formatPrice(selectedOrder.deliveryCost ?? 28.40)}
+                  </div>
+                  <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>
+                    {selectedOrder.costRatio ?? '2.4'}% of merchandise value
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 6 }}>
+                Cost Component Breakdown ({currency})
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 11.5 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '3px 0', borderBottom: '1px dashed var(--border)' }}>
+                  <span style={{ color: 'var(--text-secondary)' }}>Fuel Cost (km/l consumption):</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{formatPrice(selectedOrder.costBreakdown?.fuelCost ?? 2.84)}</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '3px 0', borderBottom: '1px dashed var(--border)' }}>
+                  <span style={{ color: 'var(--text-secondary)' }}>Driver & Crew Labor:</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{formatPrice(selectedOrder.costBreakdown?.laborCost ?? 13.20)}</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '3px 0', borderBottom: '1px dashed var(--border)' }}>
+                  <span style={{ color: 'var(--text-secondary)' }}>Dock Turnaround ({selectedOrder.serviceAllowanceMin ?? 18}m):</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{formatPrice(selectedOrder.costBreakdown?.serviceCost ?? 8.10)}</span>
+                </div>
+                {selectedOrder.costBreakdown?.penaltyCost ? (
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '3px 0', borderBottom: '1px dashed var(--border)', color: '#DC2626' }}>
+                    <span>Late SLA Penalty ({selectedOrder.delayMinutes}m delay):</span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700 }}>{formatPrice(selectedOrder.costBreakdown.penaltyCost, { includeSign: true })}</span>
+                  </div>
+                ) : null}
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0 2px', fontWeight: 700, color: '#16A34A', fontSize: 12 }}>
+                  <span>Net Delivery Margin:</span>
+                  <span style={{ fontFamily: 'var(--font-mono)' }}>{formatPrice(selectedOrder.deliveryMargin ?? 1211.60, { includeSign: true })}</span>
+                </div>
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: 8, paddingTop: 8 }}>
-              <button className="btn btn-primary" style={{ flex: 1 }}>Assign to Route</button>
-              <button className="btn btn-secondary">View on Map</button>
-              <button className="btn btn-danger">Defer</button>
+            {/* Delivery Time Estimation Card */}
+            <div style={{ background: 'var(--bg-subtle)', padding: 12, borderRadius: 8, border: '1px solid var(--border)', fontSize: 12 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                  Delivery Time Estimation & SLA
+                </div>
+                <span style={{
+                  fontSize: 10, fontWeight: 700, padding: '2px 6px', borderRadius: 4,
+                  background: (selectedOrder.onTimeProbability ?? 95) >= 90 ? '#DCFCE7' : '#FEF3C7',
+                  color: (selectedOrder.onTimeProbability ?? 95) >= 90 ? '#15803D' : '#B45309',
+                }}>
+                  {selectedOrder.onTimeProbability ?? 96}% SLA Confidence
+                </span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                <div>Arrival ETA: <strong style={{ color: '#2563EB', fontFamily: 'var(--font-mono)' }}>{selectedOrder.estimatedArrivalETA || selectedOrder.scheduledAt || selectedOrder.window.start}</strong></div>
+                <div>Transit Leg: <strong>{selectedOrder.estimatedTravelMin ?? 18} min</strong></div>
+                <div>Dock Turnaround: <strong style={{ color: '#10B981' }}>{selectedOrder.estimatedServiceMin ?? selectedOrder.serviceAllowanceMin ?? 15} min</strong></div>
+                <div>Est. Completion: <strong>{selectedOrder.estimatedCompletionETA || selectedOrder.serviceEnd || selectedOrder.window.end}</strong></div>
+              </div>
             </div>
-          </>
+
+            <div style={{ background: 'var(--bg-subtle)', padding: 12, borderRadius: 8, border: '1px solid var(--border)' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: 6 }}>
+                Dock & Destination Constraints
+              </div>
+              <p style={{ fontSize: 12, color: 'var(--text-primary)' }}>{selectedOrder.outlet.address}</p>
+              <p style={{ fontSize: 11.5, color: 'var(--text-secondary)', marginTop: 4 }}>
+                Dock Type: <strong>{selectedOrder.dockType || 'street'}</strong> · Parking: <strong>{selectedOrder.parkingConstraint || 'normal'}</strong> · Service Allowance: <strong>{selectedOrder.serviceAllowanceMin || 18} min</strong>
+              </p>
+            </div>
+          </div>
         )}
       </Drawer>
     </div>

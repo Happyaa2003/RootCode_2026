@@ -2342,7 +2342,8 @@ body {
   padding: 0 16px;
   gap: 14px;
   flex-shrink: 0;
-  z-index: 30;
+  position: relative;
+  z-index: 1000;
 }
 
 .waypoint-brand,
@@ -2429,13 +2430,13 @@ body {
   top: 100%;
   left: 0;
   margin-top: 4px;
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18), 0 4px 12px rgba(0,0,0,0.08);
   min-width: 180px;
-  z-index: 100;
-  padding: 4px;
+  z-index: 10000;
+  padding: 6px;
 }
 .waypoint-dropdown-item {
   display: flex;
@@ -2829,5 +2830,148 @@ body {
   margin-left: 6px;
   white-space: nowrap;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   OPTIMOROUTE BENCHMARK: Top Action Bar, Tabs & Unscheduled Panel
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.planner-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  flex-wrap: wrap;
+  z-index: 30;
+}
+
+.planner-counts-pill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11.5px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 12px;
+}
+
+.planner-counts-pill-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+}
+
+.planner-counts-pill-num {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.planner-counts-pill-lbl {
+  font-size: 9.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.planner-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.planner-top-btn {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.12s ease;
+}
+
+.planner-top-btn:hover:not(:disabled) {
+  background: var(--bg-muted);
+}
+
+.planner-top-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.planner-top-btn.apply-btn {
+  background: #2563EB;
+  color: #FFFFFF;
+  border-color: #2563EB;
+  font-weight: 700;
+}
+
+.planner-top-btn.apply-btn:hover:not(:disabled) {
+  background: #1D4ED8;
+  border-color: #1D4ED8;
+}
+
+/* Lower Split Tabs */
+.planner-tabs-bar {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-subtle);
+  padding: 0 8px;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.planner-tab-btn {
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.12s ease;
+}
+
+.planner-tab-btn:hover {
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.planner-tab-btn.active {
+  color: #2563EB;
+  border-bottom-color: #2563EB;
+  background: var(--bg-surface);
+  font-weight: 700;
+}
+
+.waypoint-unscheduled-card {
+  user-select: none;
+}
+.waypoint-unscheduled-card:active {
+  cursor: grabbing;
+}
+
+/* Responsive Login & Signup Wrapper */
+@media (max-width: 1024px) {
+  .waypoint-login-wrapper {
+    grid-template-columns: 1fr !important;
+    overflow-y: auto !important;
+  }
+}
+
 
 

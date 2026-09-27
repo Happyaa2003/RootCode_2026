@@ -20,21 +20,27 @@ interface MapLibreMapProps {
 }
 
 // Generate teardrop pin SVG HTML matching OptimoRoute screenshot style
-const createTeardropPinHtml = (number: number, color: string = '#E11D48', isDelayed: boolean = false) => {
+const createTeardropPinHtml = (number: number, color: string = '#E11D48', isDelayed: boolean = false, isSelected: boolean = true) => {
   const pinColor = isDelayed ? '#EA580C' : color;
+  const w = isSelected ? 28 : 22;
+  const h = isSelected ? 38 : 30;
+  const fontSize = isSelected ? 10.5 : 9;
+  const opacity = isSelected ? 1 : 0.82;
   return `
     <div class="waypoint-map-pin" style="
       position: relative;
-      width: 28px;
-      height: 38px;
+      width: ${w}px;
+      height: ${h}px;
       cursor: pointer;
-      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.35));
+      opacity: ${opacity};
+      filter: drop-shadow(0 2px ${isSelected ? 5 : 2}px rgba(0,0,0,${isSelected ? 0.35 : 0.2}));
       transition: transform 0.15s ease;
+      z-index: ${isSelected ? 10 : 2};
     ">
-      <svg viewBox="0 0 28 38" width="28" height="38" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 28 38" width="${w}" height="${h}" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 24 14 24s14-13.5 14-24c0-7.732-6.268-14-14-14z" fill="${pinColor}"/>
         <circle cx="14" cy="14" r="8" fill="#FFFFFF"/>
-        <text x="14" y="17.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10.5" font-weight="700" fill="#1E293B" text-anchor="middle">${number}</text>
+        <text x="14" y="17.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="${fontSize}" font-weight="700" fill="#1E293B" text-anchor="middle">${number}</text>
       </svg>
     </div>
   `;
@@ -135,6 +141,18 @@ const MapLibreMap: React.FC<MapLibreMapProps> = ({
     };
   }, []);
 
+  // Handle container resize (such as planner split view resizing)
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
+    const observer = new ResizeObserver(() => {
+      if (mapRef.current) {
+        mapRef.current.resize();
+      }
+    });
+    observer.observe(mapContainerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   // Update Depots when depots prop changes
   useEffect(() => {
     const map = mapRef.current;
@@ -182,6 +200,15 @@ const MapLibreMap: React.FC<MapLibreMapProps> = ({
         return true;
       });
 
+      // Clean up stale layers and sources for routes that are no longer visible
+      const currentRouteIds = new Set(visibleRoutes.map(r => r.id));
+      routes.forEach(r => {
+        if (!currentRouteIds.has(r.id)) {
+          if (map.getLayer(`layer-${r.id}`)) map.removeLayer(`layer-${r.id}`);
+          if (map.getSource(`source-${r.id}`)) map.removeSource(`source-${r.id}`);
+        }
+      });
+
       // Fit map bounds to visible routes
       const bounds = new maplibregl.LngLatBounds();
       let hasCoordinates = false;
@@ -191,11 +218,14 @@ const MapLibreMap: React.FC<MapLibreMapProps> = ({
         const layerId = `layer-${route.id}`;
         const isSelected = selectedRouteId === route.id;
 
-        const depotLoc = depots[0]?.location || { lat: 42.3785, lng: -71.0720 };
-        const coords: [number, number][] = [
-          [depotLoc.lng, depotLoc.lat],
-          ...route.stops.map(s => [s.order.outlet.location.lng, s.order.outlet.location.lat] as [number, number]),
-        ];
+        const depotLoc = depots[0]?.location || { lat: 6.9535, lng: 79.8912 };
+        const coords: [number, number][] = (route.geometry && route.geometry.length > 0)
+          ? route.geometry.map(g => [g.lng, g.lat] as [number, number])
+          : [
+              [depotLoc.lng, depotLoc.lat],
+              ...route.stops.map(s => [s.order.outlet.location.lng, s.order.outlet.location.lat] as [number, number]),
+              [depotLoc.lng, depotLoc.lat]
+            ];
 
         coords.forEach(([lng, lat]) => {
           bounds.extend([lng, lat]);
@@ -216,6 +246,10 @@ const MapLibreMap: React.FC<MapLibreMapProps> = ({
 
         if (map.getSource(sourceId)) {
           (map.getSource(sourceId) as any).setData(geojsonData);
+          if (map.getLayer(layerId)) {
+            map.setPaintProperty(layerId, 'line-width', isSelected ? 4.5 : 2.5);
+            map.setPaintProperty(layerId, 'line-opacity', isSelected ? 0.95 : 0.55);
+          }
         } else {
           map.addSource(sourceId, {
             type: 'geojson',
@@ -232,9 +266,9 @@ const MapLibreMap: React.FC<MapLibreMapProps> = ({
             },
             paint: {
               'line-color': route.color,
-              'line-width': isSelected ? 4.5 : 3,
-              'line-opacity': isSelected ? 0.95 : 0.75,
-              'line-dasharray': routeViewMode === 'Actual' ? [2, 2] : [1],
+              'line-width': isSelected ? 4.5 : 2.5,
+              'line-opacity': isSelected ? 0.95 : 0.55,
+              ...(routeViewMode === 'Actual' ? { 'line-dasharray': [2, 2] } : {}),
             },
           });
 
@@ -247,7 +281,7 @@ const MapLibreMap: React.FC<MapLibreMapProps> = ({
         route.stops.forEach((stop) => {
           const el = document.createElement('div');
           const isDelayed = stop.status === 'At Risk' || (stop.order.delayMinutes && stop.order.delayMinutes > 0);
-          el.innerHTML = createTeardropPinHtml(stop.sequence, route.color, !!isDelayed);
+          el.innerHTML = createTeardropPinHtml(stop.sequence, route.color, !!isDelayed, isSelected);
 
           el.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -274,14 +308,16 @@ const MapLibreMap: React.FC<MapLibreMapProps> = ({
           markersRef.current.push(marker);
         });
 
-        // Add vehicle marker
+        // Add vehicle marker placed safely along the road corridor between depot and first stop
         if (showVehicles && route.vehicle) {
           const firstStop = route.stops[0];
           if (firstStop) {
             const vEl = document.createElement('div');
             vEl.innerHTML = createVehicleHtml(route.color, `${route.driver?.name ?? 'Driver'} · ${route.vehicle.plate}`);
+            const vLng = (depotLoc.lng + firstStop.order.outlet.location.lng) / 2;
+            const vLat = (depotLoc.lat + firstStop.order.outlet.location.lat) / 2;
             const vMarker = new maplibregl.Marker({ element: vEl })
-              .setLngLat([firstStop.order.outlet.location.lng - 0.004, firstStop.order.outlet.location.lat - 0.002])
+              .setLngLat([vLng, vLat])
               .addTo(map);
             markersRef.current.push(vMarker);
           }
@@ -291,7 +327,7 @@ const MapLibreMap: React.FC<MapLibreMapProps> = ({
       // Smoothly fit bounds
       if (hasCoordinates && !bounds.isEmpty()) {
         try {
-          map.fitBounds(bounds, { padding: 50, maxZoom: 14.5, duration: 800 });
+          map.fitBounds(bounds, { padding: 45, maxZoom: 13.5, duration: 600 });
         } catch (_) {
           // ignore transient bounds calculation edge case
         }

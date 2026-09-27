@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { AlertTriangle, AlertCircle, Info, CheckCircle, Search } from 'lucide-react';
-import { exceptions } from '../data/mockData';
-import type { ExceptionSeverity } from '../types';
+import { useDataset } from '../context/DatasetContext';
+import type { ExceptionSeverity, Exception } from '../types';
 
 const severityIcon = (sev: ExceptionSeverity, size = 16) => {
   if (sev === 'Critical') return <AlertCircle size={size} color="var(--danger)" />;
@@ -11,16 +11,62 @@ const severityIcon = (sev: ExceptionSeverity, size = 16) => {
 };
 
 const ExceptionsPage: React.FC = () => {
+  const { orders, allVehicles } = useDataset();
+
   const [filter, setFilter] = useState<'All' | ExceptionSeverity>('All');
   const [search, setSearch] = useState('');
   const [resolved, setResolved] = useState(false);
 
-  const filtered = exceptions.filter(e => {
+  // Derive dynamic exceptions directly from orders delays and vehicle workshop groundings
+  const dynamicExceptions: Exception[] = useMemo(() => {
+    const list: Exception[] = [];
+
+    // 1. Vehicles grounded in workshop from task2b_peak_day_fleet.csv
+    const groundedVehicles = allVehicles.filter(v => v.status === 'Maintenance');
+    groundedVehicles.forEach((v, idx) => {
+      list.push({
+        id: `EXC-VEH-${idx + 1}`,
+        severity: 'Critical',
+        timestamp: '07:15 AM',
+        entityType: 'Vehicle',
+        entityId: v.id,
+        entityName: `${v.plate} (${v.id})`,
+        problem: 'Vehicle Grounded in Maintenance Workshop',
+        detail: `Fleet unit ${v.id} is flagged in_workshop (task2b_peak_day_fleet). Vehicle unavailable for route dispatch.`,
+        impact: `Lost capacity: ${v.capacityVolume} m³ (${v.capacityWeight} kg). Quota frozen at ${v.weeklyFuelQuotaL} L.`,
+        resolved: false,
+        actions: ['Reassign Scheduled Deliveries', 'Notify Fleet Supervisor', 'Inspect Repair ETA'],
+      });
+    });
+
+    // 2. Delayed orders with late SLA penalties
+    const delayedOrders = orders.filter(o => o.delayMinutes && o.delayMinutes > 0);
+    delayedOrders.forEach((o, idx) => {
+      const penalty = o.costBreakdown?.penaltyCost || (o.delayMinutes! * 4.50);
+      list.push({
+        id: `EXC-ORD-${idx + 1}`,
+        severity: o.delayMinutes! >= 5 ? 'High' : 'Medium',
+        timestamp: `${o.scheduledAt || '08:30'} AM`,
+        entityType: 'Order',
+        entityId: o.id,
+        entityName: `${o.id} · ${o.outlet.name}`,
+        problem: `Delivery Delayed by ${o.delayMinutes} Minutes (SLA Incurred: $${penalty.toFixed(2)})`,
+        detail: `Arrival occurred behind scheduled window (${o.scheduledAt}). Dock allowance: ${o.serviceAllowanceMin || 18}m for ${o.brand} retail drop.`,
+        impact: `Financial SLA penalty: +$${penalty.toFixed(2)} charged against route gross margin.`,
+        resolved: false,
+        actions: ['Approve Delay Exception', 'Recalculate Next ETA', 'Contact Store Receiving'],
+      });
+    });
+
+    return list;
+  }, [allVehicles, orders]);
+
+  const filtered = dynamicExceptions.filter(e => {
     if (e.resolved !== resolved) return false;
     if (filter !== 'All' && e.severity !== filter) return false;
     if (search) {
       const q = search.toLowerCase();
-      return e.entityName.toLowerCase().includes(q) || e.problem.toLowerCase().includes(q);
+      return e.entityName.toLowerCase().includes(q) || e.problem.toLowerCase().includes(q) || e.entityId.toLowerCase().includes(q);
     }
     return true;
   });
@@ -30,9 +76,9 @@ const ExceptionsPage: React.FC = () => {
       {/* Header */}
       <div className="page-header">
         <div className="page-header-left">
-          <div className="sidebar-search" style={{ width: 220 }}>
+          <div className="sidebar-search" style={{ width: 240 }}>
             <Search size={14} color="var(--text-muted)" />
-            <input placeholder="Search exceptions..." value={search} onChange={e => setSearch(e.target.value)} />
+            <input placeholder="Search exceptions & incidents..." value={search} onChange={e => setSearch(e.target.value)} />
           </div>
           <div className="filter-bar">
             {(['All', 'Critical', 'High', 'Medium', 'Low'] as const).map(s => (
@@ -53,13 +99,13 @@ const ExceptionsPage: React.FC = () => {
               className={`tab-item ${!resolved ? 'active' : ''}`}
               onClick={() => setResolved(false)}
             >
-              Active ({exceptions.filter(e => !e.resolved).length})
+              Active Incidents ({dynamicExceptions.filter(e => !e.resolved).length})
             </button>
             <button
               className={`tab-item ${resolved ? 'active' : ''}`}
               onClick={() => setResolved(true)}
             >
-              Resolved
+              Resolved (0)
             </button>
           </div>
         </div>
@@ -71,10 +117,10 @@ const ExceptionsPage: React.FC = () => {
         background: 'var(--bg-subtle)', flexShrink: 0,
       }}>
         {[
-          { sev: 'Critical', color: 'var(--danger)', bg: 'var(--danger-tint)', count: exceptions.filter(e => e.severity === 'Critical' && !e.resolved).length },
-          { sev: 'High', color: 'var(--warning)', bg: 'var(--warning-tint)', count: exceptions.filter(e => e.severity === 'High' && !e.resolved).length },
-          { sev: 'Medium', color: 'var(--brand)', bg: 'var(--brand-tint)', count: exceptions.filter(e => e.severity === 'Medium' && !e.resolved).length },
-          { sev: 'Low', color: 'var(--n400)', bg: 'var(--bg-muted)', count: exceptions.filter(e => e.severity === 'Low' && !e.resolved).length },
+          { sev: 'Critical', color: 'var(--danger)', bg: 'var(--danger-tint)', count: dynamicExceptions.filter(e => e.severity === 'Critical' && !e.resolved).length },
+          { sev: 'High', color: 'var(--warning)', bg: 'var(--warning-tint)', count: dynamicExceptions.filter(e => e.severity === 'High' && !e.resolved).length },
+          { sev: 'Medium', color: 'var(--brand)', bg: 'var(--brand-tint)', count: dynamicExceptions.filter(e => e.severity === 'Medium' && !e.resolved).length },
+          { sev: 'Low', color: 'var(--n400)', bg: 'var(--bg-muted)', count: dynamicExceptions.filter(e => e.severity === 'Low' && !e.resolved).length },
         ].map((item, i) => (
           <div key={i} style={{
             flex: 1, padding: '12px 20px',
@@ -93,19 +139,19 @@ const ExceptionsPage: React.FC = () => {
                 fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700,
                 color: item.color, lineHeight: 1
               }}>{item.count}</div>
-              <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 2 }}>{item.sev}</div>
+              <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 2 }}>{item.sev} Incidents</div>
             </div>
           </div>
         ))}
       </div>
 
       {/* Exception list */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 10 }}>
         {filtered.length === 0 ? (
           <div className="empty-state">
             <div className="empty-state-icon"><CheckCircle size={22} color="var(--success)" /></div>
             <div className="empty-state-title" style={{ color: 'var(--success)' }}>No active exceptions</div>
-            <div className="empty-state-desc">All delivery operations are running normally.</div>
+            <div className="empty-state-desc">All dispatch routes, vehicles, and deliveries operating on schedule.</div>
           </div>
         ) : (
           filtered.map(exc => (
@@ -118,15 +164,15 @@ const ExceptionsPage: React.FC = () => {
                   <span className={`exception-severity severity-${exc.severity.toLowerCase()}`}>{exc.severity}</span>
                   <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{exc.timestamp}</span>
                   <span style={{
-                    fontSize: 11, fontWeight: 500, background: 'var(--bg-muted)',
+                    fontSize: 11, fontWeight: 600, background: 'var(--bg-muted)',
                     padding: '1px 6px', borderRadius: 3, color: 'var(--text-secondary)',
                   }}>{exc.entityType}</span>
                   <span className="exception-entity">{exc.entityName}</span>
                 </div>
                 <div className="exception-problem">{exc.problem}</div>
                 <div className="exception-detail">{exc.detail}</div>
-                <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 3 }}>
-                  Impact: {exc.impact}
+                <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 4 }}>
+                  Impact: <strong>{exc.impact}</strong>
                 </div>
                 <div style={{ display: 'flex', gap: 6, marginTop: 10 }}>
                   {exc.actions.map((action, i) => (

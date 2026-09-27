@@ -53,6 +53,11 @@ export interface Vehicle {
   location?: Coordinates;
   heading?: number; // degrees
   lastSeen?: string;
+  fuelType?: 'diesel' | 'petrol';
+  kmPerL?: number;
+  weeklyFuelQuotaL?: number;
+  fuelConsumedL?: number;
+  depotId?: string;
 }
 
 export interface Outlet {
@@ -62,6 +67,18 @@ export interface Outlet {
   district: string;
   location: Coordinates;
   accessNotes?: string;
+  dockType?: 'street' | 'rear_dock' | 'mall_bay';
+  parkingConstraint?: 'normal' | 'van_only' | 'mall_dock';
+  mallWindow?: string;
+  windowOpenTime?: string;
+  windowCloseTime?: string;
+}
+
+export interface DeliveryCostBreakdown {
+  fuelCost: number;
+  laborCost: number;
+  serviceCost: number;
+  penaltyCost: number;
 }
 
 export interface Order {
@@ -78,6 +95,15 @@ export interface Order {
   riskScore: number; // 0-100
   district: string;
   notes?: string;
+  units?: number;
+  itemPrice?: number; // Total delivering item price / merchandise value ($ / LKR)
+  deliveryCost?: number; // Total delivering operational cost
+  costBreakdown?: DeliveryCostBreakdown;
+  deliveryMargin?: number; // itemPrice - deliveryCost
+  costRatio?: number; // (deliveryCost / itemPrice) * 100
+  dockType?: 'street' | 'rear_dock' | 'mall_bay';
+  parkingConstraint?: 'normal' | 'van_only' | 'mall_dock';
+  serviceAllowanceMin?: number;
   scheduledAt?: string;
   serviceStart?: string;
   serviceEnd?: string;
@@ -85,6 +111,43 @@ export interface Order {
   actualDuration?: string;
   priority?: 'Low' | 'Medium' | 'High' | 'Urgent';
   proofOfDelivery?: { hasPhoto: boolean; hasSignature: boolean; hasNote: boolean };
+  estimatedTravelMin?: number;
+  estimatedArrivalETA?: string;
+  estimatedServiceMin?: number;
+  estimatedCompletionETA?: string;
+  onTimeProbability?: number; // e.g. 96 for 96%
+}
+
+export type CurrencyCode = 'USD' | 'LKR';
+
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  role: 'Dispatcher' | 'Fleet Manager' | 'Planner' | 'Driver' | 'Admin';
+  depot: string;
+  initials: string;
+}
+
+export interface DeliveryTimeEstimationResult {
+  origin: string;
+  destinationOutlet: string;
+  district: string;
+  roadClass: string;
+  distanceKm: number;
+  baseTravelMin: number;
+  trafficMultiplier: number;
+  trafficDelayMin: number;
+  monsoonWeatherDelayMin: number;
+  estimatedTravelMin: number;
+  dockAllowanceMin: number;
+  totalServiceTurnaroundMin: number;
+  totalEstimatedDeliveryMin: number;
+  departureTime: string;
+  estimatedArrivalETA: string;
+  estimatedCompletionETA: string;
+  onTimeProbability: number;
+  timeWindowCompliance: boolean;
 }
 
 export interface RouteStop {
@@ -111,6 +174,13 @@ export interface Route {
   estimatedFinish?: string;
   firstEta?: string;
   geometry?: Coordinates[];
+  totalCargoValue?: number; // Sum of item values
+  totalRouteCost?: number; // Total delivery cost for the route
+  fuelCost?: number;
+  fuelConsumedL?: number;
+  laborCost?: number;
+  profitMargin?: number;
+  totalDistanceKm?: number;
 }
 
 export interface Exception {
@@ -136,6 +206,13 @@ export interface KpiSummary {
   onSchedule: number;
   completed: number;
   offline: number;
+  totalItemValue?: number;
+  totalDeliveryCost?: number;
+  netDeliveryMargin?: number;
+  avgCostPerDelivery?: number;
+  costPercentage?: number;
+  totalFuelConsumedL?: number;
+  totalFuelQuotaL?: number;
 }
 
 export interface OptimizationResult {
@@ -182,4 +259,54 @@ export interface ForecastWeek {
   forecast?: number;
   capacity: number;
   isHighRisk: boolean;
+}
+
+export interface DistrictTravelInfo {
+  district: string;
+  depot: string;
+  roadClass: string;
+  freeFlowKmh: number;
+  depotToDistrictKm: number;
+  depotToDistrictFreeflowMin: number;
+  interStopKm: number;
+  interStopFreeflowMin: number;
+}
+
+export interface Task2aForecastItem {
+  rowId: string;
+  depot: string;
+  brand: string;
+  isoYear: number;
+  isoWeek: number;
+  predTotalVolumeM3?: number;
+  predChilledVolumeM3?: number;
+}
+
+export interface PeakDayScenario {
+  scenario: string;
+  orderRef: string;
+  outletId: string;
+  brand: string;
+  district: string;
+  depot: string;
+  dockType: string;
+  parkingConstraint: string;
+  mallWindow?: string;
+  windowOpenTime: string;
+  windowCloseTime: string;
+  tempRequirement: string;
+  orderUnits: number;
+  orderWeightKg: number;
+  orderVolumeM3: number;
+  deferredYesterday: boolean;
+  daysSinceLastServed: number;
+  decision?: 'served' | 'deferred';
+  assignedVehicle?: string;
+  tripId?: number;
+}
+
+export interface PeakFleetStatus {
+  scenario: string;
+  vehicleId: string;
+  status: 'in_workshop' | 'available';
 }
