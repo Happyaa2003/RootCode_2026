@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   Navigation, Lock, Mail, ArrowRight, ShieldCheck,
-  Sun, Moon, Radio, Activity, CheckCircle2, ChevronRight
+  Sun, Moon, Radio, Activity, CheckCircle2
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCurrency } from '../context/CurrencyContext';
@@ -276,17 +276,17 @@ export const Login: React.FC<LoginProps> = ({ theme = 'dark', onThemeToggle }) =
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '40px 52px',
-          background: theme === 'dark' ? '#070B16' : '#FAFAFC',
+          background: theme === 'dark' ? '#040711' : '#FFFFFF',
           overflowY: 'auto',
           overflowX: 'hidden',
         }}
       >
         {/* IDENTIFIED ANIMATION EFFECT: Particle Constellation Canvas from Antigravity video */}
         <ParticleConstellation
-          particleCount={70}
-          connectionDistance={105}
+          particleCount={85}
+          connectionDistance={115}
           theme={theme === 'dark' ? 'dark' : 'light'}
-          style={{ opacity: theme === 'dark' ? 0.75 : 0.45 }}
+          style={{ opacity: theme === 'dark' ? 0.8 : 0.65 }}
         />
 
         {/* Subtle Radial Glow in Center */}
@@ -588,25 +588,26 @@ export const Login: React.FC<LoginProps> = ({ theme = 'dark', onThemeToggle }) =
               type="submit"
               disabled={loading}
               style={{
-                marginTop: 6,
-                padding: '12px 20px',
-                borderRadius: 24,
+                marginTop: 8,
+                padding: '13px 24px',
+                borderRadius: 9999,
                 border: 'none',
                 background: '#0F172A',
                 color: '#FFFFFF',
-                fontSize: 13.5,
+                fontSize: 14,
                 fontWeight: 700,
                 cursor: loading ? 'wait' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 8,
+                gap: 9,
                 boxShadow: '0 4px 18px rgba(15, 23, 42, 0.35)',
-                transition: 'all 0.15s ease',
+                transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                letterSpacing: '-0.01em',
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.transform = 'translateY(-1px)';
-                e.currentTarget.style.boxShadow = '0 6px 22px rgba(15, 23, 42, 0.45)';
+                e.currentTarget.style.transform = 'translateY(-1.5px)';
+                e.currentTarget.style.boxShadow = '0 8px 24px rgba(15, 23, 42, 0.45)';
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.transform = 'none';
@@ -621,6 +622,37 @@ export const Login: React.FC<LoginProps> = ({ theme = 'dark', onThemeToggle }) =
                   <ArrowRight size={15} />
                 </>
               )}
+            </button>
+
+            {/* Antigravity Replay Startup / Liftoff Animation Button */}
+            <button
+              type="button"
+              onClick={() => (window as any).replayWaypointStartup?.()}
+              style={{
+                padding: '9px 18px',
+                borderRadius: 9999,
+                border: '1px solid var(--border)',
+                background: 'rgba(37, 99, 235, 0.04)',
+                color: '#2563EB',
+                fontSize: 12,
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 6,
+                transition: 'all 0.15s ease',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = 'rgba(37, 99, 235, 0.1)';
+                e.currentTarget.style.borderColor = '#2563EB';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = 'rgba(37, 99, 235, 0.04)';
+                e.currentTarget.style.borderColor = 'var(--border)';
+              }}
+            >
+              <span>🚀 Experience Liftoff Startup Loading</span>
             </button>
           </form>
 

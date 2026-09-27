@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navigation, Radio } from 'lucide-react';
+import { Navigation, Radio, ChevronRight } from 'lucide-react';
 import ParticleConstellation from './ParticleConstellation';
 
 interface StartupLoaderProps {
@@ -10,12 +10,53 @@ interface StartupLoaderProps {
 export const StartupLoader: React.FC<StartupLoaderProps> = ({ onComplete, forceShow = false }) => {
   const [visible, setVisible] = useState(() => {
     if (forceShow) return true;
-    return !sessionStorage.getItem('waypoint_startup_shown');
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('liftoff') === 'true') return true;
+    // Show on initial session or if not marked as skipped in this session
+    return !sessionStorage.getItem('waypoint_liftoff_completed');
   });
 
-  const [progress, setProgress] = useState(12);
-  const [statusText, setStatusText] = useState('Connecting to Sri Lanka National Telemetry Network...');
+  const [progress, setProgress] = useState(8);
+  const [stepIndex, setStepIndex] = useState(0);
   const [fadingOut, setFadingOut] = useState(false);
+
+  // Expose replay trigger globally for convenience
+  useEffect(() => {
+    (window as any).replayWaypointStartup = () => {
+      sessionStorage.removeItem('waypoint_liftoff_completed');
+      setProgress(8);
+      setStepIndex(0);
+      setFadingOut(false);
+      setVisible(true);
+    };
+  }, []);
+
+  const telemetrySteps = [
+    {
+      code: 'STAGE 01',
+      title: 'Calibrating 9 Sri Lankan Provincial Dispatch Hubs',
+      detail: 'Western (Peliyagoda HQ), Central (Kandy), Southern (Galle), Northern (Jaffna)',
+      targetPct: 32,
+    },
+    {
+      code: 'STAGE 02',
+      title: 'Establishing Fleet Telemetry · 60 Multi-Temp Vehicles',
+      detail: 'GPS Tracers, Chilled & Frozen Multi-Compartment Temp Sensors Online',
+      targetPct: 64,
+    },
+    {
+      code: 'STAGE 03',
+      title: 'Mapping 120 Retail Outlets & Ceylon Highway Corridors',
+      detail: 'A1 Kandy Arterial, E01 Southern Expressway, A3 Coastal, A9 Northern',
+      targetPct: 88,
+    },
+    {
+      code: 'STAGE 04',
+      title: 'Neural Route Engine Online · Experience Liftoff',
+      detail: 'Dynamic Time Windows, Fuel Surcharge Model & Parity Synchronized',
+      targetPct: 100,
+    },
+  ];
 
   useEffect(() => {
     if (!visible) {
@@ -23,34 +64,39 @@ export const StartupLoader: React.FC<StartupLoaderProps> = ({ onComplete, forceS
       return;
     }
 
-    const milestones = [
-      { pct: 35, text: 'Mapping 120 Retail Outlets across 9 Provinces...' },
-      { pct: 68, text: 'Synchronizing 60 Multi-Temp Fleet Vehicles...' },
-      { pct: 88, text: 'Calibrating A1, E01 & A3 Ceylon Route Corridors...' },
-      { pct: 100, text: 'Waypoint Root Intelligent Dispatch Ready.' },
-    ];
+    let currentStep = 0;
+    const stepDuration = 550; // smooth pacing
 
-    let step = 0;
-    const interval = setInterval(() => {
-      if (step < milestones.length) {
-        setProgress(milestones[step].pct);
-        setStatusText(milestones[step].text);
-        step++;
+    const stepInterval = setInterval(() => {
+      currentStep++;
+      if (currentStep < telemetrySteps.length) {
+        setStepIndex(currentStep);
+        setProgress(telemetrySteps[currentStep].targetPct);
       } else {
-        clearInterval(interval);
+        clearInterval(stepInterval);
+        setProgress(100);
         setTimeout(() => {
           setFadingOut(true);
-          sessionStorage.setItem('waypoint_startup_shown', 'true');
+          sessionStorage.setItem('waypoint_liftoff_completed', 'true');
           setTimeout(() => {
             setVisible(false);
             onComplete?.();
           }, 450);
-        }, 350);
+        }, 400);
       }
-    }, 280);
+    }, stepDuration);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(stepInterval);
   }, [visible, onComplete]);
+
+  const handleSkip = () => {
+    setFadingOut(true);
+    sessionStorage.setItem('waypoint_liftoff_completed', 'true');
+    setTimeout(() => {
+      setVisible(false);
+      onComplete?.();
+    }, 200);
+  };
 
   if (!visible) return null;
 
@@ -59,24 +105,43 @@ export const StartupLoader: React.FC<StartupLoaderProps> = ({ onComplete, forceS
       style={{
         position: 'fixed',
         inset: 0,
-        zIndex: 99999,
-        background: '#070B16',
+        zIndex: 999999,
+        background: '#040711',
         color: '#FFFFFF',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         opacity: fadingOut ? 0 : 1,
-        transition: 'opacity 0.45s ease, transform 0.45s ease',
-        transform: fadingOut ? 'scale(1.02)' : 'scale(1)',
+        transition: 'opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
+        transform: fadingOut ? 'scale(1.03)' : 'scale(1)',
         pointerEvents: fadingOut ? 'none' : 'auto',
         userSelect: 'none',
+        overflow: 'hidden',
+        fontFamily: 'var(--font-sans)',
       }}
     >
-      {/* Background Particle Constellation */}
-      <ParticleConstellation particleCount={85} theme="dark" />
+      {/* Background Interactive Antigravity Particle Constellation */}
+      <ParticleConstellation
+        particleCount={95}
+        connectionDistance={125}
+        theme="dark"
+        style={{ opacity: 0.85 }}
+      />
 
-      {/* Central Glowing Emblem & Rings */}
+      {/* Atmospheric Center Glow */}
+      <div
+        style={{
+          position: 'absolute',
+          width: '600px',
+          height: '600px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(37, 99, 235, 0.18) 0%, rgba(6, 182, 212, 0.05) 50%, transparent 75%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Central Liftoff HUD Matrix */}
       <div
         style={{
           position: 'relative',
@@ -84,146 +149,248 @@ export const StartupLoader: React.FC<StartupLoaderProps> = ({ onComplete, forceS
           flexDirection: 'column',
           alignItems: 'center',
           zIndex: 10,
+          maxWidth: '560px',
+          width: '90%',
+          textAlign: 'center',
         }}
       >
-        {/* Pulsing Concentric Rings */}
+        {/* Holographic Radar Compass Rings */}
         <div
           style={{
-            position: 'absolute',
+            position: 'relative',
             width: 140,
             height: 140,
-            borderRadius: '50%',
-            border: '1px solid rgba(59, 130, 246, 0.3)',
-            animation: 'ping 2.5s cubic-bezier(0, 0, 0.2, 1) infinite',
-            pointerEvents: 'none',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            width: 100,
-            height: 100,
-            borderRadius: '50%',
-            border: '1px solid rgba(96, 165, 250, 0.2)',
-            animation: 'pulse 1.8s infinite',
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* Center Logo Icon */}
-        <div
-          style={{
-            width: 64,
-            height: 64,
-            borderRadius: 16,
-            background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 0 40px rgba(37, 99, 235, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.4)',
-            marginBottom: 24,
+            marginBottom: 28,
           }}
         >
-          <Navigation size={32} fill="#fff" color="#fff" style={{ transform: 'rotate(45deg)' }} />
-        </div>
-
-        {/* Brand Name */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-          <span style={{ fontSize: 26, fontWeight: 800, letterSpacing: '-0.03em', color: '#F8FAFC' }}>
-            Waypoint Root
-          </span>
-          <span
+          {/* Outer Pulsing Wave Ring */}
+          <div
             style={{
-              fontSize: 10.5,
-              fontWeight: 700,
-              padding: '2px 8px',
-              borderRadius: 4,
-              background: 'rgba(37, 99, 235, 0.25)',
-              border: '1px solid rgba(59, 130, 246, 0.5)',
-              color: '#93C5FD',
+              position: 'absolute',
+              inset: -12,
+              borderRadius: '50%',
+              border: '1px solid rgba(59, 130, 246, 0.35)',
+              animation: 'ping 2.6s cubic-bezier(0, 0, 0.2, 1) infinite',
+              pointerEvents: 'none',
+            }}
+          />
+
+          {/* Rotating Compass Tick Marks Ring */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: -2,
+              borderRadius: '50%',
+              border: '1px dashed rgba(96, 165, 250, 0.4)',
+              animation: 'radarSpin 12s linear infinite',
+              pointerEvents: 'none',
+            }}
+          />
+
+          {/* Secondary Concentric Ring */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 12,
+              borderRadius: '50%',
+              border: '1px solid rgba(56, 189, 248, 0.25)',
+              pointerEvents: 'none',
+            }}
+          />
+
+          {/* Center Glowing Waypoint Root Emblem */}
+          <div
+            style={{
+              width: 72,
+              height: 72,
+              borderRadius: 20,
+              background: 'linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #06B6D4 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 0 50px rgba(37, 99, 235, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.45)',
+              border: '1px solid rgba(255, 255, 255, 0.25)',
             }}
           >
-            CEYLON AI
+            <Navigation
+              size={36}
+              fill="#FFFFFF"
+              color="#FFFFFF"
+              style={{ transform: 'rotate(45deg)', filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.4))' }}
+            />
+          </div>
+        </div>
+
+        {/* Antigravity Badge */}
+        <div style={{ marginBottom: 12 }}>
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '6px 16px',
+              borderRadius: 9999,
+              fontSize: 11.5,
+              fontWeight: 700,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              background: 'rgba(37, 99, 235, 0.14)',
+              border: '1px solid rgba(59, 130, 246, 0.45)',
+              color: '#93C5FD',
+              backdropFilter: 'blur(10px)',
+              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)',
+            }}
+          >
+            <span style={{ fontSize: 9 }}>▲</span> WAYPOINT ROOT · SRI LANKA AI LOGISTICS
           </span>
         </div>
 
-        {/* Dynamic Status Text */}
-        <div
+        {/* Dynamic Title */}
+        <h1
           style={{
-            fontSize: 13,
-            color: '#94A3B8',
-            height: 20,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-            marginBottom: 20,
-            fontFamily: 'var(--font-mono)',
+            fontSize: 'clamp(24px, 4vw, 34px)',
+            fontWeight: 800,
+            letterSpacing: '-0.035em',
+            margin: '0 0 10px 0',
+            color: '#F8FAFC',
+            lineHeight: 1.15,
           }}
         >
-          <Radio size={12} color="#34D399" style={{ animation: 'pulse 1s infinite' }} />
-          <span>{statusText}</span>
-        </div>
+          Experience Liftoff
+        </h1>
 
-        {/* High-Precision Progress Bar */}
+        <p
+          style={{
+            fontSize: 13.5,
+            color: '#94A3B8',
+            margin: '0 0 24px 0',
+            lineHeight: 1.5,
+            maxWidth: 460,
+          }}
+        >
+          Initializing nationwide autonomous delivery routing, multi-temp vehicle tracking, and SLA cost optimization across Sri Lanka.
+        </p>
+
+        {/* Active Telemetry Stage Box */}
         <div
           style={{
-            width: 240,
-            height: 4,
-            background: 'rgba(255, 255, 255, 0.1)',
-            borderRadius: 2,
+            width: '100%',
+            background: 'rgba(15, 23, 42, 0.75)',
+            border: '1px solid rgba(59, 130, 246, 0.3)',
+            borderRadius: 14,
+            padding: '16px 20px',
+            marginBottom: 20,
+            backdropFilter: 'blur(12px)',
+            textAlign: 'left',
+            boxShadow: '0 12px 30px rgba(0, 0, 0, 0.4)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Radio size={13} color="#34D399" style={{ animation: 'pulse 1.4s infinite' }} />
+              <span style={{ fontSize: 10.5, fontWeight: 700, color: '#38BDF8', letterSpacing: '0.05em', fontFamily: 'var(--font-mono)' }}>
+                {telemetrySteps[stepIndex]?.code}
+              </span>
+            </div>
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#34D399', fontFamily: 'var(--font-mono)' }}>
+              {progress}% CALIBRATED
+            </span>
+          </div>
+
+          <div style={{ fontSize: 13.5, fontWeight: 700, color: '#FFFFFF', marginBottom: 4, letterSpacing: '-0.01em' }}>
+            {telemetrySteps[stepIndex]?.title}
+          </div>
+
+          <div style={{ fontSize: 11.5, color: '#94A3B8', lineHeight: 1.4 }}>
+            {telemetrySteps[stepIndex]?.detail}
+          </div>
+        </div>
+
+        {/* High-Precision Glowing Progress Bar */}
+        <div
+          style={{
+            width: '100%',
+            height: 6,
+            background: 'rgba(255, 255, 255, 0.08)',
+            borderRadius: 9999,
             overflow: 'hidden',
             position: 'relative',
+            marginBottom: 22,
           }}
         >
           <div
             style={{
               height: '100%',
               width: `${progress}%`,
-              background: 'linear-gradient(90deg, #3B82F6 0%, #60A5FA 70%, #34D399 100%)',
-              borderRadius: 2,
-              transition: 'width 0.28s ease',
-              boxShadow: '0 0 10px #60A5FA',
+              background: 'linear-gradient(90deg, #2563EB 0%, #06B6D4 60%, #10B981 100%)',
+              borderRadius: 9999,
+              transition: 'width 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
+              boxShadow: '0 0 16px rgba(6, 182, 212, 0.8)',
             }}
           />
         </div>
 
-        <div
+        {/* Antigravity Pill Skip Button */}
+        <button
+          type="button"
+          onClick={handleSkip}
           style={{
-            marginTop: 8,
-            fontSize: 11,
-            color: '#64748B',
-            fontFamily: 'var(--font-mono)',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 7,
+            padding: '9px 20px',
+            borderRadius: 9999,
+            background: 'rgba(255, 255, 255, 0.06)',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
+            color: '#E2E8F0',
+            fontSize: 12,
+            fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'all 0.15s ease',
+            backdropFilter: 'blur(8px)',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.14)';
+            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            e.currentTarget.style.color = '#FFFFFF';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
+            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+            e.currentTarget.style.color = '#E2E8F0';
           }}
         >
-          {progress}%
-        </div>
+          <span>Enter Terminal Now</span>
+          <ChevronRight size={14} />
+        </button>
       </div>
 
-      {/* Quick Skip button */}
-      <button
-        onClick={() => {
-          setFadingOut(true);
-          sessionStorage.setItem('waypoint_startup_shown', 'true');
-          setTimeout(() => {
-            setVisible(false);
-            onComplete?.();
-          }, 200);
-        }}
+      {/* Bottom Coordinates & System Telemetry Ticker */}
+      <div
         style={{
           position: 'absolute',
-          bottom: 24,
-          background: 'none',
-          border: 'none',
-          color: '#64748B',
+          bottom: 22,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 16,
           fontSize: 11,
-          cursor: 'pointer',
-          padding: '6px 12px',
-          textDecoration: 'underline',
+          color: '#64748B',
+          fontFamily: 'var(--font-mono)',
           zIndex: 10,
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          padding: '0 20px',
         }}
       >
-        Skip startup animation →
-      </button>
+        <span>DEPOT: PELIYAGODA HQ (06°57′N, 79°53′E)</span>
+        <span>•</span>
+        <span>CORRIDORS: A1 · E01 · A3 · A9</span>
+        <span>•</span>
+        <span>AI ENGINE: CEYLON-V2.4</span>
+      </div>
     </div>
   );
 };

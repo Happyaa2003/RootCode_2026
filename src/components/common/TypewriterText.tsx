@@ -31,7 +31,7 @@ export const TypewriterText: React.FC<TypewriterTextProps> = ({
     if (!words || words.length === 0) return;
 
     const fullWord = words[currentWordIdx];
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setTimeout>;
 
     if (!isDeleting && currentText === fullWord) {
       if (!loop && currentWordIdx === words.length - 1) {

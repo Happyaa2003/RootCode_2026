@@ -2973,5 +2973,21 @@ body {
   }
 }
 
+@keyframes typewriterBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
 
+@keyframes antigravityGlow {
+  0%, 100% {
+    box-shadow: 0 0 25px rgba(37, 99, 235, 0.2), 0 0 60px rgba(37, 99, 235, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 45px rgba(37, 99, 235, 0.38), 0 0 90px rgba(37, 99, 235, 0.18);
+  }
+}
 
+@keyframes radarSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

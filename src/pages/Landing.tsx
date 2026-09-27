@@ -4,6 +4,8 @@ import {
   Route, Package, Truck, BarChart2, AlertTriangle, MapPin,
   ArrowRight, CheckCircle2, Sun, Moon
 } from 'lucide-react';
+import ParticleConstellation from '../components/common/ParticleConstellation';
+import TypewriterText from '../components/common/TypewriterText';
 
 interface LandingProps {
   theme: 'light' | 'dark';
@@ -179,8 +181,8 @@ const Landing: React.FC<LandingProps> = ({ theme, onThemeToggle }) => {
             </svg>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, letterSpacing: '0.5px', color: '#FFFFFF' }}>WAYPOINT</span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, color: '#38BDF8', letterSpacing: '1px' }}>DISPATCH PLATFORM</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 800, letterSpacing: '0.5px', color: '#FFFFFF' }}>WAYPOINT ROOT</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, color: '#38BDF8', letterSpacing: '1px' }}>SRI LANKA LOGISTICS AI</span>
           </div>
         </div>
 
@@ -199,18 +201,25 @@ const Landing: React.FC<LandingProps> = ({ theme, onThemeToggle }) => {
               {theme === 'light' ? <Sun size={12} /> : <Moon size={12} />}
             </div>
           </button>
-          <button className="btn btn-secondary" style={{ color: '#FFFFFF', borderColor: 'rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.06)' }} onClick={() => navigate('/')}>
+          <button className="btn btn-secondary" style={{ color: '#FFFFFF', borderColor: 'rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.06)' }} onClick={() => navigate('/login')}>
             Sign In
           </button>
-          <button className="btn btn-primary" onClick={() => navigate('/')}>
+          <button className="btn btn-primary" onClick={() => navigate('/planner')}>
             Launch Console <ArrowRight size={15} />
           </button>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <div className="landing-hero">
-        <div>
+      <div className="landing-hero" style={{ position: 'relative', overflow: 'hidden' }}>
+        {/* Antigravity Particle Constellation Effect */}
+        <ParticleConstellation
+          particleCount={65}
+          theme="dark"
+          style={{ opacity: 0.6 }}
+        />
+
+        <div style={{ position: 'relative', zIndex: 5 }}>
           {/* Tactical Geo Pill */}
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -219,23 +228,48 @@ const Landing: React.FC<LandingProps> = ({ theme, onThemeToggle }) => {
           }}>
             <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#22C55E', boxShadow: '0 0 8px #22C55E' }} />
             <span style={{ fontSize: 11.5, fontWeight: 700, color: '#38BDF8', fontFamily: 'var(--font-mono)' }}>
-              SRI LANKA DISPATCH MATRIX · 3 CENTRAL HUBS LIVE
+              SRI LANKA DISPATCH MATRIX · 9 PROVINCES LIVE
             </span>
           </div>
 
           <h1 className="landing-headline">
-            Mission-critical route dispatch & fleet telemetry.
+            <TypewriterText
+              words={[
+                'Mission-critical route dispatch & fleet telemetry.',
+                'Autonomous logistics intelligence for Sri Lanka.',
+                'Sub-minute route optimization & fuel cost control.',
+              ]}
+              typingSpeed={40}
+              pauseTime={3000}
+            />
           </h1>
           <p className="landing-subheadline">
-            Waypoint transforms high-density Sri Lankan retail and cold-chain logistics with sub-minute route optimization, dynamic vehicle capacity balancing, and predictive time-window risk detection.
+            Waypoint Root transforms high-density Sri Lankan retail and cold-chain logistics with sub-minute route optimization, dynamic vehicle capacity balancing, and predictive time-window risk detection.
           </p>
 
-          <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'center' }}>
             <button className="btn btn-primary" style={{ height: 48, padding: '0 24px', fontSize: 14 }} onClick={() => navigate('/planner')}>
               Launch Route Planner <ArrowRight size={17} />
             </button>
-            <button className="btn btn-secondary" style={{ height: 48, padding: '0 22px', fontSize: 14, color: '#FFFFFF', borderColor: 'rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.06)' }} onClick={() => navigate('/')}>
-              View Live Dashboard
+            <button className="btn btn-secondary" style={{ height: 48, padding: '0 22px', fontSize: 14, color: '#FFFFFF', borderColor: 'rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.06)' }} onClick={() => navigate('/live')}>
+              View Live Fleet
+            </button>
+            <button
+              className="btn btn-secondary"
+              style={{
+                height: 48,
+                padding: '0 20px',
+                fontSize: 13,
+                color: '#93C5FD',
+                borderColor: 'rgba(59, 130, 246, 0.35)',
+                background: 'rgba(37, 99, 235, 0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 7,
+              }}
+              onClick={() => (window as any).replayWaypointStartup?.()}
+            >
+              <span>🚀 Replay Liftoff Sequence</span>
             </button>
           </div>
 
