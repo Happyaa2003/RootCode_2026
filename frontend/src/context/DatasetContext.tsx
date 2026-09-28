@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import {
-  peliyagodaDepots, bostonDepots,
-  peliyagodaOutlets, bostonOutlets,
+  peliyagodaDepots,
+  peliyagodaOutlets,
   all120PeliyagodaOutlets,
-  peliyagodaDrivers, bostonDrivers,
-  peliyagodaVehicles, bostonVehicles,
+  peliyagodaDrivers,
+  peliyagodaVehicles,
   all60PeliyagodaVehicles,
-  peliyagodaOrders, bostonOrders,
-  peliyagodaRoutes, bostonRoutes,
+  peliyagodaOrders,
+  peliyagodaRoutes,
   districtTravelMatrix,
   task2aForecastCases,
   task2bPeakFleet,
@@ -22,7 +22,7 @@ import type {
   RouteStop
 } from '../types';
 
-export type DatasetMode = 'peliyagoda' | 'boston';
+export type DatasetMode = 'peliyagoda';
 
 interface HistoryState {
   orders: Order[];
@@ -65,22 +65,22 @@ interface DatasetContextType {
 const DatasetContext = createContext<DatasetContextType | undefined>(undefined);
 
 export const DatasetProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [mode, setMode] = useState<DatasetMode>(() => {
-    return (localStorage.getItem('waypoint-dataset-mode') as DatasetMode) || 'boston';
-  });
+  // Always lock dataset to Peliyagoda (RootCode logistics)
+  const [mode, setMode] = useState<DatasetMode>('peliyagoda');
 
   useEffect(() => {
-    localStorage.setItem('waypoint-dataset-mode', mode);
-  }, [mode]);
+    // Clear any obsolete stored mode from previous versions
+    localStorage.removeItem('waypoint-dataset-mode');
+  }, []);
 
-  const baseDepots = mode === 'peliyagoda' ? peliyagodaDepots : bostonDepots;
-  const baseOutlets = mode === 'peliyagoda' ? peliyagodaOutlets : bostonOutlets;
-  const baseAllOutlets = mode === 'peliyagoda' ? all120PeliyagodaOutlets : bostonOutlets;
-  const baseDrivers = mode === 'peliyagoda' ? peliyagodaDrivers : bostonDrivers;
-  const baseVehicles = mode === 'peliyagoda' ? peliyagodaVehicles : bostonVehicles;
-  const baseAllVehicles = mode === 'peliyagoda' ? all60PeliyagodaVehicles : bostonVehicles;
-  const baseInitialOrders = mode === 'peliyagoda' ? peliyagodaOrders : bostonOrders;
-  const baseInitialRoutes = mode === 'peliyagoda' ? peliyagodaRoutes : bostonRoutes;
+  const baseDepots = peliyagodaDepots;
+  const baseOutlets = peliyagodaOutlets;
+  const baseAllOutlets = all120PeliyagodaOutlets;
+  const baseDrivers = peliyagodaDrivers;
+  const baseVehicles = peliyagodaVehicles;
+  const baseAllVehicles = all60PeliyagodaVehicles;
+  const baseInitialOrders = peliyagodaOrders;
+  const baseInitialRoutes = peliyagodaRoutes;
 
   // Active state for orders and routes
   const [orders, setOrders] = useState<Order[]>(baseInitialOrders);
@@ -92,13 +92,11 @@ export const DatasetProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [future, setFuture] = useState<HistoryState[]>([]);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
-  // Sync state when mode changes
+  // Sync state when mode changes (safety fallback)
   useEffect(() => {
-    const newOrders = mode === 'peliyagoda' ? peliyagodaOrders : bostonOrders;
-    const newRoutes = mode === 'peliyagoda' ? peliyagodaRoutes : bostonRoutes;
-    setOrders(newOrders);
-    setRoutes(newRoutes);
-    setActiveDepot(mode === 'peliyagoda' ? peliyagodaDepots[0] : bostonDepots[0]);
+    setOrders(peliyagodaOrders);
+    setRoutes(peliyagodaRoutes);
+    setActiveDepot(peliyagodaDepots[0]);
     setHistory([]);
     setFuture([]);
     setHasUnsavedChanges(false);
@@ -239,14 +237,12 @@ export const DatasetProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // Discard Changes
   const discardChanges = useCallback(() => {
-    const origOrders = mode === 'peliyagoda' ? peliyagodaOrders : bostonOrders;
-    const origRoutes = mode === 'peliyagoda' ? peliyagodaRoutes : bostonRoutes;
-    setOrders(origOrders);
-    setRoutes(origRoutes);
+    setOrders(peliyagodaOrders);
+    setRoutes(peliyagodaRoutes);
     setHistory([]);
     setFuture([]);
     setHasUnsavedChanges(false);
-  }, [mode]);
+  }, []);
 
   const kpis = useMemo(() => {
     return calculateDatasetEconomics(orders, baseVehicles);

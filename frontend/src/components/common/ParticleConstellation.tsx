@@ -26,8 +26,8 @@ interface ParticleConstellationProps {
 export const ParticleConstellation: React.FC<ParticleConstellationProps> = ({
   className = '',
   style,
-  particleCount = 85,
-  connectionDistance = 115,
+  particleCount = 90,
+  connectionDistance = 125,
   theme = 'light',
   accentColor = '#2563EB',
 }) => {
@@ -40,7 +40,7 @@ export const ParticleConstellation: React.FC<ParticleConstellationProps> = ({
   }>({
     x: null,
     y: null,
-    radius: 140,
+    radius: 150,
     active: false,
   });
 
@@ -55,15 +55,16 @@ export const ParticleConstellation: React.FC<ParticleConstellationProps> = ({
     let width = 0;
     let height = 0;
 
+    // High-visibility, vibrant color palettes tailored for both dark & light backgrounds
     const colors = theme === 'dark'
       ? ['#FFFFFF', '#F8FAFC', '#E2E8F0', '#CBD5E1', '#94A3B8', '#60A5FA', '#38BDF8']
-      : ['#0F172A', '#1E293B', '#334155', '#475569', '#64748B', '#2563EB'];
+      : ['#2563EB', '#1D4ED8', '#0284C7', '#0EA5E9', '#3B82F6', '#4F46E5', '#1E293B', '#334155'];
 
     let particles: Particle[] = [];
 
     const initParticles = () => {
       particles = [];
-      const count = Math.min(particleCount, Math.max(35, Math.floor((width * height) / 9000)));
+      const count = Math.min(particleCount, Math.max(40, Math.floor((width * height) / 8500)));
 
       // Jittered grid layout produces a natural, well-spaced constellation field
       const cols = Math.max(3, Math.ceil(Math.sqrt((count * width) / Math.max(1, height))));
@@ -79,10 +80,14 @@ export const ParticleConstellation: React.FC<ParticleConstellationProps> = ({
           const homeX = Math.max(16, Math.min(width - 16, (c + 0.5) * cellW + jitterX));
           const homeY = Math.max(16, Math.min(height - 16, (r + 0.5) * cellH + jitterY));
 
-          const radius = Math.random() * 1.8 + 1.2;
+          // In light mode, provide generous, crisp radii and high alpha for clear visibility
+          const radius = theme === 'dark'
+            ? Math.random() * 1.8 + 1.2
+            : Math.random() * 2.2 + 2.0;
+
           const baseAlpha = theme === 'dark'
-            ? Math.random() * 0.45 + 0.3
-            : Math.random() * 0.35 + 0.2;
+            ? Math.random() * 0.45 + 0.35
+            : Math.random() * 0.35 + 0.65; // High visibility 0.65 to 1.0 on white/light background
 
           particles.push({
             x: homeX,
@@ -164,7 +169,7 @@ export const ParticleConstellation: React.FC<ParticleConstellationProps> = ({
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
 
-        // ONLY REACT TO MOUSE HOVER:
+        // MOUSE HOVER REPULSION & ILLUMINATION:
         if (hasMouse) {
           const dx = p.x - mouse.x!;
           const dy = p.y - mouse.y!;
@@ -179,16 +184,16 @@ export const ParticleConstellation: React.FC<ParticleConstellationProps> = ({
 
             // Proximity scaling & illumination
             p.radius += (p.baseRadius * (1 + factor * 1.1) - p.radius) * 0.12;
-            p.alpha += (Math.min(1.0, p.baseAlpha + factor * 0.45) - p.alpha) * 0.12;
+            p.alpha += (Math.min(1.0, p.baseAlpha + factor * 0.35) - p.alpha) * 0.12;
 
             // Direct constellation filament connecting particle to mouse cursor
-            const filamentAlpha = factor * (theme === 'dark' ? 0.38 : 0.22);
+            const filamentAlpha = factor * (theme === 'dark' ? 0.42 : 0.48);
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(mouse.x!, mouse.y!);
             ctx.strokeStyle = theme === 'dark' ? '#93C5FD' : '#2563EB';
             ctx.globalAlpha = filamentAlpha;
-            ctx.lineWidth = 0.75;
+            ctx.lineWidth = theme === 'dark' ? 0.85 : 1.25;
             ctx.stroke();
           } else {
             p.radius += (p.baseRadius - p.radius) * 0.06;
@@ -199,7 +204,7 @@ export const ParticleConstellation: React.FC<ParticleConstellationProps> = ({
           p.alpha += (p.baseAlpha - p.alpha) * 0.06;
         }
 
-        // Return to home position via smooth spring physics (only moves when displaced)
+        // Return to home position via smooth spring physics
         const dxHome = p.homeX - p.x;
         const dyHome = p.homeY - p.y;
         const spring = 0.038;
@@ -224,43 +229,52 @@ export const ParticleConstellation: React.FC<ParticleConstellationProps> = ({
           }
         }
 
+        // Connect nearby particles to each other with clean geometric constellation lines
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+
+          if (dist < connectionDistance) {
+            const lineAlpha = (1 - dist / connectionDistance) * (theme === 'dark' ? 0.28 : 0.38);
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = theme === 'dark' ? '#CBD5E1' : '#2563EB';
+            ctx.globalAlpha = lineAlpha;
+            ctx.lineWidth = theme === 'dark' ? 0.75 : 1.15;
+            ctx.stroke();
+          }
+        }
+
+        // Render soft halo aura on light background for enhanced tech aesthetic
+        if (theme !== 'dark') {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius + 3, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = p.alpha * 0.18;
+          ctx.fill();
+        }
+
         // Render particle node
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
         ctx.globalAlpha = p.alpha;
         ctx.fill();
-
-        // Connect nearby particles to each other with thin geometric constellation lines
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-
-          if (dist < connectionDistance) {
-            const lineAlpha = (1 - dist / connectionDistance) * (theme === 'dark' ? 0.22 : 0.14);
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = theme === 'dark' ? '#CBD5E1' : '#334155';
-            ctx.globalAlpha = lineAlpha;
-            ctx.lineWidth = 0.65;
-            ctx.stroke();
-          }
-        }
       }
 
       // Render subtle cursor focal dot
       if (hasMouse) {
         ctx.beginPath();
-        ctx.arc(mouse.x!, mouse.y!, 3, 0, Math.PI * 2);
+        ctx.arc(mouse.x!, mouse.y!, 3.5, 0, Math.PI * 2);
         ctx.fillStyle = theme === 'dark' ? '#60A5FA' : accentColor;
-        ctx.globalAlpha = 0.75;
+        ctx.globalAlpha = 0.85;
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(mouse.x!, mouse.y!, 6, 0, Math.PI * 2);
-        ctx.strokeStyle = theme === 'dark' ? 'rgba(96, 165, 250, 0.35)' : 'rgba(37, 99, 235, 0.3)';
-        ctx.lineWidth = 1;
+        ctx.arc(mouse.x!, mouse.y!, 7, 0, Math.PI * 2);
+        ctx.strokeStyle = theme === 'dark' ? 'rgba(96, 165, 250, 0.45)' : 'rgba(37, 99, 235, 0.4)';
+        ctx.lineWidth = 1.2;
         ctx.stroke();
       }
 

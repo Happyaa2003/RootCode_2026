@@ -17,7 +17,6 @@
         <img src="assets/logo.svg" alt="WayPilot Logo" width="22" height="22">
       </div>
       <span class="waypoint-brand-title">Way Pilot</span>
-      <span class="waypoint-brand-badge">PRO</span>
     </a>
 
     <!-- Navigation Tabs -->
@@ -256,49 +255,50 @@
           <div class="waypoint-stats-panel">
             <span class="waypoint-deactivate">Active Dispatch Matrix</span>
             <div class="waypoint-stats-date">
-              09/28/2026<br>
-              <span style="font-weight: 500; color: var(--text-secondary); font-size: 11px;">Monday Operations</span>
+              09/28/2026 <span style="font-weight: 500; color: var(--text-secondary); font-size: 10px;">(Monday)</span>
             </div>
 
-            <div class="waypoint-stat-metric">
-              <div class="waypoint-stat-val">8 / 248</div>
-              <div class="waypoint-stat-lbl">Completed</div>
-            </div>
+            <div class="waypoint-stats-grid">
+              <div class="waypoint-stat-metric">
+                <div class="waypoint-stat-val">8 / 248</div>
+                <div class="waypoint-stat-lbl">Completed</div>
+              </div>
 
-            <div class="waypoint-stat-metric">
-              <div class="waypoint-stat-val" style="color: #DC2626;">1</div>
-              <div class="waypoint-stat-lbl">Failed</div>
-            </div>
+              <div class="waypoint-stat-metric">
+                <div class="waypoint-stat-val" style="color: #DC2626;">1</div>
+                <div class="waypoint-stat-lbl">Failed</div>
+              </div>
 
-            <div class="waypoint-stat-metric">
-              <div class="waypoint-stat-val" style="color: #EA580C;">2</div>
-              <div class="waypoint-stat-lbl">Running Late</div>
-            </div>
+              <div class="waypoint-stat-metric">
+                <div class="waypoint-stat-val" style="color: #EA580C;">2</div>
+                <div class="waypoint-stat-lbl">Running Late</div>
+              </div>
 
-            <div class="waypoint-stat-metric">
-              <div class="waypoint-stat-val">1.5 h</div>
-              <div class="waypoint-stat-lbl">Time Worked</div>
-            </div>
+              <div class="waypoint-stat-metric">
+                <div class="waypoint-stat-val">1.5 h</div>
+                <div class="waypoint-stat-lbl">Time Worked</div>
+              </div>
 
-            <div class="waypoint-stat-metric">
-              <div class="waypoint-stat-val">54.2 km</div>
-              <div class="waypoint-stat-lbl">Total Distance</div>
+              <div class="waypoint-stat-metric" style="grid-column: span 2; display: flex; justify-content: space-between; align-items: baseline; padding-top: 2px;">
+                <span class="waypoint-stat-lbl">Total Distance:</span>
+                <span class="waypoint-stat-val" style="font-size: 12px;">54.2 km</span>
+              </div>
             </div>
 
             <!-- Delivering Item Price & Operational Cost KPIs -->
-            <div class="waypoint-stat-metric" style="border-top: 1px solid var(--border); padding-top: 6px;">
-              <div class="waypoint-stat-val" style="color: #16A34A; font-size: 13px;">$68,400.00</div>
-              <div class="waypoint-stat-lbl">Cargo Value (USD)</div>
-            </div>
-
-            <div class="waypoint-stat-metric">
-              <div class="waypoint-stat-val" style="color: #2563EB; font-size: 13px;">$2,840.00</div>
-              <div class="waypoint-stat-lbl">Delivery Cost (4.2%)</div>
-            </div>
-
-            <div>
-              <div class="waypoint-stat-val" style="color: #059669; font-size: 13px;">+$65,560.00</div>
-              <div class="waypoint-stat-lbl">Net Margin</div>
+            <div class="waypoint-stats-economics">
+              <div class="waypoint-stats-econ-row">
+                <span class="waypoint-stat-lbl">Cargo Value:</span>
+                <span class="waypoint-stat-val" style="color: #16A34A; font-size: 11.5px;">$68,400.00</span>
+              </div>
+              <div class="waypoint-stats-econ-row">
+                <span class="waypoint-stat-lbl">Delivery Cost:</span>
+                <span class="waypoint-stat-val" style="color: #2563EB; font-size: 11.5px;">$2,840.00 (4.2%)</span>
+              </div>
+              <div class="waypoint-stats-econ-row" style="border-top: 1px dashed var(--border); padding-top: 3px; margin-top: 3px;">
+                <span class="waypoint-stat-lbl" style="font-weight: 600;">Net Margin:</span>
+                <span class="waypoint-stat-val" style="color: #059669; font-size: 12px; font-weight: 800;">+$65,560.00</span>
+              </div>
             </div>
           </div>
         </div>
@@ -343,24 +343,24 @@
         </div>
       </div>
 
-      <!-- Detailed Execution Table -->
-      <div style="flex: 1; overflow-y: auto;">
-        <table id="live-orders-table" class="data-table" style="font-size: 12px;">
-          <thead>
+      <!-- Detailed Execution Table with Horizontal & Vertical Scrolling -->
+      <div class="waypoint-table-scroll-wrap">
+        <table id="live-orders-table" class="data-table" style="font-size: 12px; min-width: 1540px; width: 100%; border-collapse: collapse;">
+          <thead style="position: sticky; top: 0; z-index: 10; background: var(--bg-surface); box-shadow: 0 1px 3px rgba(0,0,0,0.12);">
             <tr>
-              <th style="width: 115px;">Live Status</th>
-              <th style="width: 90px;">Order ID</th>
+              <th style="width: 115px; position: sticky; left: 0; z-index: 12; background: var(--bg-surface);">Live Status</th>
+              <th style="width: 95px;">Order ID</th>
               <th style="width: 105px;">Proof of Delivery</th>
               <th style="width: 100px;">Scheduled at</th>
-              <th style="width: 145px;">Estimated ETA & SLA</th>
-              <th style="width: 115px;">Service start</th>
-              <th style="width: 115px;">Service end</th>
-              <th style="width: 85px;">Duration</th>
-              <th style="width: 115px; text-align: right;">Item Price</th>
-              <th style="width: 115px; text-align: right;">Delivery Cost</th>
-              <th style="width: 110px; text-align: right;">Net Margin</th>
-              <th style="width: 75px;">Priority</th>
-              <th>Location Destination</th>
+              <th style="width: 150px;">Estimated ETA & SLA</th>
+              <th style="width: 125px;">Service start</th>
+              <th style="width: 125px;">Service end</th>
+              <th style="width: 90px;">Duration</th>
+              <th style="width: 120px; text-align: right;">Item Price</th>
+              <th style="width: 120px; text-align: right;">Delivery Cost</th>
+              <th style="width: 115px; text-align: right;">Net Margin</th>
+              <th style="width: 85px;">Priority</th>
+              <th style="min-width: 240px; width: 260px;">Location Destination</th>
             </tr>
           </thead>
           <tbody>

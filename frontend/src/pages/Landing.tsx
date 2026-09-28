@@ -377,7 +377,7 @@ const Landing: React.FC<LandingProps> = ({ theme, onThemeToggle }) => {
       {/* Footer */}
       <div className="landing-footer">
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <WayPilotLogo size={24} style={{ filter: 'drop-shadow(0 2px 6px rgba(14, 165, 233, 0.4))' }} />
+          <WayPilotLogo size={30} style={{ filter: 'drop-shadow(0 2px 6px rgba(14, 165, 233, 0.4))' }} />
           <span style={{ fontWeight: 700, color: '#FFFFFF', fontFamily: 'var(--font-display)' }}>WAY PILOT</span>
           <span style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-mono)', fontSize: 11 }}>· SRI LANKA FLEET LOGISTICS OS</span>
         </div>

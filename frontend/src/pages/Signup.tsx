@@ -267,17 +267,19 @@ export const Signup: React.FC<SignupProps> = ({ theme = 'dark', onThemeToggle })
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '40px 52px',
-          background: theme === 'dark' ? '#040711' : '#FFFFFF',
+          background: theme === 'dark'
+            ? '#040711'
+            : 'radial-gradient(circle at 85% 15%, rgba(37, 99, 235, 0.09) 0%, transparent 50%), radial-gradient(circle at 15% 85%, rgba(14, 165, 233, 0.08) 0%, transparent 50%), #F8FAFC',
           overflowY: 'auto',
           overflowX: 'hidden',
         }}
       >
         {/* IDENTIFIED ANIMATION EFFECT: Particle Constellation Canvas */}
         <ParticleConstellation
-          particleCount={85}
-          connectionDistance={115}
+          particleCount={95}
+          connectionDistance={125}
           theme={theme === 'dark' ? 'dark' : 'light'}
-          style={{ opacity: theme === 'dark' ? 0.8 : 0.65 }}
+          style={{ opacity: 1 }}
         />
 
         {/* Center Glow */}
@@ -292,7 +294,7 @@ export const Signup: React.FC<SignupProps> = ({ theme = 'dark', onThemeToggle })
             borderRadius: '50%',
             background: theme === 'dark'
               ? 'radial-gradient(circle, rgba(37, 99, 235, 0.14) 0%, transparent 70%)'
-              : 'radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%)',
+              : 'radial-gradient(circle, rgba(37, 99, 235, 0.12) 0%, transparent 70%)',
             pointerEvents: 'none',
           }}
         />
@@ -327,19 +329,6 @@ export const Signup: React.FC<SignupProps> = ({ theme = 'dark', onThemeToggle })
               }}
             >
               Way Pilot
-            </span>
-            <span
-              style={{
-                fontSize: 10,
-                fontWeight: 700,
-                padding: '2px 7px',
-                borderRadius: 4,
-                background: 'rgba(37, 99, 235, 0.12)',
-                color: '#2563EB',
-                border: '1px solid rgba(37, 99, 235, 0.25)',
-              }}
-            >
-              PRO
             </span>
           </Link>
 

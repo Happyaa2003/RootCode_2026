@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Camera, FileText, CheckCircle, Search, ChevronDown, DollarSign, Info, Clock
+  Camera, FileText, CheckCircle, Search, ChevronDown, DollarSign, Info, Clock,
+  Maximize2, Minimize2, Columns, Map as MapIcon
 } from 'lucide-react';
 import MapLibreMap from '../components/map/MapLibreMap';
 import Drawer from '../components/common/Drawer';
@@ -24,6 +25,12 @@ const WaypointLiveView: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState<string>('All');
   const [onlyRunningLate, setOnlyRunningLate] = useState<boolean>(false);
   const [orderSearch, setOrderSearch] = useState<string>('');
+
+  // View Layout Mode: Split (default) | Table-Full (maximize table) | Map-Full (maximize map)
+  const [viewLayout, setViewLayout] = useState<'split' | 'table-full' | 'map-full'>(() => {
+    const p = new URLSearchParams(window.location.search).get('view');
+    return (p === 'table-full' || p === 'map-full') ? p : 'split';
+  });
 
   // Selected order for drawer
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -100,7 +107,15 @@ const WaypointLiveView: React.FC = () => {
   return (
     <div className="waypoint-view">
       {/* ─── UPPER HALF: Driver List + MapLibre Map + Plan Stats ──────────── */}
-      <div className="waypoint-split-top">
+      {viewLayout !== 'table-full' && (
+        <div
+          className="waypoint-split-top"
+          style={{
+            height: viewLayout === 'map-full' ? '100%' : '48%',
+            minHeight: viewLayout === 'map-full' ? '100%' : 260,
+            transition: 'height 0.2s ease',
+          }}
+        >
         {/* Left: Driver Checklist Panel */}
         <div className="waypoint-driver-panel">
           {/* Show route: [ Planned | Actual | Both ] */}
@@ -229,148 +244,233 @@ const WaypointLiveView: React.FC = () => {
 
           {/* Floating Plan Summary Box (Top-Right on map matching screenshot) */}
           <div className="waypoint-stats-panel">
-            <span className="waypoint-deactivate">Deactivate plan</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 2 }}>
+              <span className="waypoint-deactivate">Deactivate plan</span>
+            </div>
             <div className="waypoint-stats-date">
-              {mode === 'peliyagoda' ? '09/26/2026' : '12/29/2021'}<br />
-              <span style={{ fontWeight: 500, color: 'var(--text-secondary)', fontSize: 11 }}>
+              {mode === 'peliyagoda' ? '09/26/2026' : '12/29/2021'}{' '}
+              <span style={{ fontWeight: 500, color: 'var(--text-secondary)', fontSize: 10 }}>
                 {mode === 'peliyagoda' ? 'Saturday' : 'Wednesday'}
               </span>
             </div>
 
-            <div className="waypoint-stat-metric">
-              <div className="waypoint-stat-val">8 / {orders.length}</div>
-              <div className="waypoint-stat-lbl">Completed</div>
-            </div>
+            {/* 2-Column Grid for Metrics */}
+            <div className="waypoint-stats-grid">
+              <div className="waypoint-stat-metric">
+                <div className="waypoint-stat-val">8 / {orders.length}</div>
+                <div className="waypoint-stat-lbl">Completed</div>
+              </div>
 
-            <div className="waypoint-stat-metric">
-              <div className="waypoint-stat-val" style={{ color: '#DC2626' }}>1</div>
-              <div className="waypoint-stat-lbl">Failed</div>
-            </div>
+              <div className="waypoint-stat-metric">
+                <div className="waypoint-stat-val" style={{ color: '#DC2626' }}>1</div>
+                <div className="waypoint-stat-lbl">Failed</div>
+              </div>
 
-            <div className="waypoint-stat-metric">
-              <div className="waypoint-stat-val" style={{ color: '#EA580C' }}>2</div>
-              <div className="waypoint-stat-lbl">Running Late</div>
-            </div>
+              <div className="waypoint-stat-metric">
+                <div className="waypoint-stat-val" style={{ color: '#EA580C' }}>2</div>
+                <div className="waypoint-stat-lbl">Running Late</div>
+              </div>
 
-            <div className="waypoint-stat-metric">
-              <div className="waypoint-stat-val">1.5 h</div>
-              <div className="waypoint-stat-lbl">Time Worked</div>
-            </div>
+              <div className="waypoint-stat-metric">
+                <div className="waypoint-stat-val">1.5 h</div>
+                <div className="waypoint-stat-lbl">Time Worked</div>
+              </div>
 
-            <div className="waypoint-stat-metric">
-              <div className="waypoint-stat-val">5.85 mi</div>
-              <div className="waypoint-stat-lbl">Total Distance</div>
+              <div className="waypoint-stat-metric" style={{ gridColumn: 'span 2', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingTop: 2 }}>
+                <span className="waypoint-stat-lbl">Total Distance:</span>
+                <span className="waypoint-stat-val" style={{ fontSize: 12 }}>5.85 mi</span>
+              </div>
             </div>
 
             {/* Delivering Item Price & Operational Cost KPIs */}
-            <div className="waypoint-stat-metric" style={{ borderLeft: '1px solid var(--border)', paddingLeft: 10 }}>
-              <div className="waypoint-stat-val" style={{ color: '#16A34A', fontSize: 13 }}>
-                {formatPrice(kpis.totalItemValue || 68400, { compact: true })}
+            <div className="waypoint-stats-economics">
+              <div className="waypoint-stats-econ-row">
+                <span className="waypoint-stat-lbl">Cargo Value:</span>
+                <span className="waypoint-stat-val" style={{ color: '#16A34A', fontSize: 11.5 }}>
+                  {formatPrice(kpis.totalItemValue || 68400, { compact: true })}
+                </span>
               </div>
-              <div className="waypoint-stat-lbl">Cargo Value ({currency})</div>
-            </div>
 
-            <div className="waypoint-stat-metric">
-              <div className="waypoint-stat-val" style={{ color: '#2563EB', fontSize: 13 }}>
-                {formatPrice(kpis.totalDeliveryCost || 2840, { compact: true })}
+              <div className="waypoint-stats-econ-row">
+                <span className="waypoint-stat-lbl">Delivery Cost:</span>
+                <span className="waypoint-stat-val" style={{ color: '#2563EB', fontSize: 11.5 }}>
+                  {formatPrice(kpis.totalDeliveryCost || 2840, { compact: true })} <span style={{ fontSize: 9.5, opacity: 0.85 }}>({kpis.costPercentage || 4.2}%)</span>
+                </span>
               </div>
-              <div className="waypoint-stat-lbl">Delivery Cost ({kpis.costPercentage || 4.2}%)</div>
-            </div>
 
-            <div>
-              <div className="waypoint-stat-val" style={{ color: '#059669', fontSize: 13 }}>
-                {formatPrice(kpis.netDeliveryMargin || 65560, { compact: true, includeSign: true })}
+              <div className="waypoint-stats-econ-row" style={{ borderTop: '1px dashed var(--border)', paddingTop: 3, marginTop: 3 }}>
+                <span className="waypoint-stat-lbl" style={{ fontWeight: 600 }}>Net Margin:</span>
+                <span className="waypoint-stat-val" style={{ color: '#059669', fontSize: 12, fontWeight: 800 }}>
+                  {formatPrice(kpis.netDeliveryMargin || 65560, { compact: true, includeSign: true })}
+                </span>
               </div>
-              <div className="waypoint-stat-lbl">Net Margin</div>
             </div>
           </div>
         </div>
-      </div>
+
+        {/* Quick restore button when in Full Map mode */}
+          {viewLayout === 'map-full' && (
+            <button
+              onClick={() => setViewLayout('split')}
+              style={{
+                position: 'absolute', bottom: 16, right: 16, zIndex: 30,
+                background: '#2563EB', color: '#fff', border: 'none', borderRadius: 6,
+                padding: '7px 14px', fontSize: 11.5, fontWeight: 700, cursor: 'pointer',
+                boxShadow: '0 4px 14px rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', gap: 6
+              }}
+            >
+              <Columns size={13} />
+              <span>Show Orders Table</span>
+            </button>
+          )}
+        </div>
+      )}
 
       {/* ─── LOWER HALF: Orders / Stops Execution Table ───────────────────── */}
-      <div className="waypoint-split-bottom">
-        {/* Table Toolbar */}
-        <div className="waypoint-table-toolbar">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)' }}>Show only:</span>
-            <div className="waypoint-pills">
-              {(['Failed', 'On Route', 'Rejected', 'Scheduled', 'Servicing', 'Completed'] as const).map(pill => (
+      {viewLayout !== 'map-full' && (
+        <div
+          className="waypoint-split-bottom"
+          style={{
+            height: viewLayout === 'table-full' ? '100%' : '52%',
+            flex: viewLayout === 'table-full' ? '1 1 100%' : '1 1 52%',
+            display: 'flex',
+            flexDirection: 'column',
+            transition: 'height 0.2s ease',
+          }}
+        >
+          {/* Table Toolbar */}
+          <div className="waypoint-table-toolbar">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)' }}>Show only:</span>
+              <div className="waypoint-pills">
+                {(['Failed', 'On Route', 'Rejected', 'Scheduled', 'Servicing', 'Completed'] as const).map(pill => (
+                  <button
+                    key={pill}
+                    className={`waypoint-pill ${statusFilter === pill ? 'active' : ''}`}
+                    onClick={() => setStatusFilter(prev => prev === pill ? 'All' : pill)}
+                  >
+                    {pill}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              {/* Full Table View Mode Switcher */}
+              <div style={{ display: 'flex', alignItems: 'center', background: 'var(--bg-app)', border: '1px solid var(--border)', borderRadius: 4, padding: 2 }}>
                 <button
-                  key={pill}
-                  className={`waypoint-pill ${statusFilter === pill ? 'active' : ''}`}
-                  onClick={() => setStatusFilter(prev => prev === pill ? 'All' : pill)}
+                  type="button"
+                  onClick={() => setViewLayout('split')}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 4, padding: '2px 8px',
+                    fontSize: 11, fontWeight: 600, border: 'none', borderRadius: 3,
+                    background: viewLayout === 'split' ? '#2563EB' : 'transparent',
+                    color: viewLayout === 'split' ? '#FFFFFF' : 'var(--text-secondary)',
+                    cursor: 'pointer'
+                  }}
+                  title="Split View (Map + Table)"
                 >
-                  {pill}
+                  <Columns size={12} />
+                  <span>Split</span>
                 </button>
-              ))}
-            </div>
-          </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            {/* Quick link to Economics & Delivery Cost Analytics */}
-            <Link
-              to="/reports"
-              className="btn btn-secondary btn-sm"
-              style={{
-                display: 'flex', alignItems: 'center', gap: 5, fontSize: 11,
-                fontWeight: 600, padding: '3px 9px', height: 26, color: '#16A34A',
-                background: 'var(--bg-surface)', border: '1px solid #86EFAC'
-              }}
-              title="Open Delivery Cost & Profitability Analytics"
-            >
-              <DollarSign size={13} />
-              <span>Cost Analytics</span>
-            </Link>
+                <button
+                  type="button"
+                  onClick={() => setViewLayout(viewLayout === 'table-full' ? 'split' : 'table-full')}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 4, padding: '2px 8px',
+                    fontSize: 11, fontWeight: 600, border: 'none', borderRadius: 3,
+                    background: viewLayout === 'table-full' ? '#2563EB' : 'transparent',
+                    color: viewLayout === 'table-full' ? '#FFFFFF' : 'var(--text-secondary)',
+                    cursor: 'pointer'
+                  }}
+                  title="Full Table View (Maximize table to view all orders and full columns)"
+                >
+                  {viewLayout === 'table-full' ? <Minimize2 size={12} /> : <Maximize2 size={12} />}
+                  <span>{viewLayout === 'table-full' ? 'Restore Split' : 'Full Table'}</span>
+                </button>
 
-            {/* Running late toggle */}
-            <label style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, fontWeight: 600, color: 'var(--text-primary)', cursor: 'pointer' }}>
-              <input
-                type="checkbox"
-                checked={onlyRunningLate}
-                onChange={e => setOnlyRunningLate(e.target.checked)}
-                style={{ accentColor: '#EA580C' }}
-              />
-              <span>Running Late</span>
-            </label>
+                <button
+                  type="button"
+                  onClick={() => setViewLayout('map-full')}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 4, padding: '2px 8px',
+                    fontSize: 11, fontWeight: 600, border: 'none', borderRadius: 3,
+                    background: 'transparent',
+                    color: 'var(--text-secondary)',
+                    cursor: 'pointer'
+                  }}
+                  title="Full Map View (Maximize map)"
+                >
+                  <MapIcon size={12} />
+                  <span>Full Map</span>
+                </button>
+              </div>
 
-            {/* Filter orders search box */}
-            <div className="waypoint-filter-box">
-              <Search size={12} color="var(--text-muted)" />
-              <input
-                placeholder="Filter orders..."
-                value={orderSearch}
-                onChange={e => setOrderSearch(e.target.value)}
+              {/* Quick link to Economics & Delivery Cost Analytics */}
+              <Link
+                to="/reports"
+                className="btn btn-secondary btn-sm"
                 style={{
-                  border: 'none', background: 'transparent', outline: 'none',
-                  fontSize: 11, color: 'var(--text-primary)', width: '100%'
+                  display: 'flex', alignItems: 'center', gap: 5, fontSize: 11,
+                  fontWeight: 600, padding: '3px 9px', height: 26, color: '#16A34A',
+                  background: 'var(--bg-surface)', border: '1px solid #86EFAC'
                 }}
-              />
+                title="Open Delivery Cost & Profitability Analytics"
+              >
+                <DollarSign size={13} />
+                <span>Cost Analytics</span>
+              </Link>
+
+              {/* Running late toggle */}
+              <label style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, fontWeight: 600, color: 'var(--text-primary)', cursor: 'pointer' }}>
+                <input
+                  type="checkbox"
+                  checked={onlyRunningLate}
+                  onChange={e => setOnlyRunningLate(e.target.checked)}
+                  style={{ accentColor: '#EA580C' }}
+                />
+                <span>Running Late</span>
+              </label>
+
+              {/* Filter orders search box */}
+              <div className="waypoint-filter-box">
+                <Search size={12} color="var(--text-muted)" />
+                <input
+                  placeholder="Filter orders..."
+                  value={orderSearch}
+                  onChange={e => setOrderSearch(e.target.value)}
+                  style={{
+                    border: 'none', background: 'transparent', outline: 'none',
+                    fontSize: 11, color: 'var(--text-primary)', width: '100%'
+                  }}
+                />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Detailed Table */}
-        <div style={{ flex: 1, overflowY: 'auto' }}>
-          <table className="data-table" style={{ fontSize: 12 }}>
-            <thead>
+        {/* Detailed Table with Full Horizontal & Vertical Scrolling */}
+        <div className="waypoint-table-scroll-wrap">
+          <table className="data-table" style={{ fontSize: 12, minWidth: 1560, width: '100%', borderCollapse: 'collapse' }}>
+            <thead style={{ position: 'sticky', top: 0, zIndex: 10, background: 'var(--bg-surface)', boxShadow: '0 1px 3px rgba(0,0,0,0.15)' }}>
               <tr>
-                <th style={{ width: 115 }}>
+                <th style={{ width: 115, position: 'sticky', left: 0, zIndex: 12, background: 'var(--bg-surface)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                     Live status <ChevronDown size={11} />
                   </div>
                 </th>
-                <th style={{ width: 90 }}>Order ID</th>
+                <th style={{ width: 95 }}>Order ID</th>
                 <th style={{ width: 105 }}>Proof of Delivery</th>
                 <th style={{ width: 100 }}>Scheduled at</th>
-                <th style={{ width: 145 }}>Estimated ETA & SLA</th>
+                <th style={{ width: 150 }}>Estimated ETA & SLA</th>
                 <th style={{ width: 135 }}>Service start</th>
                 <th style={{ width: 135 }}>Service end</th>
                 <th style={{ width: 95 }}>Duration</th>
-                <th style={{ width: 115, textAlign: 'right' }}>Item Price</th>
-                <th style={{ width: 115, textAlign: 'right' }}>Delivery Cost</th>
-                <th style={{ width: 110, textAlign: 'right' }}>Net Margin</th>
-                <th style={{ width: 75 }}>Priority</th>
-                <th>Location</th>
+                <th style={{ width: 120, textAlign: 'right' }}>Item Price</th>
+                <th style={{ width: 120, textAlign: 'right' }}>Delivery Cost</th>
+                <th style={{ width: 115, textAlign: 'right' }}>Net Margin</th>
+                <th style={{ width: 85 }}>Priority</th>
+                <th style={{ minWidth: 240, width: 260 }}>Location & Address</th>
               </tr>
             </thead>
             <tbody>
@@ -390,8 +490,8 @@ const WaypointLiveView: React.FC = () => {
                     onClick={() => handleOrderClick(order)}
                     style={{ height: 38 }}
                   >
-                    {/* Live status */}
-                    <td>
+                    {/* Live status (pinned to left on horizontal scroll) */}
+                    <td style={{ position: 'sticky', left: 0, zIndex: 5, background: 'var(--bg-surface)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                         <span style={{
                           width: 7, height: 7, borderRadius: '50%',
@@ -520,12 +620,23 @@ const WaypointLiveView: React.FC = () => {
 
                     {/* Priority */}
                     <td style={{ fontSize: 11.5, color: 'var(--text-secondary)' }}>
-                      {order.priority ?? 'Medium'}
+                      <span style={{
+                        padding: '2px 7px', borderRadius: 3, fontSize: 10.5, fontWeight: 700,
+                        background: order.priority === 'High' ? 'rgba(220, 38, 38, 0.12)' : (order.priority === 'Medium' ? 'rgba(217, 119, 6, 0.12)' : 'rgba(37, 99, 235, 0.1)'),
+                        color: order.priority === 'High' ? '#EF4444' : (order.priority === 'Medium' ? '#F59E0B' : '#3B82F6')
+                      }}>
+                        {order.priority ?? 'Medium'}
+                      </span>
                     </td>
 
-                    {/* Location */}
-                    <td style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
-                      {order.outlet.name}
+                    {/* Location & Address with full width & zero clipping */}
+                    <td style={{ minWidth: 240, paddingRight: 16 }}>
+                      <div style={{ fontWeight: 600, color: 'var(--text-primary)', whiteSpace: 'nowrap' }}>
+                        {order.outlet.name}
+                      </div>
+                      <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 2, whiteSpace: 'nowrap' }}>
+                        {order.outlet.address}
+                      </div>
                     </td>
                   </tr>
                 );
@@ -534,6 +645,7 @@ const WaypointLiveView: React.FC = () => {
           </table>
         </div>
       </div>
+      )}
 
       {/* Order Detail Drawer */}
       <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} title={`Order ${selectedOrder?.id ?? ''}`}>

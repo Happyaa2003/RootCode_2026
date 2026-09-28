@@ -33,7 +33,7 @@ export const vehicles: Vehicle[] = [
   { id: 'VEH-008', plate: 'MA-DISP-08', type: 'Reefer', capacityVolume: 12.4, capacityWeight: 2200, hasRefrigeration: true, status: 'Offline', driver: drivers[7] },
 ];
 
-// ─── Outlets (Exact matching OptimoRoute screenshot) ──────────────────────────
+// ─── Outlets (WayPilot Retail Network) ──────────────────────────
 const outlets: Outlet[] = [
   { id: 'OUT-001', name: 'Information Resource Center', address: 'Somerville Ave, Somerville', district: 'Somerville', location: { lat: 42.3812, lng: -71.1070 } },
   { id: 'OUT-002', name: 'Cambridge Brewing Company', address: '1 Kendall Sq, Cambridge', district: 'Cambridge', location: { lat: 42.3665, lng: -71.0910 } },
@@ -57,7 +57,7 @@ const outlets: Outlet[] = [
   { id: 'OUT-020', name: 'Charlestown Navy Yard', address: '1st Ave, Boston', district: 'Boston', location: { lat: 42.3745, lng: -71.0550 } },
 ];
 
-// ─── Orders (Exact matching OptimoRoute screenshot) ──────────────────────────
+// ─── Orders (WayPilot Sample Orders) ──────────────────────────
 export const orders: Order[] = [
   { id: 'ORD028', outlet: outlets[0], brand: 'Fresh', window: { start: '08:28', end: '08:38' }, scheduledAt: '8:28 AM', serviceStart: '8:28 AM', serviceEnd: '8:38 AM', actualDuration: '10 min', priority: 'Medium', proofOfDelivery: { hasPhoto: true, hasSignature: true, hasNote: true }, volume: 2.4, weight: 438, temp: 'Chilled', routeId: 'RT-001', stopSequence: 1, status: 'Delivered', riskScore: 5, district: 'Somerville' },
   { id: 'ORD009', outlet: outlets[1], brand: 'Fresh', window: { start: '08:43', end: '08:58' }, scheduledAt: '8:43 AM', serviceStart: '8:56 AM', serviceEnd: '8:58 AM', delayMinutes: 4, actualDuration: '9 min', priority: 'Medium', proofOfDelivery: { hasPhoto: true, hasSignature: true, hasNote: true }, volume: 1.8, weight: 312, temp: 'Chilled', routeId: 'RT-001', stopSequence: 2, status: 'Delivered', riskScore: 8, district: 'Cambridge' },
@@ -89,7 +89,7 @@ export const orders: Order[] = [
   { id: 'ORD030F', outlet: outlets[19], brand: 'Style', window: { start: '11:45', end: '12:15' }, scheduledAt: '11:45 AM', priority: 'Medium', proofOfDelivery: { hasPhoto: false, hasSignature: false, hasNote: false }, volume: 1.4, weight: 190, temp: 'Ambient', routeId: 'RT-006', stopSequence: 31, status: 'Failed', riskScore: 95, district: 'Boston' },
 ];
 
-// ─── Routes (Exact matching OptimoRoute screenshot) ──────────────────────────
+// ─── Routes (WayPilot Dispatch Routes) ──────────────────────────
 export const routes: Route[] = [
   {
     id: 'RT-001', name: 'Ian Johnson', color: '#2563EB', status: 'Active',

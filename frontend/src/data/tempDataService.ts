@@ -249,41 +249,43 @@ export const computeOrderEconomics = (
 
 // ─── Real Orders from tempData Deliveries (Staggered realistic timings across 05:00 - 10:00) ──
 const peliyagodaStaggeredTimes = [
-  // Route 1 (Kamal Perera): 05:45, 06:15, 06:45, 07:15
+  // Route 1 (Kamal Perera - 4 stops: indices 0..3): 05:45, 06:15, 06:45, 07:15
   { arrival: '05:45', start: '05:45', end: '06:00', duration: '15 min', routeId: 'RT-PEL-01', seq: 1 },
   { arrival: '06:15', start: '06:15', end: '06:30', duration: '15 min', routeId: 'RT-PEL-01', seq: 2 },
   { arrival: '06:45', start: '06:45', end: '07:00', duration: '15 min', routeId: 'RT-PEL-01', seq: 3 },
   { arrival: '07:15', start: '07:15', end: '07:30', duration: '15 min', routeId: 'RT-PEL-01', seq: 4 },
 
-  // Route 2 (Nimal Silva): 06:05, 06:35, 07:05, 07:35
+  // Route 2 (Nimal Silva - 3 stops: indices 4..6): 06:05, 06:35, 07:05
   { arrival: '06:05', start: '06:05', end: '06:20', duration: '15 min', routeId: 'RT-PEL-02', seq: 1 },
   { arrival: '06:35', start: '06:35', end: '06:50', duration: '15 min', routeId: 'RT-PEL-02', seq: 2 },
   { arrival: '07:05', start: '07:05', end: '07:20', duration: '15 min', routeId: 'RT-PEL-02', seq: 3 },
-  { arrival: '07:35', start: '07:35', end: '07:50', duration: '15 min', routeId: 'RT-PEL-02', seq: 4 },
 
-  // Route 3 (Sunil Fernando): 06:25, 06:55, 07:25, 08:00
+  // Route 3 (Sunil Fernando - 3 stops: indices 7..9): 06:25, 06:55, 07:25
   { arrival: '06:25', start: '06:25', end: '06:40', duration: '15 min', routeId: 'RT-PEL-03', seq: 1 },
   { arrival: '06:55', start: '06:55', end: '07:10', duration: '15 min', routeId: 'RT-PEL-03', seq: 2 },
   { arrival: '07:25', start: '07:25', end: '07:40', duration: '15 min', routeId: 'RT-PEL-03', seq: 3 },
-  { arrival: '08:00', start: '08:00', end: '08:15', duration: '15 min', routeId: 'RT-PEL-03', seq: 4 },
 
-  // Route 4 (Roshan Jayasuriya): 06:40, 07:15, 07:45, 08:20
+  // Route 4 (Roshan Jayasuriya - 3 stops: indices 10..12): 06:40, 07:15, 07:45
   { arrival: '06:40', start: '06:40', end: '06:55', duration: '15 min', routeId: 'RT-PEL-04', seq: 1 },
   { arrival: '07:15', start: '07:15', end: '07:30', duration: '15 min', routeId: 'RT-PEL-04', seq: 2 },
   { arrival: '07:45', start: '07:45', end: '08:00', duration: '15 min', routeId: 'RT-PEL-04', seq: 3 },
-  { arrival: '08:20', start: '08:20', end: '08:35', duration: '15 min', routeId: 'RT-PEL-04', seq: 4 },
 
-  // Route 5 (Dinesh Chandimal): 07:00, 07:35, 08:10, 08:45
+  // Route 5 (Dinesh Chandimal - 3 stops: indices 13..15): 07:00, 07:35, 08:10
   { arrival: '07:00', start: '07:00', end: '07:15', duration: '15 min', routeId: 'RT-PEL-05', seq: 1 },
   { arrival: '07:35', start: '07:35', end: '07:50', duration: '15 min', routeId: 'RT-PEL-05', seq: 2 },
   { arrival: '08:10', start: '08:10', end: '08:25', duration: '15 min', routeId: 'RT-PEL-05', seq: 3 },
-  { arrival: '08:45', start: '08:45', end: '09:00', duration: '15 min', routeId: 'RT-PEL-05', seq: 4 },
 
-  // Route 6 (Mahela Bandara): 07:20, 07:55, 08:30, 09:10
+  // Route 6 (Mahela Bandara - 4 stops: indices 16..19): 07:20, 07:55, 08:30, 09:10
   { arrival: '07:20', start: '07:20', end: '07:35', duration: '15 min', routeId: 'RT-PEL-06', seq: 1 },
   { arrival: '07:55', start: '07:55', end: '08:10', duration: '15 min', routeId: 'RT-PEL-06', seq: 2 },
   { arrival: '08:30', start: '08:30', end: '08:45', duration: '15 min', routeId: 'RT-PEL-06', seq: 3 },
   { arrival: '09:10', start: '09:10', end: '09:25', duration: '15 min', routeId: 'RT-PEL-06', seq: 4 },
+
+  // Unscheduled Pool (4 stops: indices 20..23)
+  { arrival: '08:00', start: '08:00', end: '08:20', duration: '20 min', routeId: '', seq: 0 },
+  { arrival: '08:30', start: '08:30', end: '08:50', duration: '20 min', routeId: '', seq: 0 },
+  { arrival: '09:00', start: '09:00', end: '09:20', duration: '20 min', routeId: '', seq: 0 },
+  { arrival: '09:30', start: '09:30', end: '09:50', duration: '20 min', routeId: '', seq: 0 },
 ];
 
 export const peliyagodaOrders: Order[] = peliyagodaOutlets.map((outlet, idx) => {
@@ -367,7 +369,7 @@ export const bostonOrders: Order[] = [
   { id: 'ORD029', outlet: bostonOutlets[18], brand: 'Fresh', window: { start: '11:05', end: '11:35' }, scheduledAt: '11:05', priority: 'High', proofOfDelivery: { hasPhoto: false, hasSignature: false, hasNote: false }, volume: 4.0, weight: 720, temp: 'Ambient', routeId: 'RT-006', stopSequence: 2, status: 'Planned', riskScore: 42, district: 'Boston', units: 72, ...computeOrderEconomics('Fresh', 72, 'mall_bay') },
   { id: 'ORD030F', outlet: bostonOutlets[19], brand: 'Style', window: { start: '11:45', end: '12:15' }, scheduledAt: '11:45', priority: 'Medium', proofOfDelivery: { hasPhoto: false, hasSignature: false, hasNote: false }, volume: 1.4, weight: 190, temp: 'Ambient', routeId: 'RT-006', stopSequence: 3, status: 'Failed', riskScore: 95, district: 'Boston', units: 25, ...computeOrderEconomics('Style', 25, 'street') },
 
-  // Unscheduled Orders (OptimoRoute Benchmark matches Screenshot 2 & 3)
+  // Unscheduled Orders (Waypoint PRO Dispatch Queue)
   { id: 'UNS-001', outlet: { id: 'OUT-UNS1', name: 'Monument City Brewing Co', address: '1 N Haven St, Baltimore / Boston Metro', district: 'Boston', location: { lat: 42.3610, lng: -71.0620 }, dockType: 'rear_dock', parkingConstraint: 'normal', windowOpenTime: '09:00', windowCloseTime: '12:00' }, brand: 'Fresh', window: { start: '09:00', end: '12:00' }, priority: 'Medium', volume: 1.6, weight: 240, temp: 'Ambient', status: 'Unassigned', riskScore: 10, district: 'Boston', units: 30, ...computeOrderEconomics('Fresh', 30, 'rear_dock'), actualDuration: '5 min' },
   { id: 'UNS-002', outlet: { id: 'OUT-UNS2', name: 'Eastern Shore Brewing', address: '605 S Talbot St, St Michaels', district: 'Cambridge', location: { lat: 42.3720, lng: -71.1180 }, dockType: 'street', parkingConstraint: 'normal', windowOpenTime: '09:30', windowCloseTime: '13:00' }, brand: 'Fresh', window: { start: '09:30', end: '13:00' }, priority: 'Medium', volume: 2.2, weight: 360, temp: 'Chilled', status: 'Unassigned', riskScore: 12, district: 'Cambridge', units: 45, ...computeOrderEconomics('Fresh', 45, 'street'), actualDuration: '10 min' },
   { id: 'UNS-003', outlet: { id: 'OUT-UNS3', name: '605 S Talbot St, St Michaels, MD', address: '605 S Talbot St, St Michaels', district: 'Somerville', location: { lat: 42.3880, lng: -71.1030 }, dockType: 'street', parkingConstraint: 'normal', windowOpenTime: '10:00', windowCloseTime: '13:30' }, brand: 'Style', window: { start: '10:00', end: '13:30' }, priority: 'Low', volume: 1.4, weight: 190, temp: 'Ambient', status: 'Unassigned', riskScore: 15, district: 'Somerville', units: 35, ...computeOrderEconomics('Style', 35, 'street'), actualDuration: '10 min' },

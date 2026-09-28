@@ -564,32 +564,44 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ onSelectOrder, class
 
                 // Calculate positions for stops, travel connector lines, and idle wait times
                 const stopsLayout = sortedStops.map((stop, idx) => {
-                  // Staggered realistic fallback if ETA not set
-                  const defaultMin = 360 + idx * 40; // 06:00 AM + 40m each
-                  const arrivalMin = Math.max(START_MINUTE, parseTimeToMinutes(stop.eta || stop.order.scheduledAt, defaultMin));
+                  const arrivalMin = Math.max(
+                    START_MINUTE,
+                    parseTimeToMinutes(stop.eta || stop.order.scheduledAt, 360 + idx * 30)
+                  );
                   const durationMin = stop.order.serviceAllowanceMin || 15;
                   const departureMin = arrivalMin + durationMin;
 
                   const leftPx = Math.max(0, (arrivalMin - START_MINUTE) * zoomLevel);
-                  // Ensure minimum width of 34px so stop number is never squeezed, up to durationMin * zoomLevel
-                  const widthPx = Math.max(34, durationMin * zoomLevel);
 
-                  // Calculate previous stop departure for drive line and wait time
+                  // Next stop arrival for boundary collision prevention
+                  const nextStop = idx < sortedStops.length - 1 ? sortedStops[idx + 1] : null;
+                  const nextArrivalMin = nextStop
+                    ? Math.max(START_MINUTE, parseTimeToMinutes(nextStop.eta || nextStop.order.scheduledAt, departureMin + 15))
+                    : departureMin + 45;
+
+                  // Dynamic width with minimum 26px for sequence badge,
+                  // strictly capped so it NEVER touches or overlaps subsequent stops (min 6px clearance)
+                  const rawWidth = durationMin * zoomLevel;
+                  const maxAllowedWidth = Math.max(26, (nextArrivalMin - arrivalMin) * zoomLevel - 6);
+                  const widthPx = Math.min(Math.max(26, rawWidth), maxAllowedWidth);
+
+                  // Calculate previous stop departure for drive line
                   const prevStop = idx > 0 ? sortedStops[idx - 1] : null;
                   const routeStartMin = Math.max(START_MINUTE, parseTimeToMinutes(r.startTime, 330));
                   const prevDepartureMin = prevStop
-                    ? Math.max(START_MINUTE, parseTimeToMinutes(prevStop.eta, 360 + (idx - 1) * 40)) + (prevStop.order.serviceAllowanceMin || 15)
+                    ? Math.max(START_MINUTE, parseTimeToMinutes(prevStop.eta, 360 + (idx - 1) * 30)) + (prevStop.order.serviceAllowanceMin || 15)
                     : routeStartMin;
 
                   const driveDuration = Math.max(0, arrivalMin - prevDepartureMin);
                   const driveStartPx = Math.max(0, (prevDepartureMin - START_MINUTE) * zoomLevel);
                   const driveWidthPx = Math.max(0, leftPx - driveStartPx);
 
-                  // Idle wait time if stop has a designated window start later than travel arrival
-                  const windowStartMin = stop.order.window?.start ? parseTimeToMinutes(stop.order.window.start) : arrivalMin;
-                  const hasWaitTime = idx === 2 || (windowStartMin > prevDepartureMin + 15 && idx % 3 === 0);
-                  const waitDurationMin = hasWaitTime ? 20 : 0;
-                  const waitLeftPx = Math.max(0, leftPx - (waitDurationMin * zoomLevel));
+                  // Wait time: ONLY if customer delivery window opens after driver arrival
+                  const windowStartMin = stop.order.window?.start ? parseTimeToMinutes(stop.order.window.start) : 0;
+                  const genuineWaitMin = windowStartMin > arrivalMin ? Math.min(windowStartMin - arrivalMin, 40) : 0;
+                  const hasWaitTime = genuineWaitMin >= 8;
+                  const waitDurationMin = genuineWaitMin;
+                  const waitLeftPx = leftPx;
                   const waitWidthPx = waitDurationMin * zoomLevel;
 
                   return {
@@ -617,7 +629,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ onSelectOrder, class
                     onDragLeave={handleRowDragLeave}
                     onDrop={(e) => handleRowDrop(e, r)}
                     style={{
-                      height: 48,
+                      height: 50,
                       position: 'relative',
                       borderBottom: '1px solid var(--border)',
                       background: isHovered ? 'rgba(37, 99, 235, 0.08)' : 'transparent',
@@ -644,12 +656,12 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ onSelectOrder, class
                       );
                     })}
 
-                    {/* 1. Drive Time Horizontal Line (Annotated in Screenshot 4) */}
+                    {/* 1. Drive Time Horizontal Line with clean transit track */}
                     {stopsLayout.map(item => (
                       <React.Fragment key={`drive-${item.stop.order.id}`}>
-                        {item.driveWidthPx > 0 && (
+                        {item.driveWidthPx > 2 && (
                           <div
-                            title={`Drive transit leg: ~${Math.round(item.driveDuration)} min`}
+                            title={`Drive transit: ~${Math.round(item.driveDuration)} min (${formatMinutesToTime(Math.round(item.driveStartPx / zoomLevel + START_MINUTE))} - ${formatMinutesToTime(item.arrivalMin)})`}
                             style={{
                               position: 'absolute',
                               left: Math.max(0, item.driveStartPx),
@@ -659,23 +671,23 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ onSelectOrder, class
                               background: '#64748B',
                               transform: 'translateY(-50%)',
                               zIndex: 1,
-                              borderRadius: 1,
+                              borderRadius: 2,
                             }}
                           />
                         )}
 
-                        {/* 2. Wait Time Hatched Block (Annotated in Screenshot 4: "This is the idle time or 'wait time' before starting an order") */}
+                        {/* 2. Wait Time Hatched Block (only if genuine wait time window exists) */}
                         {item.hasWaitTime && item.waitWidthPx > 0 && (
                           <div
-                            title={`Wait time / Idle window: ${item.waitDurationMin} min before order start window`}
+                            title={`Window wait time: ${item.waitDurationMin} min before customer dock opens`}
                             style={{
                               position: 'absolute',
                               left: Math.max(0, item.waitLeftPx),
-                              top: 10,
-                              bottom: 10,
+                              top: 9,
+                              bottom: 9,
                               width: item.waitWidthPx,
-                              background: 'repeating-linear-gradient(45deg, rgba(37,99,235,0.25), rgba(37,99,235,0.25) 4px, rgba(37,99,235,0.06) 4px, rgba(37,99,235,0.06) 9px)',
-                              border: '1px dashed #2563EB',
+                              background: 'repeating-linear-gradient(45deg, rgba(234,88,12,0.18), rgba(234,88,12,0.18) 4px, transparent 4px, transparent 8px)',
+                              border: '1px dashed #EA580C',
                               borderRadius: 3,
                               zIndex: 2,
                               cursor: 'help',
@@ -683,7 +695,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ onSelectOrder, class
                           />
                         )}
 
-                        {/* 3. Numbered Stop Block (Draggable colored rectangle matching Screenshot 2-5) */}
+                        {/* 3. Numbered Stop Block (Draggable colored card with clear circular badge) */}
                         <div
                           draggable={true}
                           onDragStart={(e) => handleStopDragStart(e, item.stop, r)}
@@ -691,7 +703,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ onSelectOrder, class
                             setSelectedStop({ stop: item.stop, route: r });
                             onSelectOrder?.(item.stop.order);
                           }}
-                          title={`#${item.stop.sequence}: ${item.stop.order.outlet.name}\nETA: ${item.stop.eta}\nDock: ${item.durationMin}m\nValue: ${formatPrice(item.stop.order.itemPrice || 1200)}\n(Drag to another driver or into unscheduled panel)`}
+                          title={`#${item.stop.sequence}: ${item.stop.order.outlet.name}\nArrival: ${formatMinutesToTime(item.arrivalMin)}\nService: ${item.durationMin}m (until ${formatMinutesToTime(item.departureMin)})\nWindow: ${item.stop.order.window.start} - ${item.stop.order.window.end}\nValue: ${formatPrice(item.stop.order.itemPrice || 1200)}\n(Drag to another driver or into unscheduled panel)`}
                           style={{
                             position: 'absolute',
                             left: item.leftPx,
@@ -700,16 +712,17 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ onSelectOrder, class
                             width: item.widthPx,
                             background: r.color,
                             color: '#FFFFFF',
-                            borderRadius: 4,
+                            borderRadius: 5,
+                            border: '1.5px solid rgba(255, 255, 255, 0.45)',
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'center',
+                            justifyContent: item.widthPx >= 65 ? 'flex-start' : 'center',
                             padding: '0 4px',
                             cursor: 'grab',
                             zIndex: 3,
                             boxShadow: selectedStop?.stop.order.id === item.stop.order.id
-                              ? '0 0 0 2.5px #000, 0 3px 8px rgba(0,0,0,0.35)'
-                              : '0 1px 4px rgba(0,0,0,0.18)',
+                              ? '0 0 0 2.5px #FFFFFF, 0 4px 10px rgba(0,0,0,0.5)'
+                              : '0 2px 4px rgba(0,0,0,0.22)',
                             fontSize: 11,
                             fontWeight: 700,
                             fontFamily: 'var(--font-sans)',
@@ -721,17 +734,33 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ onSelectOrder, class
                           onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-1px)')}
                           onMouseLeave={(e) => (e.currentTarget.style.transform = 'none')}
                         >
-                          <span style={{ marginRight: item.widthPx > 50 ? 4 : 0 }}>
+                          <span
+                            style={{
+                              minWidth: 17,
+                              height: 17,
+                              borderRadius: 9,
+                              background: 'rgba(0, 0, 0, 0.32)',
+                              color: '#FFFFFF',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: 10,
+                              fontWeight: 800,
+                              flexShrink: 0,
+                              marginRight: item.widthPx >= 65 ? 5 : 0,
+                            }}
+                          >
                             {item.stop.sequence}
                           </span>
-                          {item.widthPx > 65 && (
+                          {item.widthPx >= 65 && (
                             <span
                               style={{
-                                fontSize: 9.5,
-                                fontWeight: 500,
-                                opacity: 0.95,
+                                fontSize: 10,
+                                fontWeight: 600,
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                                opacity: 0.95,
                               }}
                             >
                               {item.stop.order.outlet.name}

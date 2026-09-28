@@ -1204,14 +1204,15 @@ body {
 .exception-row {
   display: flex;
   gap: 14px;
-  padding: 12px 14px;
+  padding: 14px 16px;
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--bg-surface);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
-  overflow: hidden;
+  flex-shrink: 0;
+  min-height: fit-content;
 }
 
 .exception-row::before {
@@ -1221,6 +1222,7 @@ body {
   top: 0;
   bottom: 0;
   width: 4px;
+  border-radius: 12px 0 0 12px;
 }
 .exception-row.critical::before { background: var(--danger-vivid); box-shadow: 0 0 8px var(--danger-vivid); }
 .exception-row.high::before     { background: var(--warning-vivid); box-shadow: 0 0 8px var(--warning-vivid); }
@@ -1230,7 +1232,19 @@ body {
 .exception-row:hover {
   border-color: var(--border-strong);
   box-shadow: var(--shadow-sm);
-  transform: translateX(2px);
+  transform: translateY(-1px);
+}
+
+.exception-row.expanded,
+.exception-row.selected {
+  border-color: #2563EB;
+  background: rgba(37, 99, 235, 0.04);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.12);
+}
+
+.exception-content {
+  flex: 1;
+  min-width: 0;
 }
 
 .exception-severity {
@@ -2332,40 +2346,38 @@ body {
    WAYPOINT ROOT UI DESIGN SYSTEM (Pixel-Perfect from Screenshot)
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.waypoint-header,
-.optimoroute-header {
-  height: 50px;
+.waypoint-header {
+  height: 64px;
   background: var(--bg-surface);
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
-  padding: 0 16px;
-  gap: 14px;
+  padding: 0 22px;
+  gap: 18px;
   flex-shrink: 0;
   position: relative;
   z-index: 1000;
 }
 
-.waypoint-brand,
-.optimoroute-brand {
+.waypoint-brand {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 12px;
   text-decoration: none;
 }
 .waypoint-brand-icon {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  background: rgba(37, 99, 235, 0.1);
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
-.waypoint-brand-title,
-.optimoroute-brand-title {
+.waypoint-brand-title {
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 22px;
   font-weight: 800;
   color: var(--text-primary);
   letter-spacing: -0.4px;
@@ -2380,48 +2392,43 @@ body {
   letter-spacing: 0.5px;
 }
 
-.waypoint-tabs,
-.optimoroute-tabs {
+.waypoint-tabs {
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin-left: 6px;
+  gap: 6px;
+  margin-left: 8px;
 }
 
-.waypoint-tab,
-.optimoroute-tab {
+.waypoint-tab {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  height: 32px;
-  padding: 0 12px;
-  border-radius: 5px;
+  gap: 8px;
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 7px;
   border: 1px solid var(--border);
   background: var(--bg-muted);
   color: var(--text-secondary);
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.15s ease;
 }
-.waypoint-tab:hover,
-.optimoroute-tab:hover {
+.waypoint-tab:hover {
   background: var(--bg-subtle);
   color: var(--text-primary);
   border-color: var(--border-strong);
 }
-.waypoint-tab.active,
-.optimoroute-tab.active {
+.waypoint-tab.active.active {
   background: var(--bg-surface);
   color: var(--text-primary);
   border-color: var(--border-strong);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
-.waypoint-dropdown-tab,
-.optimoroute-dropdown-tab {
+.waypoint-dropdown-tab {
   position: relative;
 }
 
@@ -2429,25 +2436,25 @@ body {
   position: absolute;
   top: 100%;
   left: 0;
-  margin-top: 4px;
+  margin-top: 6px;
   background: var(--bg-surface) !important;
   border: 1px solid var(--border-strong);
   border-radius: 8px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.18), 0 4px 12px rgba(0,0,0,0.08);
-  min-width: 180px;
+  min-width: 190px;
   z-index: 10000;
   padding: 6px;
 }
 .waypoint-dropdown-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  font-size: 12px;
+  gap: 9px;
+  padding: 9px 13px;
+  font-size: 13px;
   font-weight: 500;
   color: var(--text-primary);
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 5px;
   transition: background 0.1s ease;
 }
 .waypoint-dropdown-item:hover,
@@ -2458,12 +2465,14 @@ body {
 .waypoint-dataset-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  height: 38px;
   background: var(--bg-subtle);
   border: 1px solid var(--border);
-  border-radius: 5px;
-  padding: 4px 10px;
-  font-size: 11.5px;
+  border-radius: 7px;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--text-primary);
   cursor: pointer;
   transition: all 0.15s ease;
@@ -2476,14 +2485,16 @@ body {
 .waypoint-search-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  height: 38px;
   background: var(--bg-subtle);
   border: 1px solid var(--border);
-  border-radius: 5px;
-  padding: 3px 9px;
-  font-size: 11.5px;
+  border-radius: 7px;
+  padding: 0 14px;
+  font-size: 13px;
   color: var(--text-muted);
   cursor: pointer;
+  transition: all 0.15s ease;
 }
 .waypoint-search-btn:hover {
   background: var(--bg-muted);
@@ -2491,9 +2502,9 @@ body {
 }
 
 .waypoint-icon-btn {
-  width: 28px;
-  height: 28px;
-  border-radius: 5px;
+  width: 38px;
+  height: 38px;
+  border-radius: 7px;
   border: 1px solid var(--border);
   background: var(--bg-subtle);
   display: flex;
@@ -2501,6 +2512,7 @@ body {
   justify-content: center;
   cursor: pointer;
   color: var(--text-secondary);
+  transition: all 0.15s ease;
 }
 .waypoint-icon-btn:hover {
   background: var(--bg-muted);
@@ -2510,16 +2522,18 @@ body {
 .waypoint-link-btn {
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 11.5px;
+  gap: 6px;
+  height: 38px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text-secondary);
   text-decoration: none;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 3px 6px;
-  border-radius: 4px;
+  padding: 0 10px;
+  border-radius: 7px;
+  transition: all 0.15s ease;
 }
 .waypoint-link-btn:hover {
   color: var(--text-primary);
@@ -2527,27 +2541,25 @@ body {
 }
 
 /* ─── Split Screen Layout (Matches Screenshot 1) ─────────────────────────── */
-.waypoint-view,
-.optimoroute-view {
+.waypoint-view {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 64px);
   overflow: hidden;
   background: var(--bg-app);
 }
 
-.waypoint-split-top,
-.optimoroute-split-top {
+.waypoint-split-top {
   display: flex;
   height: 55%;
   min-height: 290px;
   border-bottom: 2px solid var(--border);
   position: relative;
+  overflow: hidden;
 }
 
 /* Driver Left Sidebar */
-.waypoint-driver-panel,
-.optimoroute-driver-panel {
+.waypoint-driver-panel {
   width: 310px;
   flex-shrink: 0;
   background: var(--bg-surface);
@@ -2557,8 +2569,7 @@ body {
   overflow: hidden;
 }
 
-.waypoint-route-mode,
-.optimoroute-route-mode {
+.waypoint-route-mode {
   padding: 10px 12px;
   border-bottom: 1px solid var(--border);
   display: flex;
@@ -2567,8 +2578,7 @@ body {
   flex-shrink: 0;
 }
 
-.waypoint-btn-group,
-.optimoroute-btn-group {
+.waypoint-btn-group {
   display: flex;
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -2576,8 +2586,7 @@ body {
   background: var(--bg-surface);
   flex-shrink: 0;
 }
-.waypoint-btn-toggle,
-.optimoroute-btn-toggle {
+.waypoint-btn-toggle {
   padding: 2px 8px;
   font-size: 11px;
   font-weight: 600;
@@ -2588,12 +2597,10 @@ body {
   border-right: 1px solid var(--border);
   white-space: nowrap;
 }
-.waypoint-btn-toggle:last-child,
-.optimoroute-btn-toggle:last-child {
+.waypoint-btn-toggle:last-child {
   border-right: none;
 }
-.waypoint-btn-toggle.active,
-.optimoroute-btn-toggle.active {
+.waypoint-btn-toggle.active.active {
   background: #2563EB;
   color: #FFFFFF;
 }
@@ -2610,8 +2617,7 @@ body {
   text-decoration: underline;
 }
 
-.waypoint-driver-counts,
-.optimoroute-driver-counts {
+.waypoint-driver-counts {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   padding: 5px 10px;
@@ -2621,22 +2627,19 @@ body {
   color: var(--text-secondary);
   text-align: center;
 }
-.waypoint-driver-count-num,
-.optimoroute-driver-count-num {
+.waypoint-driver-count-num {
   font-size: 14px;
   font-weight: 800;
   color: var(--text-primary);
   font-family: var(--font-display);
 }
 
-.waypoint-driver-list,
-.optimoroute-driver-list {
+.waypoint-driver-list {
   flex: 1;
   overflow-y: auto;
 }
 
-.waypoint-driver-row,
-.optimoroute-driver-row {
+.waypoint-driver-row {
   display: flex;
   align-items: center;
   padding: 7px 10px;
@@ -2646,65 +2649,96 @@ body {
   gap: 8px;
   user-select: none;
 }
-.waypoint-driver-row:hover,
-.optimoroute-driver-row:hover {
+.waypoint-driver-row:hover {
   background: var(--bg-subtle);
 }
-.waypoint-driver-row.selected,
-.optimoroute-driver-row.selected {
+.waypoint-driver-row.selected.selected {
   background: rgba(37, 99, 235, 0.08);
   border-top: 1px dashed rgba(37, 99, 235, 0.5);
   border-bottom: 1px dashed rgba(37, 99, 235, 0.5);
 }
 
 /* Floating Plan Summary Box (Top-Right on map) */
-.waypoint-stats-panel,
-.optimoroute-stats-panel {
+.waypoint-stats-panel {
   position: absolute;
   top: 10px;
   right: 12px;
-  width: 165px;
+  width: 210px;
+  max-height: calc(100% - 20px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: 6px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  padding: 10px 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+  padding: 8px 10px;
   z-index: 20;
-  font-size: 11.5px;
+  font-size: 11px;
 }
-.waypoint-deactivate,
-.optimoroute-deactivate {
+.waypoint-stats-panel::-webkit-scrollbar {
+  width: 4px;
+}
+.waypoint-stats-panel::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+.waypoint-deactivate {
   font-size: 10.5px;
   color: #2563EB;
   font-weight: 600;
   cursor: pointer;
   text-decoration: underline;
-  margin-bottom: 5px;
-  display: block;
+  margin-bottom: 3px;
+  display: inline-block;
 }
-.waypoint-stats-date,
-.optimoroute-stats-date {
-  font-size: 11.5px;
+.waypoint-stats-date {
+  font-size: 11px;
   font-weight: 800;
   color: var(--text-primary);
   font-family: var(--font-mono);
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+.waypoint-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 6px;
+  margin-top: 4px;
   margin-bottom: 6px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border);
 }
-.waypoint-stat-metric,
-.optimoroute-stat-metric {
-  margin-bottom: 5px;
+.waypoint-stat-metric {
+  margin-bottom: 2px;
 }
-.waypoint-stat-val,
-.optimoroute-stat-val {
-  font-size: 13.5px;
+.waypoint-stat-val {
+  font-size: 12.5px;
   font-weight: 800;
   color: var(--text-primary);
   font-family: var(--font-display);
+  line-height: 1.2;
 }
-.waypoint-stat-lbl,
-.optimoroute-stat-lbl {
-  font-size: 10px;
+.waypoint-stat-lbl {
+  font-size: 9.5px;
   color: var(--text-secondary);
+  line-height: 1.2;
+}
+.waypoint-stats-economics {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px 7px;
+  font-size: 10px;
+}
+.waypoint-stats-econ-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2px;
+}
+.waypoint-stats-econ-row:last-child {
+  margin-bottom: 0;
 }
 
 /* Floating Map Controls */
@@ -2744,7 +2778,7 @@ body {
 .waypoint-map-layers-btn {
   position: absolute;
   top: 10px;
-  right: 185px;
+  right: 232px;
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -2760,8 +2794,7 @@ body {
 }
 
 /* Bottom Split: Orders Execution Table */
-.waypoint-split-bottom,
-.optimoroute-split-bottom {
+.waypoint-split-bottom {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -2769,8 +2802,30 @@ body {
   background: var(--bg-surface);
 }
 
-.waypoint-table-toolbar,
-.optimoroute-table-toolbar {
+.waypoint-table-scroll-wrap {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: auto;
+  min-width: 0;
+  position: relative;
+  background: var(--bg-surface);
+}
+.waypoint-table-scroll-wrap::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+.waypoint-table-scroll-wrap::-webkit-scrollbar-track {
+  background: var(--bg-subtle);
+}
+.waypoint-table-scroll-wrap::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 4px;
+}
+.waypoint-table-scroll-wrap::-webkit-scrollbar-thumb:hover {
+  background: #64748B;
+}
+
+.waypoint-table-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2781,14 +2836,12 @@ body {
   flex-shrink: 0;
 }
 
-.waypoint-pills,
-.optimoroute-pills {
+.waypoint-pills {
   display: flex;
   align-items: center;
   gap: 4px;
 }
-.waypoint-pill,
-.optimoroute-pill {
+.waypoint-pill {
   padding: 3px 8px;
   border-radius: 4px;
   font-size: 11px;
@@ -2799,13 +2852,11 @@ body {
   cursor: pointer;
   transition: all 0.1s ease;
 }
-.waypoint-pill:hover,
-.optimoroute-pill:hover {
+.waypoint-pill:hover {
   background: var(--bg-muted);
   color: var(--text-primary);
 }
-.waypoint-pill.active,
-.optimoroute-pill.active {
+.waypoint-pill.active.active {
   background: #334155;
   color: #FFFFFF;
   border-color: #334155;
@@ -2836,7 +2887,7 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   OPTIMOROUTE BENCHMARK: Top Action Bar, Tabs & Unscheduled Panel
+   WAYPILOT PRO MATRIX: Top Action Bar, Tabs & Unscheduled Panel
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .planner-action-bar {

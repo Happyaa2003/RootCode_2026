@@ -19,7 +19,7 @@ interface MapLibreMapProps {
   routeViewMode?: 'Planned' | 'Actual' | 'Both';
 }
 
-// Generate teardrop pin SVG HTML matching OptimoRoute screenshot style
+// Generate teardrop pin SVG HTML matching WayPilot pin style
 const createTeardropPinHtml = (number: number, color: string = '#E11D48', isDelayed: boolean = false, isSelected: boolean = true) => {
   const pinColor = isDelayed ? '#EA580C' : color;
   const w = isSelected ? 28 : 22;
@@ -345,7 +345,7 @@ const MapLibreMap: React.FC<MapLibreMapProps> = ({
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
       <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
 
-      {/* Floating Map Zoom Controls (OptimoRoute style on top-left) */}
+      {/* Floating Map Zoom Controls (top-left) */}
       <div className="waypoint-map-zoom">
         <button
           onClick={() => mapRef.current?.zoomIn()}

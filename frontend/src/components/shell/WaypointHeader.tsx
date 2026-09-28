@@ -23,7 +23,7 @@ interface WaypointHeaderProps {
 const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, onThemeToggle }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { mode, setMode } = useDataset();
+  const { activeDepot, setActiveDepot, depots } = useDataset();
   const { currency, setCurrency } = useCurrency();
   const { user, logout, switchRole } = useAuth();
 
@@ -50,10 +50,9 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
       {/* Brand: Way Pilot */}
       <Link to="/" className="waypoint-brand">
         <div className="waypoint-brand-icon" style={{ background: 'transparent' }}>
-          <WayPilotLogo size={24} style={{ filter: 'drop-shadow(0 2px 6px rgba(14, 165, 233, 0.45))' }} />
+          <WayPilotLogo size={42} style={{ filter: 'drop-shadow(0 2px 10px rgba(14, 165, 233, 0.55))' }} />
         </div>
         <span className="waypoint-brand-title">Way Pilot</span>
-        <span className="waypoint-brand-badge">PRO</span>
       </Link>
 
       {/* Main Navigation Tabs */}
@@ -62,7 +61,7 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
           to="/planner"
           className={`waypoint-tab ${isPlanActive ? 'active' : ''}`}
         >
-          <Calendar size={14} />
+          <Calendar size={16} />
           <span>Plan and Optimize</span>
         </NavLink>
 
@@ -70,7 +69,7 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
           to="/"
           className={`waypoint-tab ${isLiveActive ? 'active' : ''}`}
         >
-          <Radio size={14} color={isLiveActive ? '#2563EB' : 'currentColor'} />
+          <Radio size={16} color={isLiveActive ? '#2563EB' : 'currentColor'} />
           <span>Live</span>
         </NavLink>
 
@@ -78,7 +77,7 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
           to="/reports"
           className={`waypoint-tab ${isAnalyticsActive ? 'active' : ''}`}
         >
-          <BarChart2 size={14} />
+          <BarChart2 size={16} />
           <span>Analytics & Cost</span>
         </NavLink>
 
@@ -88,9 +87,9 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
             className={`waypoint-tab ${['/orders', '/fleet', '/loading', '/forecast', '/exceptions'].includes(location.pathname) ? 'active' : ''}`}
             onClick={() => setMoreOpen(o => !o)}
           >
-            <Layers size={13} />
+            <Layers size={16} />
             <span>Operations</span>
-            <ChevronDown size={11} />
+            <ChevronDown size={12} />
           </button>
 
           {moreOpen && (
@@ -111,7 +110,7 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
                   onClick={() => setMoreOpen(false)}
                   className={`waypoint-dropdown-item ${location.pathname === item.path ? 'active' : ''}`}
                 >
-                  <item.icon size={14} color="var(--text-secondary)" />
+                  <item.icon size={15} color="var(--text-secondary)" />
                   <span>{item.label}</span>
                 </Link>
               ))}
@@ -123,18 +122,18 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
       <div style={{ flex: 1 }} />
 
       {/* Right Controls */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         {/* Currency Switcher: USD ($) vs LKR (Rs.) */}
         <div style={{
           display: 'flex', alignItems: 'center',
-          background: 'var(--bg-muted)', borderRadius: 6, padding: '2px 4px',
-          border: '1px solid var(--border)'
+          background: 'var(--bg-muted)', borderRadius: 7, padding: '3px 4px',
+          border: '1px solid var(--border)', height: 38
         }}>
           <button
             type="button"
             onClick={() => setCurrency('USD')}
             style={{
-              padding: '3px 8px', fontSize: 11, fontWeight: 700, borderRadius: 4,
+              padding: '4px 10px', fontSize: 12.5, fontWeight: 700, borderRadius: 5,
               border: 'none', cursor: 'pointer',
               background: currency === 'USD' ? '#2563EB' : 'transparent',
               color: currency === 'USD' ? '#fff' : 'var(--text-secondary)'
@@ -147,7 +146,7 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
             type="button"
             onClick={() => setCurrency('LKR')}
             style={{
-              padding: '3px 8px', fontSize: 11, fontWeight: 700, borderRadius: 4,
+              padding: '4px 10px', fontSize: 12.5, fontWeight: 700, borderRadius: 5,
               border: 'none', cursor: 'pointer',
               background: currency === 'LKR' ? '#2563EB' : 'transparent',
               color: currency === 'LKR' ? '#fff' : 'var(--text-secondary)'
@@ -165,53 +164,46 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
           style={{ background: 'rgba(16, 185, 129, 0.09)', borderColor: 'rgba(16, 185, 129, 0.3)', color: '#10B981' }}
           title="Open Real-Time Delivery ETA & Turnaround Estimator"
         >
-          <Clock size={12} color="#10B981" />
-          <span style={{ fontWeight: 700 }}>ETA Estimator</span>
+          <Clock size={15} color="#10B981" />
+          <span style={{ fontWeight: 700, fontSize: 13 }}>ETA Estimator</span>
         </button>
 
-        {/* Dataset Switcher (Peliyagoda tempData vs Boston screenshot benchmark) */}
+        {/* Operations Hub Depot Selector (RootCode Logistics) */}
         <div style={{ position: 'relative' }}>
           <button
             onClick={() => setDatasetOpen(o => !o)}
             className="waypoint-dataset-btn"
-            title="Switch dataset (tempData vs Benchmark)"
+            title="Operations Logistics Hub"
           >
-            <Database size={12} color="#2563EB" />
-            <span style={{ fontWeight: 600 }}>
-              {mode === 'peliyagoda' ? 'Peliyagoda (tempData)' : 'Boston (Benchmark)'}
+            <Database size={15} color="#2563EB" />
+            <span style={{ fontWeight: 600, fontSize: 13 }}>
+              {activeDepot?.name || 'Peliyagoda Central Depot'}
             </span>
-            <ChevronDown size={10} />
+            <ChevronDown size={12} />
           </button>
 
           {datasetOpen && (
             <div
               className="waypoint-dropdown-menu"
-              style={{ minWidth: 230, right: 0, left: 'auto' }}
+              style={{ minWidth: 260, right: 0, left: 'auto' }}
               onMouseLeave={() => setDatasetOpen(false)}
             >
-              <div style={{ padding: '6px 10px', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)' }}>
-                Active Logistics Dataset
+              <div style={{ padding: '6px 10px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+                Active Operations Hub
               </div>
-              <button
-                className={`waypoint-dropdown-item ${mode === 'peliyagoda' ? 'active' : ''}`}
-                style={{ width: '100%', border: 'none', background: mode === 'peliyagoda' ? 'var(--bg-muted)' : 'transparent', textAlign: 'left', cursor: 'pointer' }}
-                onClick={() => { setMode('peliyagoda'); setDatasetOpen(false); }}
-              >
-                <div>
-                  <div style={{ fontWeight: 700 }}>RootCode Peliyagoda (tempData)</div>
-                  <div style={{ fontSize: 10.5, color: 'var(--text-muted)' }}>Peliyagoda Depot · 120 Outlets · 60 Vehicles</div>
-                </div>
-              </button>
-              <button
-                className={`waypoint-dropdown-item ${mode === 'boston' ? 'active' : ''}`}
-                style={{ width: '100%', border: 'none', background: mode === 'boston' ? 'var(--bg-muted)' : 'transparent', textAlign: 'left', cursor: 'pointer' }}
-                onClick={() => { setMode('boston'); setDatasetOpen(false); }}
-              >
-                <div>
-                  <div style={{ fontWeight: 700 }}>OptimoRoute Benchmark (Boston)</div>
-                  <div style={{ fontSize: 10.5, color: 'var(--text-muted)' }}>Exact match for Screenshot 1 layout & stops</div>
-                </div>
-              </button>
+              {depots.map(depot => (
+                <button
+                  key={depot.id}
+                  className={`waypoint-dropdown-item ${activeDepot?.id === depot.id ? 'active' : ''}`}
+                  style={{ width: '100%', border: 'none', background: activeDepot?.id === depot.id ? 'var(--bg-muted)' : 'transparent', textAlign: 'left', cursor: 'pointer' }}
+                  onClick={() => { setActiveDepot(depot); setDatasetOpen(false); }}
+                >
+                  <div>
+                    <div style={{ fontWeight: 700 }}>{depot.name}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{depot.address}</div>
+                  </div>
+                </button>
+              ))}
             </div>
           )}
         </div>
@@ -222,10 +214,10 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
           className="waypoint-search-btn"
           title="Search orders, routes (Ctrl+K)"
         >
-          <Search size={12} />
-          <span style={{ fontSize: 11.5 }}>Search...</span>
+          <Search size={14} />
+          <span style={{ fontSize: 13 }}>Search...</span>
           <kbd style={{
-            fontSize: 9.5, padding: '1px 4px', borderRadius: 3,
+            fontSize: 10, padding: '2px 5px', borderRadius: 4,
             background: 'var(--bg-surface)', border: '1px solid var(--border)',
             fontFamily: 'var(--font-mono)', color: 'var(--text-muted)'
           }}>
@@ -239,7 +231,7 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
           className="waypoint-icon-btn"
           title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         >
-          {theme === 'dark' ? <Sun size={14} color="#F59E0B" /> : <Moon size={14} color="#64748B" />}
+          {theme === 'dark' ? <Sun size={17} color="#F59E0B" /> : <Moon size={17} color="#64748B" />}
         </button>
 
         {/* Administration dropdown */}
@@ -248,15 +240,15 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
             onClick={() => setAdminOpen(o => !o)}
             className="waypoint-link-btn"
           >
-            <Settings size={13} />
-            <span>Admin</span>
-            <ChevronDown size={11} />
+            <Settings size={15} />
+            <span style={{ fontSize: 13 }}>Admin</span>
+            <ChevronDown size={12} />
           </button>
 
           {adminOpen && (
             <div
               className="waypoint-dropdown-menu"
-              style={{ right: 0, left: 'auto', minWidth: 160 }}
+              style={{ right: 0, left: 'auto', minWidth: 170 }}
               onMouseLeave={() => setAdminOpen(false)}
             >
               <div
@@ -264,7 +256,7 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
                 style={{ cursor: 'pointer' }}
                 onClick={() => openAdminTab('dispatch-rules')}
               >
-                <Settings size={13} />
+                <Settings size={14} />
                 <span>Dispatch Rules</span>
               </div>
               <div
@@ -272,7 +264,7 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
                 style={{ cursor: 'pointer' }}
                 onClick={() => openAdminTab('depot-settings')}
               >
-                <Package size={13} />
+                <Package size={14} />
                 <span>Depot Settings</span>
               </div>
               <div
@@ -280,7 +272,7 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
                 style={{ cursor: 'pointer' }}
                 onClick={() => openAdminTab('api-keys')}
               >
-                <Layers size={13} />
+                <Layers size={14} />
                 <span>API Keys & Webhooks</span>
               </div>
             </div>
@@ -293,24 +285,25 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
             <button
               onClick={() => setUserMenuOpen(o => !o)}
               style={{
-                display: 'flex', alignItems: 'center', gap: 7,
-                padding: '3px 8px 3px 5px', borderRadius: 20,
+                display: 'flex', alignItems: 'center', gap: 9,
+                padding: '4px 12px 4px 6px', borderRadius: 24,
                 background: 'var(--bg-muted)', border: '1px solid var(--border)',
-                cursor: 'pointer', color: 'var(--text-main)', fontSize: 11.5
+                cursor: 'pointer', color: 'var(--text-main)', fontSize: 13,
+                height: 38,
               }}
             >
               <div style={{
-                width: 22, height: 22, borderRadius: '50%',
-                background: '#2563EB', color: '#fff', fontSize: 10,
+                width: 26, height: 26, borderRadius: '50%',
+                background: '#2563EB', color: '#fff', fontSize: 11,
                 fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center'
               }}>
                 {user.initials}
               </div>
-              <div style={{ textAlign: 'left', lineHeight: 1.1 }}>
+              <div style={{ textAlign: 'left', lineHeight: 1.15 }}>
                 <div style={{ fontWeight: 700 }}>{user.name.split(' ')[0]}</div>
-                <div style={{ fontSize: 9.5, color: 'var(--text-muted)' }}>{user.role}</div>
+                <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>{user.role}</div>
               </div>
-              <ChevronDown size={11} color="var(--text-muted)" />
+              <ChevronDown size={12} color="var(--text-muted)" />
             </button>
 
             {userMenuOpen && (

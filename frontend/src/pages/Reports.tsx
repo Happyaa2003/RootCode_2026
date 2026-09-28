@@ -7,7 +7,6 @@ import { useCurrency } from '../context/CurrencyContext';
 
 const ReportsPage: React.FC = () => {
   const {
-    mode,
     orders,
     allVehicles,
     districtTravelMatrix,
@@ -146,10 +145,10 @@ const ReportsPage: React.FC = () => {
             </h1>
             <span style={{
               fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 4,
-              background: mode === 'peliyagoda' ? 'var(--brand-tint)' : '#FEF3C7',
-              color: mode === 'peliyagoda' ? 'var(--brand-vivid)' : '#D97706',
+              background: 'var(--brand-tint)',
+              color: 'var(--brand-vivid)',
             }}>
-              {mode === 'peliyagoda' ? 'Peliyagoda Central · RootCode Dataset' : 'Boston Metro · OptimoRoute Benchmark'}
+              Peliyagoda Central · RootCode Dataset
             </span>
           </div>
           <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 4 }}>

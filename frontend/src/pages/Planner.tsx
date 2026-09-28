@@ -129,7 +129,7 @@ const PlannerPage: React.FC = () => {
 
   return (
     <div className="waypoint-view" style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
-      {/* ─── 1. TOP ACTION BAR (Matching OptimoRoute Benchmark in Screenshot 2 & 3) ─── */}
+      {/* ─── 1. TOP ACTION BAR (WayPilot PRO Dispatch Matrix) ─── */}
       <div className="planner-action-bar">
         {/* Left: Summary Status Pill */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -267,7 +267,7 @@ const PlannerPage: React.FC = () => {
       </div>
 
       {/* ─── 2. UPPER HALF: Routes List + Interactive Map + Floating Unscheduled Panel ─── */}
-      <div className="waypoint-split-top" style={{ height: '46%', minHeight: '260px' }}>
+      <div className="waypoint-split-top" style={{ height: '52%', minHeight: '320px' }}>
         {/* Left: Routes & Fleet Capacity Panel */}
         <div className="waypoint-driver-panel">
           <div className="waypoint-route-mode">
@@ -435,21 +435,29 @@ const PlannerPage: React.FC = () => {
             </div>
           )}
 
-          {/* ─── Floating Unscheduled Orders Panel (Matching Screenshot 2 & 3) ─── */}
+          {/* ─── Floating Unscheduled Orders Panel (Constrained within map view) ─── */}
           <div
             style={{
               position: 'absolute',
               top: 10,
               left: 10,
+              bottom: 10,
+              maxHeight: 'calc(100% - 20px)',
               zIndex: 25,
+              display: 'flex',
+              flexDirection: 'column',
+              pointerEvents: 'none',
             }}
           >
-            <UnscheduledOrdersPanel
-              onSelectOrder={(o) => {
-                setSelectedOrder(o);
-                setDrawerOpen(true);
-              }}
-            />
+            <div style={{ pointerEvents: 'auto', display: 'flex', flexDirection: 'column', maxHeight: '100%', minHeight: 0 }}>
+              <UnscheduledOrdersPanel
+                style={{ maxHeight: '100%' }}
+                onSelectOrder={(o) => {
+                  setSelectedOrder(o);
+                  setDrawerOpen(true);
+                }}
+              />
+            </div>
           </div>
 
           {/* Floating Plan Summary Box (Top-Right on map) */}
@@ -462,45 +470,48 @@ const PlannerPage: React.FC = () => {
               Re-optimize plan
             </span>
             <div className="waypoint-stats-date">
-              {mode === 'peliyagoda' ? '09/26/2026' : '19/06/2024'}<br />
-              <span style={{ fontWeight: 500, color: 'var(--text-secondary)', fontSize: 11 }}>
-                {depots[0]?.name || 'Central Hub'}
+              {mode === 'peliyagoda' ? '09/26/2026' : '19/06/2024'}{' '}
+              <span style={{ fontWeight: 500, color: 'var(--text-secondary)', fontSize: 10 }}>
+                ({depots[0]?.name || 'Central Hub'})
               </span>
             </div>
 
-            <div className="waypoint-stat-metric">
-              <div className="waypoint-stat-val" style={{ color: '#16A34A' }}>
-                {orders.length > 0 ? Math.round((scheduledOrders.length / orders.length) * 100) : 100}%
+            <div className="waypoint-stats-grid">
+              <div className="waypoint-stat-metric">
+                <div className="waypoint-stat-val" style={{ color: '#16A34A' }}>
+                  {orders.length > 0 ? Math.round((scheduledOrders.length / orders.length) * 100) : 100}%
+                </div>
+                <div className="waypoint-stat-lbl">Assignment</div>
               </div>
-              <div className="waypoint-stat-lbl">Order Assignment</div>
-            </div>
 
-            <div className="waypoint-stat-metric">
-              <div className="waypoint-stat-val">{routes.length} Active</div>
-              <div className="waypoint-stat-lbl">Fleet Utilization</div>
+              <div className="waypoint-stat-metric">
+                <div className="waypoint-stat-val">{routes.length} Active</div>
+                <div className="waypoint-stat-lbl">Utilization</div>
+              </div>
             </div>
 
             {/* Cargo Economics */}
-            <div className="waypoint-stat-metric" style={{ borderLeft: '1px solid var(--border)', paddingLeft: 10 }}>
-              <div className="waypoint-stat-val" style={{ color: '#16A34A', fontSize: 13 }}>
-                {formatPrice(kpis.totalItemValue || 68400, { compact: true })}
+            <div className="waypoint-stats-economics">
+              <div className="waypoint-stats-econ-row">
+                <span className="waypoint-stat-lbl">Cargo Value:</span>
+                <span className="waypoint-stat-val" style={{ color: '#16A34A', fontSize: 11.5 }}>
+                  {formatPrice(kpis.totalItemValue || 68400, { compact: true })}
+                </span>
               </div>
-              <div className="waypoint-stat-lbl">Cargo Value ({currency})</div>
-            </div>
-
-            <div className="waypoint-stat-metric">
-              <div className="waypoint-stat-val" style={{ color: '#2563EB', fontSize: 13 }}>
-                {formatPrice(kpis.totalDeliveryCost || 2840, { compact: true })}
+              <div className="waypoint-stats-econ-row">
+                <span className="waypoint-stat-lbl">Delivery Cost:</span>
+                <span className="waypoint-stat-val" style={{ color: '#2563EB', fontSize: 11.5 }}>
+                  {formatPrice(kpis.totalDeliveryCost || 2840, { compact: true })}
+                </span>
               </div>
-              <div className="waypoint-stat-lbl">Delivery Cost</div>
             </div>
 
             <button
               onClick={() => setOptimizeOpen(true)}
               style={{
-                marginTop: 8, width: '100%', padding: '6px 8px', borderRadius: 4,
+                marginTop: 6, width: '100%', padding: '5px 8px', borderRadius: 4,
                 border: 'none', background: '#2563EB', color: 'white',
-                fontSize: 11.5, fontWeight: 700, cursor: 'pointer', display: 'flex',
+                fontSize: 11, fontWeight: 700, cursor: 'pointer', display: 'flex',
                 alignItems: 'center', justifyContent: 'center', gap: 5
               }}
             >
@@ -513,7 +524,7 @@ const PlannerPage: React.FC = () => {
 
       {/* ─── 3. LOWER HALF: Tabs Bar (Orders | Routes | Timeline | Not Scheduled) ─── */}
       <div className="waypoint-split-bottom" style={{ height: '54%', display: 'flex', flexDirection: 'column' }}>
-        {/* OptimoRoute Tab Navigation Bar */}
+        {/* WayPilot Tab Navigation Bar */}
         <div className="planner-tabs-bar">
           <button
             className={`planner-tab-btn ${activeTab === 'Orders' ? 'active' : ''}`}

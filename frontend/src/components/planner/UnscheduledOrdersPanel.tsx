@@ -145,6 +145,8 @@ export const UnscheduledOrdersPanel: React.FC<UnscheduledOrdersPanelProps> = ({
         className={`waypoint-unscheduled-panel ${isMinimized ? 'minimized' : ''} ${className}`}
         style={{
           width: isMinimized ? '240px' : '285px',
+          maxHeight: '100%',
+          minHeight: 0,
           background: 'var(--bg-surface)',
           borderRadius: 8,
           border: '1px solid var(--border-strong)',
@@ -450,8 +452,9 @@ export const UnscheduledOrdersPanel: React.FC<UnscheduledOrdersPanelProps> = ({
             <div
               style={{
                 padding: '8px',
-                maxHeight: '290px',
-                minHeight: '120px',
+                flex: 1,
+                minHeight: 0,
+                maxHeight: '210px',
                 overflowY: 'auto',
                 display: 'flex',
                 flexDirection: 'column',
