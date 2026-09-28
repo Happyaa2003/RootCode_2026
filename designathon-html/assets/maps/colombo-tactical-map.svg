@@ -1,0 +1,229 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="100%" height="100%" style="background:#080D1A; display:block;">
+  <defs>
+    <radialGradient id="oceanGlow" cx="0%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#0E2442" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#080D1A" stop-opacity="1"/>
+    </radialGradient>
+    <radialGradient id="peliyagodaGlow" cx="480" cy="280" r="140" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="routeGlowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="routeGlowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="routeGlowPurple" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Ocean & Coastline Background -->
+  <path d="M 0,0 L 260,0 C 270,120 250,210 240,290 C 230,370 250,460 230,550 C 215,620 220,700 220,700 L 0,700 Z" fill="#061224" opacity="0.9"/>
+  <!-- Coastline subtle glow line -->
+  <path d="M 260,0 C 270,120 250,210 240,290 C 230,370 250,460 230,550 C 215,620 220,700 220,700" fill="none" stroke="#1E3A8A" stroke-width="2.5" opacity="0.6"/>
+
+  <!-- Kelani River -->
+  <path d="M 1000,240 C 780,260 620,270 480,275 C 380,280 290,285 240,290" fill="none" stroke="#0F2847" stroke-width="8" stroke-linecap="round"/>
+  <path d="M 1000,240 C 780,260 620,270 480,275 C 380,280 290,285 240,290" fill="none" stroke="#1E40AF" stroke-width="2" opacity="0.5"/>
+
+  <!-- Tactical Grid Lines -->
+  <g stroke="rgba(255,255,255,0.035)" stroke-width="1" stroke-dasharray="3 6">
+    <line x1="0" y1="100" x2="1000" y2="100"/>
+    <line x1="0" y1="200" x2="1000" y2="200"/>
+    <line x1="0" y1="300" x2="1000" y2="300"/>
+    <line x1="0" y1="400" x2="1000" y2="400"/>
+    <line x1="0" y1="500" x2="1000" y2="500"/>
+    <line x1="0" y1="600" x2="1000" y2="600"/>
+    <line x1="200" y1="0" x2="200" y2="700"/>
+    <line x1="400" y1="0" x2="400" y2="700"/>
+    <line x1="600" y1="0" x2="600" y2="700"/>
+    <line x1="800" y1="0" x2="800" y2="700"/>
+  </g>
+
+  <!-- Major Expressways & Highways (Sri Lanka Logistics Corridor) -->
+  <!-- E02 Outer Circular Expressway -->
+  <path d="M 520,30 C 580,140 680,240 710,380 C 730,490 690,620 640,700" fill="none" stroke="#1E293B" stroke-width="6"/>
+  <path d="M 520,30 C 580,140 680,240 710,380 C 730,490 690,620 640,700" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4"/>
+
+  <!-- A1 Colombo - Kandy Road -->
+  <path d="M 480,280 L 610,240 L 760,200 L 980,150" fill="none" stroke="#1E293B" stroke-width="5"/>
+  <path d="M 480,280 L 610,240 L 760,200 L 980,150" fill="none" stroke="#475569" stroke-width="1.5"/>
+
+  <!-- A2 Galle Road (Colombo to South) -->
+  <path d="M 280,310 L 290,420 L 285,540 L 280,680" fill="none" stroke="#1E293B" stroke-width="5"/>
+
+  <!-- A3 Negombo Road (North corridor) -->
+  <path d="M 480,280 L 440,190 L 390,90 L 360,20" fill="none" stroke="#1E293B" stroke-width="5"/>
+
+  <!-- Baseline & High-Level Arteries -->
+  <path d="M 480,280 L 440,360 L 430,450 L 450,560" fill="none" stroke="#1E293B" stroke-width="4"/>
+  <path d="M 440,360 L 550,380 L 620,410 L 710,380" fill="none" stroke="#1E293B" stroke-width="3.5"/>
+
+  <!-- District Labels -->
+  <g fill="#475569" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" letter-spacing="1.5px">
+    <text x="50" y="40">INDIAN OCEAN</text>
+    <text x="320" y="50">NEGOMBO</text>
+    <text x="495" y="110">JA-ELA</text>
+    <text x="630" y="140">GAMPAHA</text>
+    <text x="500" y="260" fill="#93C5FD">PELIYAGODA HUB</text>
+    <text x="300" y="330">COLOMBO 01-FORT</text>
+    <text x="340" y="440">KOLLUPITIYA</text>
+    <text x="480" y="380">KADUWELA</text>
+    <text x="420" y="480">NUGEGODA</text>
+    <text x="310" y="580">MORATUWA</text>
+    <text x="880" y="130">KANDY HILLS</text>
+  </g>
+
+  <!-- Peliyagoda Hub Glow -->
+  <circle cx="480" cy="280" r="80" fill="url(#peliyagodaGlow)"/>
+
+  <!-- ─── ROUTE 01 (Electric Blue #2563EB) — Sunil Perera (9.4 m³ Reefer) ─── -->
+  <path d="M 480,280 L 410,295 L 340,310 L 310,340 L 305,390 L 325,430 L 350,470 L 420,480 L 470,450 L 480,280"
+        fill="none" stroke="#2563EB" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#routeGlowBlue)"/>
+
+  <!-- ─── ROUTE 02 (Neon Emerald #10B981) — Chaminda Silva (7.8 m³ Ambient) ─── -->
+  <path d="M 480,280 L 510,330 L 550,380 L 590,440 L 520,510 L 440,530 L 340,550 L 290,560 L 285,500 L 440,360 L 480,280"
+        fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#routeGlowGreen)"/>
+
+  <!-- ─── ROUTE 03 (Cyber Purple #8B5CF6) — Nuwan Pradeep (11.2 m³ Reefer) ─── -->
+  <path d="M 480,280 L 450,210 L 410,140 L 370,80 L 340,40 L 400,30 L 470,90 L 520,160 L 480,280"
+        fill="none" stroke="#8B5CF6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#routeGlowPurple)"/>
+
+  <!-- ─── ROUTE 04 (Vivid Amber #F59E0B) — Kasun Fernando (4.6 m³) ─── -->
+  <path d="M 480,280 L 560,290 L 640,330 L 710,380 L 670,430 L 580,410 L 480,280"
+        fill="none" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+
+  <!-- ─── STOPS MARKERS ─── -->
+  <!-- Route 1 Stops (1 to 8) -->
+  <g id="route1-stops">
+    <!-- Stop 1: Fort -->
+    <g transform="translate(340, 310)">
+      <circle cx="0" cy="0" r="11" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="0" y="3.5" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="800" text-anchor="middle">1</text>
+      <text x="14" y="4" fill="#E2E8F0" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="700">Fort Port Drop</text>
+    </g>
+    <!-- Stop 2: Kollupitiya -->
+    <g transform="translate(310, 340)">
+      <circle cx="0" cy="0" r="11" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="0" y="3.5" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="800" text-anchor="middle">2</text>
+    </g>
+    <!-- Stop 3: Bambalapitiya -->
+    <g transform="translate(305, 390)">
+      <circle cx="0" cy="0" r="11" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="0" y="3.5" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="800" text-anchor="middle">3</text>
+      <text x="14" y="4" fill="#93C5FD" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="600">FreshMart Bambalapitiya</text>
+    </g>
+    <!-- Stop 4: Wellawatte -->
+    <g transform="translate(325, 430)">
+      <circle cx="0" cy="0" r="11" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="0" y="3.5" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="800" text-anchor="middle">4</text>
+    </g>
+    <!-- Stop 5: Nugegoda Super -->
+    <g transform="translate(420, 480)">
+      <circle cx="0" cy="0" r="13" fill="#2563EB" stroke="#60A5FA" stroke-width="2.5"/>
+      <text x="0" y="4" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="800" text-anchor="middle">5</text>
+      <rect x="15" y="-14" width="130" height="24" rx="4" fill="#0F172A" stroke="#2563EB" stroke-width="1"/>
+      <text x="22" y="2" fill="#FFFFFF" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="700">FreshMart Nugegoda</text>
+      <text x="126" y="2" fill="#34D399" font-family="'JetBrains Mono', monospace" font-size="8.5" font-weight="700">08:28</text>
+    </g>
+    <!-- Stop 6: Kirulapone -->
+    <g transform="translate(350, 470)">
+      <circle cx="0" cy="0" r="11" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="0" y="3.5" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="800" text-anchor="middle">6</text>
+    </g>
+    <!-- Stop 7: Kotte -->
+    <g transform="translate(470, 450)">
+      <circle cx="0" cy="0" r="11" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="0" y="3.5" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="800" text-anchor="middle">7</text>
+    </g>
+  </g>
+
+  <!-- Route 2 Stops (Emerald) -->
+  <g id="route2-stops">
+    <g transform="translate(550, 380)">
+      <circle cx="0" cy="0" r="11" fill="#059669" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="0" y="3.5" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="800" text-anchor="middle">1</text>
+    </g>
+    <g transform="translate(590, 440)">
+      <circle cx="0" cy="0" r="11" fill="#059669" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="0" y="3.5" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="800" text-anchor="middle">2</text>
+      <text x="14" y="4" fill="#A7F3D0" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="600">Malabe Express</text>
+    </g>
+    <g transform="translate(340, 550)">
+      <circle cx="0" cy="0" r="11" fill="#059669" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="0" y="3.5" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="800" text-anchor="middle">3</text>
+    </g>
+    <g transform="translate(290, 560)">
+      <circle cx="0" cy="0" r="11" fill="#059669" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="0" y="3.5" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="800" text-anchor="middle">4</text>
+      <text x="14" y="4" fill="#A7F3D0" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="600">Moratuwa Food City</text>
+    </g>
+  </g>
+
+  <!-- Route 3 Stops (Purple - Negombo) -->
+  <g id="route3-stops">
+    <g transform="translate(450, 210)">
+      <circle cx="0" cy="0" r="11" fill="#7C3AED" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="0" y="3.5" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="800" text-anchor="middle">1</text>
+      <text x="14" y="4" fill="#DDD6FE" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="600">Wattala Center</text>
+    </g>
+    <g transform="translate(410, 140)">
+      <circle cx="0" cy="0" r="11" fill="#7C3AED" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="0" y="3.5" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="800" text-anchor="middle">2</text>
+    </g>
+    <g transform="translate(370, 80)">
+      <circle cx="0" cy="0" r="11" fill="#7C3AED" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="0" y="3.5" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="800" text-anchor="middle">3</text>
+      <text x="14" y="4" fill="#DDD6FE" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="600">Ja-Ela Interchange</text>
+    </g>
+  </g>
+
+  <!-- ─── VEHICLE TRACKERS (ACTIVE TELEMETRY) ─── -->
+  <!-- Vehicle 1: WP-CAD-4821 on Route 1 -->
+  <g transform="translate(325, 430)">
+    <circle cx="0" cy="0" r="18" fill="rgba(37,99,235,0.25)"/>
+    <circle cx="0" cy="0" r="7" fill="#60A5FA"/>
+    <g transform="translate(12, -22)">
+      <rect x="0" y="0" width="105" height="20" rx="3" fill="#0F172A" stroke="#3B82F6" stroke-width="1"/>
+      <circle cx="8" cy="10" r="3" fill="#34D399"/>
+      <text x="16" y="14" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700">CAD-4821 (Sunil)</text>
+    </g>
+  </g>
+
+  <!-- Vehicle 2: WP-DAE-9102 on Route 2 -->
+  <g transform="translate(590, 440)">
+    <circle cx="0" cy="0" r="18" fill="rgba(16,185,129,0.25)"/>
+    <circle cx="0" cy="0" r="7" fill="#34D399"/>
+    <g transform="translate(12, -22)">
+      <rect x="0" y="0" width="125" height="20" rx="3" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+      <circle cx="8" cy="10" r="3" fill="#34D399"/>
+      <text x="16" y="14" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700">DAE-9102 (Chaminda)</text>
+    </g>
+  </g>
+
+  <!-- ─── CENTRAL DEPOT MARKER (Peliyagoda Hub) ─── -->
+  <g transform="translate(480, 280)">
+    <circle cx="0" cy="0" r="22" fill="#0B132B" stroke="#3B82F6" stroke-width="3"/>
+    <circle cx="0" cy="0" r="14" fill="#1D4ED8"/>
+    <!-- Warehouse icon -->
+    <path d="M -7,-2 L 0,-8 L 7,-2 L 7,6 L -7,6 Z" fill="#FFFFFF"/>
+    <!-- Label -->
+    <rect x="-65" y="26" width="130" height="22" rx="4" fill="#090E17" stroke="#3B82F6" stroke-width="1.2"/>
+    <text x="0" y="41" fill="#60A5FA" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="800" text-anchor="middle" letter-spacing="0.5px">PELIYAGODA DEPOT</text>
+  </g>
+
+  <!-- Tactical Map Compass & Scale -->
+  <g transform="translate(30, 630)">
+    <rect x="0" y="0" width="130" height="42" rx="6" fill="#0B132B" stroke="rgba(255,255,255,0.1)"/>
+    <text x="12" y="18" fill="#94A3B8" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700">SCALE: 1:50,000</text>
+    <line x1="12" y1="28" x2="62" y2="28" stroke="#38BDF8" stroke-width="3"/>
+    <line x1="12" y1="24" x2="12" y2="32" stroke="#38BDF8" stroke-width="1.5"/>
+    <line x1="62" y1="24" x2="62" y2="32" stroke="#38BDF8" stroke-width="1.5"/>
+    <text x="70" y="31" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9">5 km</text>
+  </g>
+</svg>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WayPilot — Driver Mobile Application</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="stylesheet" href="css/waypilot.css">
+  <link rel="stylesheet" href="css/extensions.css">
+</head>
+<body style="margin: 0; background: #0B0F19; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; font-family: var(--font-sans);">
+
+  <!-- Device Preview Container (Desktop center wrapper, full width on phone) -->
+  <div class="driver-preview-viewport" style="background: var(--bg-surface); position: relative; border-left: 1px solid var(--border); border-right: 1px solid var(--border);">
+    
+    <!-- Phone Status Bar -->
+    <div style="height: 38px; background: #0F172A; color: #FFFFFF; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; font-size: 11px; font-family: var(--font-mono); font-weight: 700;">
+      <span>08:24</span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 10px; color: #34D399; display: flex; align-items: center; gap: 4px;">
+          <span style="width: 6px; height: 6px; border-radius: 50%; background: #34D399;"></span> 4G LTE
+        </span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="16" height="10" rx="2" ry="2"/><line x1="22" y1="11" x2="22" y2="13"/></svg>
+      </div>
+    </div>
+
+    <!-- App Top Bar -->
+    <div style="padding: 12px 16px; background: var(--bg-surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="assets/logo.svg" alt="WayPilot Logo" width="24" height="24">
+        <div>
+          <div style="font-family: var(--font-display); font-size: 14px; font-weight: 800; color: var(--text-primary); line-height: 1.1;">WAYPILOT DRIVER</div>
+          <div style="font-size: 10.5px; color: var(--text-muted); font-family: var(--font-mono);">Route 01 · WP-CAD-4821</div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <a href="index.html" class="waypoint-link-btn" title="Showcase Hub" style="font-size: 11px;">
+          <span>Hub</span>
+        </a>
+        <button class="waypoint-icon-btn" data-action="toggle-theme" title="Toggle Theme" style="width: 26px; height: 26px;">
+          <span data-theme-icon></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Offline Simulation Banner -->
+    <div id="driver-conn-bar" style="background: rgba(16,185,129,0.12); border-bottom: 1px solid rgba(16,185,129,0.25); color: #15803D; padding: 6px 16px; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: space-between; cursor: pointer;" onclick="toggleDriverOffline()" title="Click to test offline degraded simulation">
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <span id="driver-conn-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #16A34A;"></span>
+        <span id="driver-conn-txt">NETWORK ONLINE · CACHE SYNCED</span>
+      </div>
+      <span style="font-size: 10px; font-family: var(--font-mono); color: var(--text-muted);">Simulate Offline</span>
+    </div>
+
+    <!-- Scrollable Driver Dashboard Body -->
+    <div style="flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 14px;">
+      
+      <!-- 1. Turn-by-Turn GPS Navigation Card -->
+      <div style="background: #0F172A; color: #FFFFFF; border-radius: 12px; padding: 14px 16px; box-shadow: var(--shadow-md);">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: #2563EB; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+          </div>
+          <div>
+            <div style="font-size: 11px; color: #94A3B8; text-transform: uppercase; font-family: var(--font-mono);">In 450 meters</div>
+            <div style="font-size: 16px; font-weight: 800; color: #FFFFFF; line-height: 1.2;">Turn left onto Old Kesbewa Rd</div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 8px; font-size: 12px; font-family: var(--font-mono);">
+          <span style="color: #38BDF8; font-weight: 700;">ETA: 08:28 AM</span>
+          <span style="color: #94A3B8;">2.4 km remaining</span>
+          <span style="color: #34D399; font-weight: 700;">Speed: 42 km/h</span>
+        </div>
+      </div>
+
+      <!-- 2. Active Stop Card (Current Mission) -->
+      <div style="background: var(--bg-surface); border: 2px solid #2563EB; border-radius: 12px; padding: 16px; box-shadow: var(--shadow-sm);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span style="font-size: 10.5px; font-weight: 800; background: #2563EB; color: #FFFFFF; padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono); letter-spacing: 0.5px;">
+            CURRENT STOP · 1 OF 12
+          </span>
+          <span style="font-size: 11px; font-weight: 700; color: #15803D; background: #DCFCE7; padding: 2px 7px; border-radius: 4px;">
+            98% SLA Confidence
+          </span>
+        </div>
+
+        <h2 style="font-family: var(--font-display); font-size: 18px; font-weight: 800; color: var(--text-primary); margin: 0 0 4px;">
+          FreshMart Nugegoda
+        </h2>
+        <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.4; margin-bottom: 10px;">
+          42 Old Kesbewa Road, Nugegoda (Colombo Suburbs)
+        </div>
+
+        <!-- Cargo Specification Pillbox -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: var(--bg-subtle); padding: 10px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 14px; font-size: 11.5px;">
+          <div>
+            <span style="color: var(--text-muted);">Window: </span>
+            <strong style="font-family: var(--font-mono); color: var(--text-primary);">08:28–08:38</strong>
+          </div>
+          <div>
+            <span style="color: var(--text-muted);">Volume: </span>
+            <strong style="font-family: var(--font-mono); color: var(--text-primary);">2.4 m³ (40u)</strong>
+          </div>
+          <div>
+            <span style="color: var(--text-muted);">Temp Target: </span>
+            <strong style="color: #2563EB;">+3.2°C Chilled</strong>
+          </div>
+          <div>
+            <span style="color: var(--text-muted);">Dock: </span>
+            <strong>Street Curbside</strong>
+          </div>
+        </div>
+
+        <!-- Interactive Action Buttons -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+          <a href="tel:+94771234567" class="btn btn-secondary btn-sm" style="display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span>Call Store</span>
+          </a>
+
+          <button class="btn btn-secondary btn-sm" style="display: flex; align-items: center; justify-content: center; gap: 6px;" onclick="window.showToast('Dock arrival logged at 08:28 AM')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Arrived at Dock</span>
+          </button>
+        </div>
+
+        <!-- Big Primary Action: Proof of Delivery -->
+        <button class="btn btn-primary" style="width: 100%; height: 42px; font-weight: 800; font-size: 13.5px; background: #16A34A; display: flex; align-items: center; justify-content: center; gap: 8px;" data-open-modal="pod-modal">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span>Complete Delivery & POD</span>
+        </button>
+      </div>
+
+      <!-- 3. Next Stops Progression -->
+      <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
+        <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); font-family: var(--font-mono); margin-bottom: 12px;">
+          Upcoming Stops on Route 01
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <!-- Next Stop 2 -->
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; background: var(--bg-subtle); border-radius: 6px; border: 1px solid var(--border);">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 24px; height: 24px; border-radius: 50%; background: #2563EB; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; font-family: var(--font-mono);">2</div>
+              <div>
+                <div style="font-size: 12.5px; font-weight: 600; color: var(--text-primary);">Keells Kollupitiya</div>
+                <div style="font-size: 10.5px; color: var(--text-muted);">853 Main St · 1.8 m³</div>
+              </div>
+            </div>
+            <div style="text-align: right; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--text-secondary);">
+              08:43 AM
+            </div>
+          </div>
+
+          <!-- Next Stop 3 -->
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; background: var(--bg-subtle); border-radius: 6px; border: 1px solid var(--border);">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--bg-muted); color: var(--text-primary); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; font-family: var(--font-mono);">3</div>
+              <div>
+                <div style="font-size: 12.5px; font-weight: 600; color: var(--text-primary);">FreshMart Bambalapitiya</div>
+                <div style="font-size: 10.5px; color: var(--text-muted);">Galle Rd · 3.1 m³</div>
+              </div>
+            </div>
+            <div style="text-align: right; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--text-secondary);">
+              08:54 AM
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Phone Bottom Navigation Bar -->
+    <div style="height: 54px; background: var(--bg-surface); border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; text-align: center; font-size: 10px; color: var(--text-muted);">
+      <div style="color: #2563EB; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 2px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+        <span>Active Navigation</span>
+      </div>
+      <div style="cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px;" onclick="window.showToast('Route manifest list')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        <span>Manifest (12)</span>
+      </div>
+      <div style="cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px;" onclick="window.showToast('Driver profile & fuel log')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Profile</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proof of Delivery Camera Modal -->
+  <div id="pod-modal" class="modal-overlay">
+    <div class="modal" style="max-width: 440px;">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title">Proof of Delivery Capture</div>
+          <div class="modal-subtitle">FreshMart Nugegoda (ORD028)</div>
+        </div>
+        <button class="drawer-close" data-close-modal="pod-modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body" style="padding: 16px;">
+        <!-- Simulated Camera Viewport -->
+        <div style="height: 180px; background: #0F172A; border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 14px;">
+          <div style="border: 2px dashed #38BDF8; width: 80%; height: 75%; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #94A3B8;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span style="font-size: 11px; font-family: var(--font-mono); margin-top: 6px;">Frame Crate Barcode & Receipt</span>
+          </div>
+          <div style="position: absolute; bottom: 8px; left: 12px; font-size: 9px; font-family: var(--font-mono); color: #34D399;">
+            GPS: 6.8722°N, 79.8911°E
+          </div>
+        </div>
+
+        <!-- Recipient Signature -->
+        <div style="margin-bottom: 14px;">
+          <div style="font-size: 11px; font-weight: 700; color: var(--text-secondary); margin-bottom: 4px;">Store Signee Name</div>
+          <input type="text" value="M. Fernando (Store Receiving Lead)" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; background: var(--bg-subtle); color: var(--text-primary);">
+        </div>
+
+        <button class="btn btn-primary" style="width: 100%; height: 42px; background: #16A34A; font-weight: 700;" onclick="window.closeModal('pod-modal'); window.showToast('POD confirmed & synced! Advance to Stop 2')">
+          Submit Proof of Delivery
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/waypilot.js"></script>
+  <script>
+    let isOffline = false;
+    function toggleDriverOffline() {
+      isOffline = !isOffline;
+      const bar = document.getElementById('driver-conn-bar');
+      const dot = document.getElementById('driver-conn-dot');
+      const txt = document.getElementById('driver-conn-txt');
+
+      if (isOffline) {
+        bar.style.background = '#991B1B';
+        bar.style.color = '#FFFFFF';
+        dot.style.background = '#EF4444';
+        txt.textContent = 'OFFLINE DEGRADED MODE (CACHED)';
+        window.showToast('Driver switched to Offline Mode — actions queued locally', 'warning');
+      } else {
+        bar.style.background = 'rgba(16,185,129,0.12)';
+        bar.style.color = '#15803D';
+        dot.style.background = '#16A34A';
+        txt.textContent = 'NETWORK ONLINE · CACHE SYNCED';
+        window.showToast('Reconnected: Queued driver transactions synced!');
+      }
+    }
+  </script>
+</body>
+</html>

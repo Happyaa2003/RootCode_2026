@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WayPilot — Fleet & Vehicles Asset Matrix</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="stylesheet" href="css/waypilot.css">
+  <link rel="stylesheet" href="css/extensions.css">
+</head>
+<body style="margin: 0; overflow: hidden; height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Global WayPilot Header -->
+  <header class="waypoint-header">
+    <a href="index.html" class="waypoint-brand" title="Return to Designathon Showcase">
+      <div class="waypoint-brand-icon">
+        <img src="assets/logo.svg" alt="WayPilot Logo" width="22" height="22">
+      </div>
+      <span class="waypoint-brand-title">Way Pilot</span>
+      <span class="waypoint-brand-badge">PRO</span>
+    </a>
+
+    <!-- Navigation Tabs -->
+    <nav class="waypoint-tabs">
+      <a href="route-planner.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Plan and Optimize</span>
+      </a>
+
+      <a href="live-operations.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
+        <span>Live</span>
+      </a>
+
+      <a href="reports.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Analytics & Cost</span>
+      </a>
+
+      <!-- Operations Dropdown -->
+      <div class="waypoint-dropdown-tab">
+        <button class="waypoint-tab dropdown-trigger active">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Operations</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="waypoint-dropdown-menu" style="display: none;">
+          <a href="dispatcher.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            <span>Dispatcher Dashboard</span>
+          </a>
+          <a href="orders.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <span>Orders Queue</span>
+          </a>
+          <a href="fleet.html" class="waypoint-dropdown-item active">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <span>Fleet & Vehicles</span>
+          </a>
+          <a href="loader.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+            <span>Loading Checklist</span>
+          </a>
+          <a href="driver.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            <span>Driver Application</span>
+          </a>
+          <a href="store-manager.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <span>Store Receiving</span>
+          </a>
+          <a href="forecast.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span>Demand Forecast</span>
+          </a>
+          <a href="exceptions.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+            <span>Active Exceptions</span>
+          </a>
+          <a href="offline.html" class="waypoint-dropdown-item" style="color: #DC2626;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/></svg>
+            <span>Offline Degraded Mode</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Right Header Controls -->
+    <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+      <div class="waypoint-dataset-btn" title="Operating Hub">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #16A34A;"></span>
+        <span style="font-weight: 700;">Peliyagoda Hub</span>
+      </div>
+
+      <button class="waypoint-icon-btn" data-action="toggle-theme" title="Toggle Light/Dark Theme">
+        <span data-theme-icon></span>
+      </button>
+
+      <a href="index.html" class="waypoint-link-btn" title="Designathon Showcase Home">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>All Screens</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Fleet Page -->
+  <main style="height: calc(100vh - 50px); display: flex; flex-direction: column; overflow: hidden; background: var(--bg-app);">
+    
+    <!-- Filter Toolbar -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <div class="sidebar-search" style="width: 240px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input placeholder="Search 60 fleet units..." data-table-search="fleet-table">
+        </div>
+
+        <!-- Vehicle Type Filter -->
+        <div class="filter-bar" data-filter-group="fleet-table">
+          <button class="filter-select active" data-filter="All">All Types</button>
+          <button class="filter-select" data-filter="Standard">Standard</button>
+          <button class="filter-select" data-filter="Reefer">Reefer</button>
+          <button class="filter-select" data-filter="Large">Large</button>
+        </div>
+
+        <div style="width: 1px; height: 24px; background: var(--border);"></div>
+
+        <!-- Vehicle Status Filter -->
+        <div class="filter-bar" data-filter-group="fleet-table">
+          <button class="filter-select active" data-filter="All">All Statuses</button>
+          <button class="filter-select" data-filter="Active">Active</button>
+          <button class="filter-select" data-filter="Idle">Idle</button>
+          <button class="filter-select" data-filter="Maintenance">Workshop (task2b)</button>
+          <button class="filter-select" data-filter="Offline">Offline</button>
+        </div>
+      </div>
+
+      <div class="page-header-right">
+        <span style="font-size: 12px; color: var(--text-secondary); font-family: var(--font-mono);">
+          Showing <strong>60</strong> of 60 vehicles (from vehicles.csv)
+        </span>
+      </div>
+    </div>
+
+    <!-- Fleet Table -->
+    <div class="data-table-wrapper">
+      <table id="fleet-table" class="data-table" style="font-size: 12.5px;">
+        <thead>
+          <tr>
+            <th style="width: 140px;">Vehicle / Plate</th>
+            <th style="width: 120px;">Depot Hub</th>
+            <th style="width: 110px;">Type</th>
+            <th style="width: 150px;">Driver Assigned</th>
+            <th style="width: 115px;">Status</th>
+            <th style="width: 110px;">Volume Cap</th>
+            <th style="width: 110px;">Weight Cap</th>
+            <th style="width: 100px;">Efficiency</th>
+            <th style="width: 180px;">Weekly Fuel Quota</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Vehicle 1 -->
+          <tr style="height: 42px; cursor: pointer;" onclick="window.showToast('Vehicle WP-CAD-4821 inspected: Reefer active')">
+            <td>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="width: 28px; height: 28px; border-radius: 4px; background: var(--success-tint); display: flex; align-items: center; justify-content: center; color: #16A34A;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                </div>
+                <div>
+                  <div style="font-family: var(--font-mono); font-weight: 700; font-size: 11.5px; color: var(--text-primary);">WP-CAD-4821</div>
+                  <div style="font-size: 10px; color: var(--text-muted);">VEH-001 · Route 01</div>
+                </div>
+              </div>
+            </td>
+            <td style="color: var(--text-secondary);">Peliyagoda</td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <span>Reefer</span>
+                <span title="Chilled Unit"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/><line x1="19.07" y1="4.93" x2="4.93" y2="19.07"/></svg></span>
+              </div>
+            </td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <div style="width: 22px; height: 22px; border-radius: 50%; background: var(--brand-tint); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700;">SP</div>
+                <span>Sunil Perera</span>
+              </div>
+            </td>
+            <td><span class="status-badge badge-active">Active</span></td>
+            <td style="font-family: var(--font-mono);">12.4 m³</td>
+            <td style="font-family: var(--font-mono);">2,200 kg</td>
+            <td style="font-family: var(--font-mono);">3.2 km/l</td>
+            <td>
+              <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-bottom: 2px;">138 L / 400 L (34%)</div>
+              <div style="height: 5px; background: var(--bg-muted); border-radius: 3px; overflow: hidden;">
+                <div style="height: 100%; width: 34%; background: #2563EB;"></div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Vehicle 2 -->
+          <tr style="height: 42px; cursor: pointer;" onclick="window.showToast('Vehicle WP-DAE-9102 inspected')">
+            <td>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="width: 28px; height: 28px; border-radius: 4px; background: var(--success-tint); display: flex; align-items: center; justify-content: center; color: #16A34A;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                </div>
+                <div>
+                  <div style="font-family: var(--font-mono); font-weight: 700; font-size: 11.5px; color: var(--text-primary);">WP-DAE-9102</div>
+                  <div style="font-size: 10px; color: var(--text-muted);">VEH-002 · Route 02</div>
+                </div>
+              </div>
+            </td>
+            <td style="color: var(--text-secondary);">Peliyagoda</td>
+            <td>Standard</td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <div style="width: 22px; height: 22px; border-radius: 50%; background: var(--brand-tint); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700;">CS</div>
+                <span>Chaminda Silva</span>
+              </div>
+            </td>
+            <td><span class="status-badge badge-active">Active</span></td>
+            <td style="font-family: var(--font-mono);">8.2 m³</td>
+            <td style="font-family: var(--font-mono);">1,500 kg</td>
+            <td style="font-family: var(--font-mono);">4.1 km/l</td>
+            <td>
+              <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-bottom: 2px;">112 L / 350 L (32%)</div>
+              <div style="height: 5px; background: var(--bg-muted); border-radius: 3px; overflow: hidden;">
+                <div style="height: 100%; width: 32%; background: #16A34A;"></div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Vehicle 3 (Workshop Grounding) -->
+          <tr style="height: 42px; cursor: pointer; background: rgba(220,38,38,0.04);" onclick="window.showToast('Vehicle grounded: in_workshop (task2b_peak_day_fleet.csv)', 'warning')">
+            <td>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="width: 28px; height: 28px; border-radius: 4px; background: var(--danger-tint); display: flex; align-items: center; justify-content: center; color: var(--danger-vivid);">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <div>
+                  <div style="font-family: var(--font-mono); font-weight: 700; font-size: 11.5px; color: var(--text-primary);">WP-CAD-8812</div>
+                  <div style="font-size: 10px; color: var(--text-muted);">VEH-019 · Workshop</div>
+                </div>
+              </div>
+            </td>
+            <td style="color: var(--text-secondary);">Peliyagoda</td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <span>Reefer</span>
+                <span title="Chilled Unit"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/><line x1="19.07" y1="4.93" x2="4.93" y2="19.07"/></svg></span>
+              </div>
+            </td>
+            <td><span style="color: var(--text-muted);">Unassigned</span></td>
+            <td><span class="status-badge badge-maintenance">Maintenance</span></td>
+            <td style="font-family: var(--font-mono);">12.4 m³</td>
+            <td style="font-family: var(--font-mono);">2,200 kg</td>
+            <td style="font-family: var(--font-mono);">3.2 km/l</td>
+            <td>
+              <div style="font-size: 10.5px; font-family: var(--font-mono); color: #DC2626; margin-bottom: 2px;">Quota Frozen (0 L / 400 L)</div>
+              <div style="height: 5px; background: var(--bg-muted); border-radius: 3px; overflow: hidden;">
+                <div style="height: 100%; width: 0%; background: #DC2626;"></div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Vehicle 4 (Kandy Hub) -->
+          <tr style="height: 42px; cursor: pointer;" onclick="window.showToast('Vehicle WP-NA-2045 inspected: Kandy Station')">
+            <td>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="width: 28px; height: 28px; border-radius: 4px; background: var(--success-tint); display: flex; align-items: center; justify-content: center; color: #16A34A;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                </div>
+                <div>
+                  <div style="font-family: var(--font-mono); font-weight: 700; font-size: 11.5px; color: var(--text-primary);">WP-NA-2045</div>
+                  <div style="font-size: 10px; color: var(--text-muted);">VEH-003 · Route 03</div>
+                </div>
+              </div>
+            </td>
+            <td style="color: var(--text-secondary);">Kandy Hill Hub</td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <span>Reefer</span>
+                <span title="Chilled Unit"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/><line x1="19.07" y1="4.93" x2="4.93" y2="19.07"/></svg></span>
+              </div>
+            </td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <div style="width: 22px; height: 22px; border-radius: 50%; background: var(--brand-tint); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700;">NP</div>
+                <span>Nuwan Pradeep</span>
+              </div>
+            </td>
+            <td><span class="status-badge badge-active">Active</span></td>
+            <td style="font-family: var(--font-mono);">18.6 m³</td>
+            <td style="font-family: var(--font-mono);">3,500 kg</td>
+            <td style="font-family: var(--font-mono);">2.8 km/l</td>
+            <td>
+              <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-bottom: 2px;">240 L / 500 L (48%)</div>
+              <div style="height: 5px; background: var(--bg-muted); border-radius: 3px; overflow: hidden;">
+                <div style="height: 100%; width: 48%; background: #2563EB;"></div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <script src="js/waypilot.js"></script>
+</body>
+</html>

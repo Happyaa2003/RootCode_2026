@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WayPilot — Dispatcher Dashboard</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="stylesheet" href="css/waypilot.css">
+  <link rel="stylesheet" href="css/extensions.css">
+</head>
+<body style="margin: 0; overflow: hidden; height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Global WayPilot Header -->
+  <header class="waypoint-header">
+    <a href="index.html" class="waypoint-brand" title="Return to Designathon Showcase">
+      <div class="waypoint-brand-icon">
+        <img src="assets/logo.svg" alt="WayPilot Logo" width="22" height="22">
+      </div>
+      <span class="waypoint-brand-title">Way Pilot</span>
+      <span class="waypoint-brand-badge">PRO</span>
+    </a>
+
+    <!-- Navigation Tabs -->
+    <nav class="waypoint-tabs">
+      <a href="route-planner.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Plan and Optimize</span>
+      </a>
+
+      <a href="live-operations.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
+        <span>Live</span>
+      </a>
+
+      <a href="reports.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Analytics & Cost</span>
+      </a>
+
+      <!-- Operations Dropdown -->
+      <div class="waypoint-dropdown-tab">
+        <button class="waypoint-tab dropdown-trigger active">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Operations</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="waypoint-dropdown-menu" style="display: none;">
+          <a href="dispatcher.html" class="waypoint-dropdown-item active">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            <span>Dispatcher Dashboard</span>
+          </a>
+          <a href="orders.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <span>Orders Queue</span>
+          </a>
+          <a href="fleet.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <span>Fleet & Vehicles</span>
+          </a>
+          <a href="loader.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+            <span>Loading Checklist</span>
+          </a>
+          <a href="driver.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            <span>Driver Application</span>
+          </a>
+          <a href="store-manager.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <span>Store Receiving</span>
+          </a>
+          <a href="forecast.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span>Demand Forecast</span>
+          </a>
+          <a href="exceptions.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+            <span>Active Exceptions</span>
+          </a>
+          <a href="offline.html" class="waypoint-dropdown-item" style="color: #DC2626;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/></svg>
+            <span>Offline Degraded Mode</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Right Header Controls -->
+    <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+      <div class="waypoint-dataset-btn" title="Operating Hub">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #16A34A;"></span>
+        <span style="font-weight: 700;">Peliyagoda Hub</span>
+      </div>
+
+      <button class="waypoint-icon-btn" data-action="toggle-theme" title="Toggle Light/Dark Theme">
+        <span data-theme-icon></span>
+      </button>
+
+      <a href="index.html" class="waypoint-link-btn" title="Designathon Showcase Home">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>All Screens</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main style="flex: 1; overflow: hidden; display: flex; flexDirection: column;">
+    <div style="height: 100%; width: 100%; overflow: hidden; display: flex; flex-direction: column;">
+      
+      <!-- 1. KPI STRIP -->
+      <div class="kpi-strip">
+        <div class="kpi-cell brand">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <div class="kpi-value brand">248</div>
+            <div style="width: 28px; height: 28px; border-radius: 7px; background: var(--bg-muted); display: flex; align-items: center; justify-content: center; color: var(--text-muted);">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            </div>
+          </div>
+          <div class="kpi-label">Total Orders</div>
+          <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); margin-top: 3px; font-weight: 600;">+14 Today</div>
+        </div>
+
+        <div class="kpi-cell brand">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <div class="kpi-value brand">221</div>
+            <div style="width: 28px; height: 28px; border-radius: 7px; background: var(--bg-muted); display: flex; align-items: center; justify-content: center; color: var(--text-muted);">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+          </div>
+          <div class="kpi-label">Planned</div>
+          <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--brand-vivid); margin-top: 3px; font-weight: 600;">89.1% Wave 1</div>
+        </div>
+
+        <div class="kpi-cell warning">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <div class="kpi-value warning">14</div>
+            <div style="width: 28px; height: 28px; border-radius: 7px; background: var(--bg-muted); display: flex; align-items: center; justify-content: center; color: var(--warning-vivid);">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+            </div>
+          </div>
+          <div class="kpi-label">Unassigned</div>
+          <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--warning-vivid); margin-top: 3px; font-weight: 600;">Requires Review</div>
+        </div>
+
+        <div class="kpi-cell danger">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <div class="kpi-value danger">13</div>
+            <div style="width: 28px; height: 28px; border-radius: 7px; background: var(--bg-muted); display: flex; align-items: center; justify-content: center; color: var(--danger-vivid);">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+          </div>
+          <div class="kpi-label">At Risk</div>
+          <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--danger-vivid); margin-top: 3px; font-weight: 600;">Time Window SL</div>
+        </div>
+
+        <div class="kpi-cell brand">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <div class="kpi-value brand">42</div>
+            <div style="width: 28px; height: 28px; border-radius: 7px; background: var(--bg-muted); display: flex; align-items: center; justify-content: center; color: var(--text-muted);">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </div>
+          </div>
+          <div class="kpi-label">Active Fleet</div>
+          <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--brand-vivid); margin-top: 3px; font-weight: 600;">94% Utilization</div>
+        </div>
+
+        <div class="kpi-cell success">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <div class="kpi-value success">31</div>
+            <div style="width: 28px; height: 28px; border-radius: 7px; background: var(--bg-muted); display: flex; align-items: center; justify-content: center; color: var(--success-vivid);">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+          </div>
+          <div class="kpi-label">On Schedule</div>
+          <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--success-vivid); margin-top: 3px; font-weight: 600;">98.4% SLA Target</div>
+        </div>
+
+        <div class="kpi-cell success">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <div class="kpi-value success">4</div>
+            <div style="width: 28px; height: 28px; border-radius: 7px; background: var(--bg-muted); display: flex; align-items: center; justify-content: center; color: var(--success-vivid);">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+            </div>
+          </div>
+          <div class="kpi-label">Completed</div>
+          <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); margin-top: 3px; font-weight: 600;">14.2 m³ Done</div>
+        </div>
+
+        <div class="kpi-cell muted">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <div class="kpi-value" style="color: var(--text-muted);">2</div>
+            <div style="width: 28px; height: 28px; border-radius: 7px; background: var(--bg-muted); display: flex; align-items: center; justify-content: center; color: var(--text-muted);">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+            </div>
+          </div>
+          <div class="kpi-label">Depot Idle</div>
+          <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); margin-top: 3px; font-weight: 600;">Standby Wave 2</div>
+        </div>
+      </div>
+
+      <!-- 2. THREE COLUMN ENTERPRISE OPERATIONS LAYOUT -->
+      <div style="display: flex; flex: 1; overflow: hidden;">
+
+        <!-- LEFT PANEL: Active Routes List -->
+        <aside style="width: 290px; flex-shrink: 0; background: var(--bg-surface); border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column;">
+          <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg-subtle);">
+            <div>
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px;">Active Routes</span>
+              <span style="margin-left: 8px; background: var(--brand-tint); color: var(--brand-vivid); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; font-family: var(--font-mono);">6</span>
+            </div>
+            <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">PELIYAGODA</span>
+          </div>
+
+          <div style="padding: 12px; display: flex; flex-direction: column; gap: 10px;">
+            <!-- Route 1 -->
+            <div class="route-card selected" style="border-left: 3.5px solid #2563EB;">
+              <div class="route-card-header">
+                <div class="route-name-tag">
+                  <span class="route-label">Route 01</span>
+                </div>
+                <span class="status-badge badge-active">Active</span>
+              </div>
+              <div class="route-driver-info">
+                <div class="driver-initials" style="border-color: rgba(37,99,235,0.4); background: rgba(37,99,235,0.15); color: #2563EB;">SP</div>
+                <div>
+                  <div style="font-size: 12.5px; font-weight: 600; color: var(--text-primary);">Sunil Perera</div>
+                  <div style="font-size: 10.5px; color: var(--text-muted); font-family: var(--font-mono);">WP-CAD-4821 · Reefer</div>
+                </div>
+              </div>
+              <div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                  <div>
+                    <div class="route-meta-label">Stops</div>
+                    <div class="route-meta-value">12 Deliveries</div>
+                  </div>
+                  <div>
+                    <div class="route-meta-label">Est. Finish</div>
+                    <div class="route-meta-value" style="font-family: var(--font-mono);">12:30 PM</div>
+                  </div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 10.5px; color: var(--text-muted); margin-bottom: 4px; font-family: var(--font-mono);">
+                  <span>Capacity: 10.4 / 12.4 m³</span>
+                  <span style="font-weight: 700; color: var(--text-secondary);">84%</span>
+                </div>
+                <div style="height: 4px; background: var(--bg-muted); border-radius: 2px; overflow: hidden;">
+                  <div style="height: 100%; width: 84%; background: #2563EB; border-radius: 2px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Route 2 -->
+            <div class="route-card" style="border-left: 3.5px solid #10B981;">
+              <div class="route-card-header">
+                <div class="route-name-tag">
+                  <span class="route-label">Route 02</span>
+                  <span style="font-size: 9.5px; font-weight: 800; color: var(--warning-vivid); background: var(--warning-tint); padding: 1px 6px; border-radius: 4px; text-transform: uppercase; font-family: var(--font-mono);">Time Risk</span>
+                </div>
+                <span class="status-badge badge-active">Active</span>
+              </div>
+              <div class="route-driver-info">
+                <div class="driver-initials" style="border-color: rgba(16,185,129,0.4); background: rgba(16,185,129,0.15); color: #10B981;">CS</div>
+                <div>
+                  <div style="font-size: 12.5px; font-weight: 600; color: var(--text-primary);">Chaminda Silva</div>
+                  <div style="font-size: 10.5px; color: var(--text-muted); font-family: var(--font-mono);">WP-DAE-9102 · Standard</div>
+                </div>
+              </div>
+              <div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                  <div>
+                    <div class="route-meta-label">Stops</div>
+                    <div class="route-meta-value">9 Deliveries</div>
+                  </div>
+                  <div>
+                    <div class="route-meta-label">Est. Finish</div>
+                    <div class="route-meta-value" style="font-family: var(--font-mono);">01:15 PM</div>
+                  </div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 10.5px; color: var(--text-muted); margin-bottom: 4px; font-family: var(--font-mono);">
+                  <span>Capacity: 7.2 / 8.2 m³</span>
+                  <span style="font-weight: 700; color: var(--warning-vivid);">88%</span>
+                </div>
+                <div style="height: 4px; background: var(--bg-muted); border-radius: 2px; overflow: hidden;">
+                  <div style="height: 100%; width: 88%; background: #D97706; border-radius: 2px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Route 3 -->
+            <div class="route-card" style="border-left: 3.5px solid #8B5CF6;">
+              <div class="route-card-header">
+                <div class="route-name-tag">
+                  <span class="route-label">Route 03</span>
+                </div>
+                <span class="status-badge badge-active">Active</span>
+              </div>
+              <div class="route-driver-info">
+                <div class="driver-initials" style="border-color: rgba(139,92,246,0.4); background: rgba(139,92,246,0.15); color: #8B5CF6;">NP</div>
+                <div>
+                  <div style="font-size: 12.5px; font-weight: 600; color: var(--text-primary);">Nuwan Pradeep</div>
+                  <div style="font-size: 10.5px; color: var(--text-muted); font-family: var(--font-mono);">WP-NA-2045 · Reefer</div>
+                </div>
+              </div>
+              <div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                  <div>
+                    <div class="route-meta-label">Stops</div>
+                    <div class="route-meta-value">14 Deliveries</div>
+                  </div>
+                  <div>
+                    <div class="route-meta-label">Est. Finish</div>
+                    <div class="route-meta-value" style="font-family: var(--font-mono);">02:00 PM</div>
+                  </div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 10.5px; color: var(--text-muted); margin-bottom: 4px; font-family: var(--font-mono);">
+                  <span>Capacity: 15.2 / 18.6 m³</span>
+                  <span style="font-weight: 700; color: var(--text-secondary);">82%</span>
+                </div>
+                <div style="height: 4px; background: var(--bg-muted); border-radius: 2px; overflow: hidden;">
+                  <div style="height: 100%; width: 82%; background: #8B5CF6; border-radius: 2px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Route 4 -->
+            <div class="route-card" style="border-left: 3.5px solid #F59E0B;">
+              <div class="route-card-header">
+                <div class="route-name-tag">
+                  <span class="route-label">Route 04</span>
+                </div>
+                <span class="status-badge badge-active">Active</span>
+              </div>
+              <div class="route-driver-info">
+                <div class="driver-initials" style="border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.15); color: #F59E0B;">KF</div>
+                <div>
+                  <div style="font-size: 12.5px; font-weight: 600; color: var(--text-primary);">Kasun Fernando</div>
+                  <div style="font-size: 10.5px; color: var(--text-muted); font-family: var(--font-mono);">WP-LY-5510 · Large</div>
+                </div>
+              </div>
+              <div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                  <div>
+                    <div class="route-meta-label">Stops</div>
+                    <div class="route-meta-value">8 Deliveries</div>
+                  </div>
+                  <div>
+                    <div class="route-meta-label">Est. Finish</div>
+                    <div class="route-meta-value" style="font-family: var(--font-mono);">11:45 AM</div>
+                  </div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 10.5px; color: var(--text-muted); margin-bottom: 4px; font-family: var(--font-mono);">
+                  <span>Capacity: 9.8 / 11.0 m³</span>
+                  <span style="font-weight: 700; color: var(--warning-vivid);">89%</span>
+                </div>
+                <div style="height: 4px; background: var(--bg-muted); border-radius: 2px; overflow: hidden;">
+                  <div style="height: 100%; width: 89%; background: #F59E0B; border-radius: 2px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- CENTER PANEL: Tactical Vector Map -->
+        <section style="flex: 1; position: relative; background: #0B1120;">
+          <div class="tactical-map-container">
+            <img src="assets/maps/colombo-tactical-map.svg" alt="Tactical Operations Map" style="width: 100%; height: 100%; object-fit: cover;">
+
+            <!-- Floating Map Controls -->
+            <div class="waypoint-map-zoom">
+              <button title="Zoom in">+</button>
+              <button title="Zoom out">−</button>
+            </div>
+
+            <!-- Floating Hub Telemetry Box -->
+            <div style="position: absolute; top: 14px; left: 52px; background: rgba(15,23,42,0.85); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; padding: 8px 14px; display: flex; align-items: center; gap: 12px; z-index: 20;">
+              <div>
+                <div style="font-size: 10px; color: #94A3B8; font-family: var(--font-mono); text-transform: uppercase;">ACTIVE LOGISTICS HUB</div>
+                <div style="font-size: 13px; font-weight: 800; color: #FFFFFF;">Peliyagoda Central Depot</div>
+              </div>
+              <div style="width: 1px; height: 24px; background: rgba(255,255,255,0.12);"></div>
+              <div>
+                <div style="font-size: 10px; color: #94A3B8; font-family: var(--font-mono); text-transform: uppercase;">LIVE VEHICLES</div>
+                <div style="font-size: 13px; font-weight: 800; color: #38BDF8;">6 En Route</div>
+              </div>
+            </div>
+
+            <!-- Floating Plan Performance Box -->
+            <div class="waypoint-stats-panel">
+              <span class="waypoint-deactivate">Live Dispatch Wave 1</span>
+              <div class="waypoint-stats-date">
+                09/28/2026<br>
+                <span style="font-weight: 500; color: var(--text-secondary); font-size: 11px;">Monday Operations</span>
+              </div>
+              <div class="waypoint-stat-metric">
+                <div class="waypoint-stat-val">8 / 248</div>
+                <div class="waypoint-stat-lbl">Completed Stops</div>
+              </div>
+              <div class="waypoint-stat-metric">
+                <div class="waypoint-stat-val" style="color: #DC2626;">1</div>
+                <div class="waypoint-stat-lbl">Failed Attempt</div>
+              </div>
+              <div class="waypoint-stat-metric">
+                <div class="waypoint-stat-val" style="color: #EA580C;">2</div>
+                <div class="waypoint-stat-lbl">Running Late</div>
+              </div>
+              <div class="waypoint-stat-metric">
+                <div class="waypoint-stat-val" style="color: #16A34A; font-size: 13px;">$68,400.00</div>
+                <div class="waypoint-stat-lbl">Cargo Value In-Transit</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- RIGHT PANEL: Neural Dispatch AI + Critical Exceptions -->
+        <aside style="width: 320px; flex-shrink: 0; background: var(--bg-surface); border-left: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column;">
+          
+          <!-- AI Recommendations -->
+          <div style="padding: 14px; border-bottom: 1px solid var(--border);">
+            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--purple-vivid); margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; font-family: var(--font-mono);">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                <span>NEURAL DISPATCH V2.6</span>
+              </div>
+              <span style="background: var(--purple-tint); padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(124,58,237,0.25); font-size: 10px;">LIVE</span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <!-- AI Card 1 -->
+              <div class="ai-card">
+                <div class="ai-card-header">
+                  <span class="ai-label">DYNAMIC RE-BALANCE</span>
+                  <span style="margin-left: auto; font-size: 11px; color: var(--purple-vivid); font-weight: 700; font-family: var(--font-mono);">94% MATCH</span>
+                </div>
+                <div class="ai-card-body">
+                  <div class="ai-move-title">Move ORD-010 (FreshMart Panadura)</div>
+                  <div class="ai-move-route">Route 01 (Sunil) → Route 02 (Chaminda)</div>
+                  <ul class="ai-reasons">
+                    <li>Route 01 running 4m late on Baseline Road corridor</li>
+                    <li>Route 02 has 2.2 m³ spare chilled reefer volume</li>
+                    <li>Prevents $38.50 late SLA penalty on retail drop</li>
+                  </ul>
+                  <div class="ai-impact">
+                    <div>
+                      <div class="ai-impact-value">-18m</div>
+                      <div class="ai-impact-label">Travel Time</div>
+                    </div>
+                    <div>
+                      <div class="ai-impact-value">-1 Risk</div>
+                      <div class="ai-impact-label">Risk Drops</div>
+                    </div>
+                  </div>
+                  <div class="ai-card-actions">
+                    <button class="btn btn-secondary btn-sm" style="flex: 1;">Review</button>
+                    <button class="btn btn-primary btn-sm" style="flex: 1; background: linear-gradient(135deg, #7C3AED 0%, #2563EB 100%);" onclick="window.showToast('Rebalance applied: Order ORD-010 reassigned to Route 02')">Apply</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AI Card 2 -->
+              <div class="ai-card">
+                <div class="ai-card-header">
+                  <span class="ai-label">SEQUENCE OPTIMIZE</span>
+                  <span style="margin-left: auto; font-size: 11px; color: var(--purple-vivid); font-weight: 700; font-family: var(--font-mono);">88% MATCH</span>
+                </div>
+                <div class="ai-card-body">
+                  <div class="ai-move-title">Swap Stop 3 & 4 on Route 03</div>
+                  <div class="ai-move-route">Kandana Hub before Ja-Ela Town</div>
+                  <ul class="ai-reasons">
+                    <li>Morning school zone congestion clearance on A3</li>
+                    <li>Saves 4.2 km loop backtrack</li>
+                  </ul>
+                  <div class="ai-impact">
+                    <div>
+                      <div class="ai-impact-value">-12m</div>
+                      <div class="ai-impact-label">Travel Time</div>
+                    </div>
+                    <div>
+                      <div class="ai-impact-value">-3.4L</div>
+                      <div class="ai-impact-label">Fuel Saved</div>
+                    </div>
+                  </div>
+                  <div class="ai-card-actions">
+                    <button class="btn btn-secondary btn-sm" style="flex: 1;">Review</button>
+                    <button class="btn btn-primary btn-sm" style="flex: 1; background: linear-gradient(135deg, #7C3AED 0%, #2563EB 100%);" onclick="window.showToast('Sequence updated on Route 03')">Apply</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Exceptions Alert Stream -->
+          <div style="padding: 14px;">
+            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono);">
+              <span>CRITICAL EXCEPTIONS</span>
+              <span style="color: var(--danger-vivid); background: var(--danger-tint); padding: 2px 8px; border-radius: 10px; border: 1px solid rgba(220,38,38,0.25); font-weight: 700;">
+                3 ACTIVE
+              </span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <!-- Exception 1 -->
+              <div class="exception-row critical">
+                <div>
+                  <div class="exception-severity severity-critical">CRITICAL</div>
+                  <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px; font-family: var(--font-mono);">07:15 AM</div>
+                </div>
+                <div class="exception-content">
+                  <div class="exception-entity">WP-CAD-8812 (VEH-019)</div>
+                  <div class="exception-problem">Vehicle Grounded in Workshop</div>
+                  <div class="exception-detail">Fleet unit flagged in maintenance workshop (task2b_peak_day_fleet). Lost capacity: 12.4 m³.</div>
+                  <div style="display: flex; gap: 6px; margin-top: 8px;">
+                    <button class="btn btn-secondary btn-xs" onclick="window.showToast('Reassignment wizard opened')">Reassign</button>
+                    <button class="btn btn-secondary btn-xs">Supervisor</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Exception 2 -->
+              <div class="exception-row high">
+                <div>
+                  <div class="exception-severity severity-high">HIGH</div>
+                  <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px; font-family: var(--font-mono);">08:43 AM</div>
+                </div>
+                <div class="exception-content">
+                  <div class="exception-entity">ORD-009 · Keells Nugegoda</div>
+                  <div class="exception-problem">Delayed by 4m (+ $18.00 SLA)</div>
+                  <div class="exception-detail">Service start delayed due to High-Level Road water main repair.</div>
+                  <div style="display: flex; gap: 6px; margin-top: 8px;">
+                    <button class="btn btn-secondary btn-xs" onclick="window.showToast('Exception approved')">Approve</button>
+                    <button class="btn btn-secondary btn-xs">Recalculate</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Exception 3 -->
+              <div class="exception-row medium">
+                <div>
+                  <div class="exception-severity severity-medium">MEDIUM</div>
+                  <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px; font-family: var(--font-mono);">08:54 AM</div>
+                </div>
+                <div class="exception-content">
+                  <div class="exception-entity">ORD-012 · Cargills Moratuwa</div>
+                  <div class="exception-problem">Dock Space Unavailable</div>
+                  <div class="exception-detail">Receiving dock congested. Driver waiting on perimeter apron.</div>
+                  <div style="display: flex; gap: 6px; margin-top: 8px;">
+                    <a href="store-manager.html" class="btn btn-secondary btn-xs">Store Portal</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="js/waypilot.js"></script>
+</body>
+</html>

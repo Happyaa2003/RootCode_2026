@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WayPilot — Store Manager Receiving Portal (FreshMart Nugegoda)</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="stylesheet" href="css/waypilot.css">
+  <link rel="stylesheet" href="css/extensions.css">
+</head>
+<body style="margin: 0; min-height: 100vh; display: flex; flex-direction: column; background: var(--bg-app);">
+
+  <!-- Global WayPilot Header -->
+  <header class="waypoint-header">
+    <a href="index.html" class="waypoint-brand" title="Return to Designathon Showcase">
+      <div class="waypoint-brand-icon">
+        <img src="assets/logo.svg" alt="WayPilot Logo" width="22" height="22">
+      </div>
+      <span class="waypoint-brand-title">Way Pilot</span>
+      <span class="waypoint-brand-badge">STORE RECEIVING</span>
+    </a>
+
+    <!-- Navigation Tabs -->
+    <nav class="waypoint-tabs">
+      <a href="route-planner.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Plan and Optimize</span>
+      </a>
+
+      <a href="live-operations.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
+        <span>Live</span>
+      </a>
+
+      <a href="reports.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Analytics & Cost</span>
+      </a>
+
+      <!-- Operations Dropdown -->
+      <div class="waypoint-dropdown-tab">
+        <button class="waypoint-tab dropdown-trigger active">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Operations</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="waypoint-dropdown-menu" style="display: none;">
+          <a href="dispatcher.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            <span>Dispatcher Dashboard</span>
+          </a>
+          <a href="orders.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <span>Orders Queue</span>
+          </a>
+          <a href="fleet.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <span>Fleet & Vehicles</span>
+          </a>
+          <a href="loader.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+            <span>Loading Checklist</span>
+          </a>
+          <a href="driver.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            <span>Driver Application</span>
+          </a>
+          <a href="store-manager.html" class="waypoint-dropdown-item active">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <span>Store Receiving</span>
+          </a>
+          <a href="forecast.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span>Demand Forecast</span>
+          </a>
+          <a href="exceptions.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+            <span>Active Exceptions</span>
+          </a>
+          <a href="offline.html" class="waypoint-dropdown-item" style="color: #DC2626;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/></svg>
+            <span>Offline Degraded Mode</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Right Header Controls -->
+    <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+      <div class="waypoint-dataset-btn" title="Outlet Code">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #16A34A;"></span>
+        <span style="font-weight: 700;">FreshMart Nugegoda (#042)</span>
+      </div>
+
+      <button class="waypoint-icon-btn" data-action="toggle-theme" title="Toggle Light/Dark Theme">
+        <span data-theme-icon></span>
+      </button>
+
+      <a href="index.html" class="waypoint-link-btn" title="Designathon Showcase Home">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>All Screens</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Page Body -->
+  <main style="flex: 1; overflow-y: auto; padding: 24px 32px; max-width: 1280px; width: 100%; margin: 0 auto; box-sizing: border-box;">
+    
+    <!-- Top Header Strip -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); font-family: var(--font-mono); letter-spacing: 0.8px;">
+          Retail Inbound Receiving Terminal
+        </div>
+        <h1 style="font-family: var(--font-display); font-size: 26px; font-weight: 800; color: var(--text-primary); margin: 4px 0 0;">
+          FreshMart Nugegoda Supercenter
+        </h1>
+        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">
+          42 Old Kesbewa Road · Lead Receiver: <strong>M. Fernando</strong> · 2 Dock Bays Active
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="window.showToast('Dock schedule refreshed')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          <span>Refresh Feeds</span>
+        </button>
+        <button class="btn btn-primary" onclick="window.showToast('Incident reported to Peliyagoda Dispatch', 'warning')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+          <span>Log Dock Delay</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Dock Status Banner -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px;">
+      <!-- Dock Bay 1 -->
+      <div style="background: var(--bg-surface); border: 2px solid #2563EB; border-radius: 12px; padding: 18px; box-shadow: var(--shadow-sm);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span style="font-size: 11px; font-weight: 800; background: #2563EB; color: #FFFFFF; padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono);">
+            BAY 01 · SERVICING
+          </span>
+          <span style="font-size: 11.5px; font-weight: 700; color: #16A34A;">Unloading Active</span>
+        </div>
+        <div style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">
+          Truck WP-CAD-4821 (Route 01)
+        </div>
+        <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">
+          Driver: <strong>Sunil Perera</strong> · 40 crates (2.4 m³ Chilled Produce)
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px; background: var(--bg-subtle); border-radius: 6px; font-size: 11.5px; font-family: var(--font-mono);">
+          <span>Cold Sensor: <strong style="color: #2563EB;">+3.2°C (PASS)</strong></span>
+          <span style="color: #16A34A; font-weight: 700;">Arrived: 08:28 AM</span>
+        </div>
+      </div>
+
+      <!-- Dock Bay 2 -->
+      <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; box-shadow: var(--shadow-sm);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span style="font-size: 11px; font-weight: 800; background: var(--bg-muted); color: var(--text-secondary); padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono);">
+            BAY 02 · STANDBY
+          </span>
+          <span style="font-size: 11.5px; font-weight: 700; color: var(--text-muted);">Available</span>
+        </div>
+        <div style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">
+          Next Inbound: Route 04 (WP-LY-5510)
+        </div>
+        <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">
+          Driver: <strong>Kasun Fernando</strong> · Ambient Dry Goods
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px; background: var(--bg-subtle); border-radius: 6px; font-size: 11.5px; font-family: var(--font-mono);">
+          <span>Expected Window: <strong>10:20–10:45 AM</strong></span>
+          <span style="color: #2563EB; font-weight: 700;">ETA: 10:24 AM</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scheduled Inbound Deliveries Table -->
+    <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm);">
+      <div style="padding: 14px 20px; background: var(--bg-subtle); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-family: var(--font-display); font-size: 14px; font-weight: 800; color: var(--text-primary);">
+          Incoming Consignment Schedule for Today
+        </span>
+        <span style="font-size: 11.5px; color: var(--text-muted); font-family: var(--font-mono);">
+          3 Deliveries Scheduled · 1 Unloaded
+        </span>
+      </div>
+
+      <table class="data-table" style="font-size: 12.5px;">
+        <thead>
+          <tr>
+            <th style="width: 110px;">Order ID</th>
+            <th>Consignment & Cargo</th>
+            <th style="width: 120px;">Dispatch Route</th>
+            <th style="width: 140px;">Driver Contact</th>
+            <th style="width: 120px;">Scheduled Window</th>
+            <th style="width: 110px;">Live ETA</th>
+            <th style="width: 120px;">Cold Chain</th>
+            <th style="width: 110px;">Status</th>
+            <th style="width: 130px; text-align: right;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Consignment 1 -->
+          <tr>
+            <td><strong style="font-family: var(--font-mono); color: var(--text-primary);">ORD028</strong></td>
+            <td>
+              <div style="font-weight: 700;">Fresh Produce & Dairy (40 crates)</div>
+              <div style="font-size: 10.5px; color: var(--text-muted);">2.4 m³ · 438 kg · Peliyagoda Hub</div>
+            </td>
+            <td><span style="color: #2563EB; font-weight: 700;">Route 01</span></td>
+            <td>
+              <div>Sunil Perera</div>
+              <div style="font-size: 10.5px; color: var(--text-muted); font-family: var(--font-mono);">+94 77 555 0101</div>
+            </td>
+            <td style="font-family: var(--font-mono);">08:28–08:38</td>
+            <td><strong style="color: #16A34A; font-family: var(--font-mono);">Arrived (08:28)</strong></td>
+            <td>
+              <span style="font-size: 10px; font-weight: 700; color: #15803D; background: #DCFCE7; padding: 2px 6px; border-radius: 4px;">
+                +3.2°C PASSED
+              </span>
+            </td>
+            <td><span class="status-badge badge-delivered">Delivered</span></td>
+            <td style="text-align: right;">
+              <button class="btn btn-secondary btn-xs" onclick="window.showToast('Viewing verified POD signature stamp')">
+                View POD
+              </button>
+            </td>
+          </tr>
+
+          <!-- Consignment 2 -->
+          <tr>
+            <td><strong style="font-family: var(--font-mono); color: var(--text-primary);">ORD072</strong></td>
+            <td>
+              <div style="font-weight: 700;">Chilled Beverages & Yogurts (25 crates)</div>
+              <div style="font-size: 10.5px; color: var(--text-muted);">1.6 m³ · 280 kg · Peliyagoda Hub</div>
+            </td>
+            <td><span style="color: #10B981; font-weight: 700;">Route 02</span></td>
+            <td>
+              <div>Chaminda Silva</div>
+              <div style="font-size: 10.5px; color: var(--text-muted); font-family: var(--font-mono);">+94 77 555 0102</div>
+            </td>
+            <td style="font-family: var(--font-mono);">09:30–09:50</td>
+            <td><strong style="color: #2563EB; font-family: var(--font-mono);">09:34 AM</strong></td>
+            <td>
+              <span style="font-size: 10px; font-weight: 700; color: #15803D; background: #DCFCE7; padding: 2px 6px; border-radius: 4px;">
+                +2.8°C NORMAL
+              </span>
+            </td>
+            <td><span class="status-badge badge-en-route">En Route</span></td>
+            <td style="text-align: right;">
+              <button class="btn btn-primary btn-xs" style="background: #2563EB;" onclick="window.showToast('Bay 01 assigned for Route 02 arrival')">
+                Assign Bay
+              </button>
+            </td>
+          </tr>
+
+          <!-- Consignment 3 -->
+          <tr>
+            <td><strong style="font-family: var(--font-mono); color: var(--text-primary);">ORD114</strong></td>
+            <td>
+              <div style="font-weight: 700;">Dry Household Packets (60 cartons)</div>
+              <div style="font-size: 10.5px; color: var(--text-muted);">3.2 m³ · 410 kg · Peliyagoda Hub</div>
+            </td>
+            <td><span style="color: #F59E0B; font-weight: 700;">Route 04</span></td>
+            <td>
+              <div>Kasun Fernando</div>
+              <div style="font-size: 10.5px; color: var(--text-muted); font-family: var(--font-mono);">+94 77 555 0104</div>
+            </td>
+            <td style="font-family: var(--font-mono);">10:20–10:45</td>
+            <td><strong style="font-family: var(--font-mono);">10:24 AM</strong></td>
+            <td><span style="font-size: 10px; color: var(--text-muted); font-family: var(--font-mono);">Ambient dry</span></td>
+            <td><span class="status-badge badge-planned">Planned</span></td>
+            <td style="text-align: right;">
+              <button class="btn btn-secondary btn-xs" onclick="window.showToast('Driver notified of delivery protocol')">
+                Alert Driver
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <script src="js/waypilot.js"></script>
+</body>
+</html>

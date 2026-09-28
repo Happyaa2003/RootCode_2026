@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WayPilot — Loader Checklist (Bay 02)</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="stylesheet" href="css/waypilot.css">
+  <link rel="stylesheet" href="css/extensions.css">
+</head>
+<body style="margin: 0; overflow: hidden; height: 100vh; display: flex; flex-direction: column; background: var(--bg-surface);">
+
+  <!-- Global WayPilot Header -->
+  <header class="waypoint-header">
+    <a href="index.html" class="waypoint-brand" title="Return to Designathon Showcase">
+      <div class="waypoint-brand-icon">
+        <img src="assets/logo.svg" alt="WayPilot Logo" width="22" height="22">
+      </div>
+      <span class="waypoint-brand-title">Way Pilot</span>
+      <span class="waypoint-brand-badge">PRO</span>
+    </a>
+
+    <!-- Navigation Tabs -->
+    <nav class="waypoint-tabs">
+      <a href="route-planner.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Plan and Optimize</span>
+      </a>
+
+      <a href="live-operations.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
+        <span>Live</span>
+      </a>
+
+      <a href="reports.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Analytics & Cost</span>
+      </a>
+
+      <!-- Operations Dropdown -->
+      <div class="waypoint-dropdown-tab">
+        <button class="waypoint-tab dropdown-trigger active">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Operations</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="waypoint-dropdown-menu" style="display: none;">
+          <a href="dispatcher.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            <span>Dispatcher Dashboard</span>
+          </a>
+          <a href="orders.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <span>Orders Queue</span>
+          </a>
+          <a href="fleet.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <span>Fleet & Vehicles</span>
+          </a>
+          <a href="loader.html" class="waypoint-dropdown-item active">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+            <span>Loading Checklist</span>
+          </a>
+          <a href="driver.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            <span>Driver Application</span>
+          </a>
+          <a href="store-manager.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <span>Store Receiving</span>
+          </a>
+          <a href="forecast.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span>Demand Forecast</span>
+          </a>
+          <a href="exceptions.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+            <span>Active Exceptions</span>
+          </a>
+          <a href="offline.html" class="waypoint-dropdown-item" style="color: #DC2626;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/></svg>
+            <span>Offline Degraded Mode</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Right Header Controls -->
+    <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+      <div class="waypoint-dataset-btn" title="Operating Hub">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #16A34A;"></span>
+        <span style="font-weight: 700;">Peliyagoda Hub</span>
+      </div>
+
+      <button class="waypoint-icon-btn" data-action="toggle-theme" title="Toggle Light/Dark Theme">
+        <span data-theme-icon></span>
+      </button>
+
+      <a href="index.html" class="waypoint-link-btn" title="Designathon Showcase Home">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>All Screens</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Loader Bay Screen -->
+  <main style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+    
+    <!-- Top Bay Header -->
+    <div style="padding: 20px 32px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; background: var(--bg-surface);">
+      <div>
+        <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 4px;">
+          Peliyagoda Central · Loading Bay 02
+        </div>
+        <div style="font-size: 32px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; font-family: var(--font-display);">
+          TRIP 01 · ROUTE 01
+        </div>
+      </div>
+
+      <div style="text-align: right;">
+        <div style="font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px; font-family: var(--font-mono);">
+          WP-CAD-4821 (Reefer 12.4 m³)
+        </div>
+        <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">
+          Assigned Driver: <strong>Sunil Perera</strong>
+        </div>
+        <div style="font-size: 18px; font-weight: 800; color: #2563EB; font-family: var(--font-display);">
+          12 STOPS TO STAGE
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress & Status Strip -->
+    <div style="padding: 16px 32px; border-bottom: 1px solid var(--border); background: var(--bg-subtle); flex-shrink: 0; display: flex; align-items: center; gap: 24px;">
+      <div>
+        <div id="loaded-count" style="font-size: 36px; font-weight: 800; color: var(--text-primary); line-height: 1; font-family: var(--font-display);">
+          2 / 12
+        </div>
+        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">orders secured on truck</div>
+      </div>
+
+      <div style="flex: 1;">
+        <div style="height: 10px; background: var(--border); border-radius: 5px; overflow: hidden;">
+          <div id="loading-progress-bar" style="height: 100%; background: #16A34A; width: 17%; border-radius: 5px; transition: width 0.3s ease;"></div>
+        </div>
+        <div id="loading-progress-lbl" style="font-size: 12px; color: var(--text-secondary); margin-top: 6px; font-family: var(--font-mono); font-weight: 600;">
+          17% complete · 10.4 m³ total volume
+        </div>
+      </div>
+
+      <button id="btn-dispatch-ready" class="btn btn-primary" style="height: 44px; padding: 0 20px; font-weight: 700; display: none;" onclick="window.showToast('Truck WP-CAD-4821 released and dispatched!')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <span>Ready to Dispatch</span>
+      </button>
+    </div>
+
+    <!-- Stop Checklist (Reverse Drop Staging) -->
+    <div style="flex: 1; overflow-y: auto; padding: 16px 32px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted); font-family: var(--font-mono);">
+          Loading Sequence (First In, Last Out Reverse Drop Protocol)
+        </div>
+        <span style="font-size: 11px; color: var(--brand-vivid); font-family: var(--font-mono);">
+          Click items to verify staging
+        </span>
+      </div>
+
+      <div id="loader-items-list" style="display: flex; flex-direction: column; gap: 8px;">
+        <!-- Item 1 (Loaded) -->
+        <div class="loader-row loaded" style="display: flex; align-items: center; gap: 16px; padding: 14px 20px; border: 1px solid #16A34A; border-radius: var(--radius-lg); background: var(--success-tint); cursor: pointer;">
+          <input type="checkbox" checked style="width: 20px; height: 20px; accent-color: #16A34A; cursor: pointer;">
+          <div style="width: 36px; height: 36px; border-radius: 50%; background: #16A34A; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; font-family: var(--font-mono);">
+            01
+          </div>
+          <div style="flex: 1;">
+            <div style="font-size: 15px; font-weight: 600; color: #15803D; text-decoration: line-through;">FreshMart Nugegoda</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">42 Old Kesbewa Rd, Nugegoda</div>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <span class="tag tag-volume">2.4 m³</span>
+            <span class="tag tag-weight">438 kg</span>
+            <span class="tag tag-chilled">CHILLED</span>
+          </div>
+          <div style="text-align: right; min-width: 80px;">
+            <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); font-family: var(--font-mono);">08:28</div>
+            <div style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono);">–08:38</div>
+          </div>
+        </div>
+
+        <!-- Item 2 (Loaded) -->
+        <div class="loader-row loaded" style="display: flex; align-items: center; gap: 16px; padding: 14px 20px; border: 1px solid #16A34A; border-radius: var(--radius-lg); background: var(--success-tint); cursor: pointer;">
+          <input type="checkbox" checked style="width: 20px; height: 20px; accent-color: #16A34A; cursor: pointer;">
+          <div style="width: 36px; height: 36px; border-radius: 50%; background: #16A34A; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; font-family: var(--font-mono);">
+            02
+          </div>
+          <div style="flex: 1;">
+            <div style="font-size: 15px; font-weight: 600; color: #15803D; text-decoration: line-through;">Keells Super Kollupitiya</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">853 Main St, Kollupitiya</div>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <span class="tag tag-volume">1.8 m³</span>
+            <span class="tag tag-weight">312 kg</span>
+            <span class="tag tag-chilled">CHILLED</span>
+          </div>
+          <div style="text-align: right; min-width: 80px;">
+            <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); font-family: var(--font-mono);">08:43</div>
+            <div style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono);">–08:58</div>
+          </div>
+        </div>
+
+        <!-- Item 3 (Pending) -->
+        <div class="loader-row" style="display: flex; align-items: center; gap: 16px; padding: 14px 20px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-surface); cursor: pointer;">
+          <input type="checkbox" style="width: 20px; height: 20px; accent-color: #16A34A; cursor: pointer;">
+          <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--bg-muted); color: var(--text-primary); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; font-family: var(--font-mono); border: 1px solid var(--border);">
+            03
+          </div>
+          <div style="flex: 1;">
+            <div style="font-size: 15px; font-weight: 600; color: var(--text-primary);">FreshMart Bambalapitiya</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">Galle Road, Bambalapitiya</div>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <span class="tag tag-volume">3.1 m³</span>
+            <span class="tag tag-weight">560 kg</span>
+            <span class="tag tag-ambient">AMBIENT</span>
+          </div>
+          <div style="text-align: right; min-width: 80px;">
+            <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); font-family: var(--font-mono);">08:54</div>
+            <div style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono);">–09:06</div>
+          </div>
+        </div>
+
+        <!-- Item 4 (Pending) -->
+        <div class="loader-row" style="display: flex; align-items: center; gap: 16px; padding: 14px 20px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-surface); cursor: pointer;">
+          <input type="checkbox" style="width: 20px; height: 20px; accent-color: #16A34A; cursor: pointer;">
+          <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--bg-muted); color: var(--text-primary); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; font-family: var(--font-mono); border: 1px solid var(--border);">
+            04
+          </div>
+          <div style="flex: 1;">
+            <div style="font-size: 15px; font-weight: 600; color: var(--text-primary);">StyleHub Kollupitiya</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">204 Hampshire / Galle Rd</div>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <span class="tag tag-volume">1.2 m³</span>
+            <span class="tag tag-weight">180 kg</span>
+            <span class="tag tag-ambient">AMBIENT</span>
+          </div>
+          <div style="text-align: right; min-width: 80px;">
+            <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); font-family: var(--font-mono);">09:11</div>
+            <div style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono);">–09:19</div>
+          </div>
+        </div>
+
+        <!-- Item 5 (Pending) -->
+        <div class="loader-row" style="display: flex; align-items: center; gap: 16px; padding: 14px 20px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-surface); cursor: pointer;">
+          <input type="checkbox" style="width: 20px; height: 20px; accent-color: #16A34A; cursor: pointer;">
+          <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--bg-muted); color: var(--text-primary); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; font-family: var(--font-mono); border: 1px solid var(--border);">
+            05
+          </div>
+          <div style="flex: 1;">
+            <div style="font-size: 15px; font-weight: 600; color: var(--text-primary);">Cargills Food City Moratuwa</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">1334 Galle Rd, Moratuwa</div>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <span class="tag tag-volume">2.8 m³</span>
+            <span class="tag tag-weight">510 kg</span>
+            <span class="tag tag-chilled">CHILLED</span>
+          </div>
+          <div style="text-align: right; min-width: 80px;">
+            <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); font-family: var(--font-mono);">09:14</div>
+            <div style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono);">–09:22</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/waypilot.js"></script>
+  <script>
+    // Lightweight row toggle handler for Loader screen
+    document.querySelectorAll('.loader-row').forEach(row => {
+      row.addEventListener('click', (e) => {
+        const checkbox = row.querySelector('input[type="checkbox"]');
+        if (e.target !== checkbox) checkbox.checked = !checkbox.checked;
+
+        if (checkbox.checked) {
+          row.style.background = 'var(--success-tint)';
+          row.style.borderColor = '#16A34A';
+          const title = row.querySelector('div[style*="font-size: 15px"]');
+          if (title) {
+            title.style.textDecoration = 'line-through';
+            title.style.color = '#15803D';
+          }
+          const num = row.querySelector('div[style*="border-radius: 50%"]');
+          if (num) {
+            num.style.background = '#16A34A';
+            num.style.color = '#FFFFFF';
+          }
+        } else {
+          row.style.background = 'var(--bg-surface)';
+          row.style.borderColor = 'var(--border)';
+          const title = row.querySelector('div[style*="font-size: 15px"]');
+          if (title) {
+            title.style.textDecoration = 'none';
+            title.style.color = 'var(--text-primary)';
+          }
+          const num = row.querySelector('div[style*="border-radius: 50%"]');
+          if (num) {
+            num.style.background = 'var(--bg-muted)';
+            num.style.color = 'var(--text-primary)';
+          }
+        }
+
+        // Recalculate count
+        const total = document.querySelectorAll('.loader-row').length;
+        const checked = document.querySelectorAll('.loader-row input[type="checkbox"]:checked').length;
+        const countEl = document.getElementById('loaded-count');
+        const barEl = document.getElementById('loading-progress-bar');
+        const lblEl = document.getElementById('loading-progress-lbl');
+        const dispatchBtn = document.getElementById('btn-dispatch-ready');
+
+        if (countEl) countEl.textContent = `${checked} / ${total}`;
+        const pct = Math.round((checked / total) * 100);
+        if (barEl) barEl.style.width = `${pct}%`;
+        if (lblEl) lblEl.textContent = `${pct}% complete · ${checked === total ? 'All items loaded & staged' : 'Staging in progress'}`;
+        if (dispatchBtn) dispatchBtn.style.display = checked === total ? 'inline-flex' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>

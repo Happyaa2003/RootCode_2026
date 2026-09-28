@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WayPilot — Delivery Cost & Economic Analytics</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="stylesheet" href="css/waypilot.css">
+  <link rel="stylesheet" href="css/extensions.css">
+</head>
+<body style="margin: 0; overflow: hidden; height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Global WayPilot Header -->
+  <header class="waypoint-header">
+    <a href="index.html" class="waypoint-brand" title="Return to Designathon Showcase">
+      <div class="waypoint-brand-icon">
+        <img src="assets/logo.svg" alt="WayPilot Logo" width="22" height="22">
+      </div>
+      <span class="waypoint-brand-title">Way Pilot</span>
+      <span class="waypoint-brand-badge">PRO</span>
+    </a>
+
+    <!-- Navigation Tabs -->
+    <nav class="waypoint-tabs">
+      <a href="route-planner.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Plan and Optimize</span>
+      </a>
+
+      <a href="live-operations.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
+        <span>Live</span>
+      </a>
+
+      <a href="reports.html" class="waypoint-tab active">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Analytics & Cost</span>
+      </a>
+
+      <!-- Operations Dropdown -->
+      <div class="waypoint-dropdown-tab">
+        <button class="waypoint-tab dropdown-trigger">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Operations</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="waypoint-dropdown-menu" style="display: none;">
+          <a href="dispatcher.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            <span>Dispatcher Dashboard</span>
+          </a>
+          <a href="orders.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <span>Orders Queue</span>
+          </a>
+          <a href="fleet.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <span>Fleet & Vehicles</span>
+          </a>
+          <a href="loader.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+            <span>Loading Checklist</span>
+          </a>
+          <a href="driver.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            <span>Driver Application</span>
+          </a>
+          <a href="store-manager.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <span>Store Receiving</span>
+          </a>
+          <a href="forecast.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span>Demand Forecast</span>
+          </a>
+          <a href="exceptions.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+            <span>Active Exceptions</span>
+          </a>
+          <a href="offline.html" class="waypoint-dropdown-item" style="color: #DC2626;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/></svg>
+            <span>Offline Degraded Mode</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Right Header Controls -->
+    <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+      <div class="waypoint-dataset-btn" title="Operating Hub">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #16A34A;"></span>
+        <span style="font-weight: 700;">Peliyagoda Hub</span>
+      </div>
+
+      <button class="waypoint-icon-btn" data-action="toggle-theme" title="Toggle Light/Dark Theme">
+        <span data-theme-icon></span>
+      </button>
+
+      <a href="index.html" class="waypoint-link-btn" title="Designathon Showcase Home">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>All Screens</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Scrollable Reports Workspace -->
+  <main style="flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; background: var(--bg-app);">
+    
+    <!-- Top Header & Tabs Ribbon -->
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <h1 style="font-size: 20px; font-weight: 700; color: var(--text-primary); margin: 0;">
+            Delivery Cost & Economic Analytics
+          </h1>
+          <span style="font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: var(--brand-tint); color: var(--brand-vivid);">
+            Peliyagoda Central · RootCode Dataset
+          </span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">
+          Real-time merchandise cargo valuation, dispatch fuel consumption, dock turnaround allowances, and net logistics margin.
+        </div>
+      </div>
+
+      <!-- Sub-Tab Switchers -->
+      <div style="display: flex; align-items: center; gap: 6px; background: var(--bg-subtle); padding: 3px; border-radius: 8px; border: 1px solid var(--border);">
+        <button class="waypoint-btn-toggle active" id="tab-btn-economics" onclick="switchReportTab('economics')" style="font-size: 11.5px; padding: 5px 12px;">
+          Cost & Profitability
+        </button>
+        <button class="waypoint-btn-toggle" id="tab-btn-districts" onclick="switchReportTab('districts')" style="font-size: 11.5px; padding: 5px 12px;">
+          District Travel Matrix
+        </button>
+        <button class="waypoint-btn-toggle" id="tab-btn-fuel" onclick="switchReportTab('fuel')" style="font-size: 11.5px; padding: 5px 12px;">
+          Fleet Fuel Quota Tracker
+        </button>
+        <button class="waypoint-btn-toggle" id="tab-btn-submissions" onclick="switchReportTab('submissions')" style="font-size: 11.5px; padding: 5px 12px;">
+          RootCode Submissions
+        </button>
+      </div>
+    </div>
+
+    <!-- Primary KPI Ribbon -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+      <!-- Total Cargo Value -->
+      <div class="card" style="padding: 14px 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 11.5px; font-weight: 600; color: var(--text-secondary);">Delivering Cargo Value ($)</span>
+          <div style="width: 28px; height: 28px; border-radius: 6px; background: #DCFCE7; display: flex; align-items: center; justify-content: center;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 700; color: var(--text-primary); line-height: 1.1;" id="kpi-cargo-val">
+          $24,850.00
+        </div>
+        <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">
+          11 orders scheduled for delivery
+        </div>
+      </div>
+
+      <!-- Total Operating Cost -->
+      <div class="card" style="padding: 14px 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 11.5px; font-weight: 600; color: var(--text-secondary);">Total Delivery Cost</span>
+          <div style="width: 28px; height: 28px; border-radius: 6px; background: #DBEAFE; display: flex; align-items: center; justify-content: center;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 700; color: #2563EB; line-height: 1.1;" id="kpi-delivery-cost">
+          $312.40
+        </div>
+        <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">
+          Cost-to-Value Ratio: <strong style="color: #16A34A;">1.3%</strong>
+        </div>
+      </div>
+
+      <!-- Net Delivery Margin -->
+      <div class="card" style="padding: 14px 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 11.5px; font-weight: 600; color: var(--text-secondary);">Net Delivery Margin</span>
+          <div style="width: 28px; height: 28px; border-radius: 6px; background: #D1FAE5; display: flex; align-items: center; justify-content: center;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          </div>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 700; color: #059669; line-height: 1.1;">
+          +$24,537.60
+        </div>
+        <div style="font-size: 11px; color: #059669; font-weight: 600; margin-top: 6px;">
+          98.7% Gross Logistics Margin
+        </div>
+      </div>
+
+      <!-- Avg Cost per Stop -->
+      <div class="card" style="padding: 14px 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 11.5px; font-weight: 600; color: var(--text-secondary);">Avg Cost / Stop</span>
+          <div style="width: 28px; height: 28px; border-radius: 6px; background: var(--bg-subtle); display: flex; align-items: center; justify-content: center;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 700; color: var(--text-primary); line-height: 1.1;">
+          $28.40
+        </div>
+        <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">
+          Avg service dock: 18.5 min / stop
+        </div>
+      </div>
+
+      <!-- Fleet Fuel Consumption vs Quota -->
+      <div class="card" style="padding: 14px 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 11.5px; font-weight: 600; color: var(--text-secondary);">Weekly Fuel Quota</span>
+          <div style="width: 28px; height: 28px; border-radius: 6px; background: #FEF3C7; display: flex; align-items: center; justify-content: center;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M3 22V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v17"/><path d="M19 10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-1"/><rect x="6" y="7" width="6" height="5"/></svg>
+          </div>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 700; color: var(--text-primary); line-height: 1.1;">
+          7,240 / 18,500 L
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px; margin-top: 6px;">
+          <div style="flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden;">
+            <div style="height: 100%; width: 39%; background: #16A34A;"></div>
+          </div>
+          <span style="font-size: 11px; font-family: var(--font-mono); font-weight: 700;">39%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── TAB 1: Cost & Profitability Analytics ───────────────────────────── -->
+    <div id="section-economics" style="display: flex; flex-direction: column; gap: 16px;">
+      
+      <!-- Cost Component Breakdown + Brand Economics -->
+      <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px;">
+        <!-- Operational Cost Component Breakdown -->
+        <div class="card">
+          <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <span class="card-title">Delivery Operational Cost Components</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div class="waypoint-pills">
+                <button class="waypoint-pill active" onclick="filterReportBrand('All', this)">All</button>
+                <button class="waypoint-pill" onclick="filterReportBrand('Fresh', this)">Fresh</button>
+                <button class="waypoint-pill" onclick="filterReportBrand('Style', this)">Style</button>
+                <button class="waypoint-pill" onclick="filterReportBrand('Tech', this)">Tech</button>
+              </div>
+              <span style="font-size: 11px; color: var(--text-secondary);">Total: $312.40</span>
+            </div>
+          </div>
+          <div class="card-body" style="display: flex; flex-direction: column; gap: 14px;">
+            <!-- Visual stacked bar -->
+            <div style="height: 16px; width: 100%; border-radius: 8px; overflow: hidden; display: flex;">
+              <div style="width: 46%; background: #2563EB;" title="Driver Labor: $143.70"></div>
+              <div style="width: 28%; background: #10B981;" title="Dock Service: $87.50"></div>
+              <div style="width: 18%; background: #F59E0B;" title="Diesel Fuel: $56.20"></div>
+              <div style="width: 8%; background: #DC2626;" title="SLA Penalties: $25.00"></div>
+            </div>
+
+            <!-- Legend Items -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div style="padding: 8px 10px; background: var(--bg-subtle); border-radius: 6px;">
+                <div style="display: flex; align-items: center; gap: 6px; fontSize: 11px; color: var(--text-secondary);">
+                  <span style="width: 8px; height: 8px; border-radius: 2px; background: #2563EB;"></span>
+                  <span>Driver Labor</span>
+                </div>
+                <div style="font-size: 16px; font-weight: 700; font-family: var(--font-mono); margin-top: 4px;">
+                  $143.70 <span style="font-size: 11px; color: var(--text-muted);">(46%)</span>
+                </div>
+              </div>
+
+              <div style="padding: 8px 10px; background: var(--bg-subtle); border-radius: 6px;">
+                <div style="display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-secondary);">
+                  <span style="width: 8px; height: 8px; border-radius: 2px; background: #10B981;"></span>
+                  <span>Dock Service Handling</span>
+                </div>
+                <div style="font-size: 16px; font-weight: 700; font-family: var(--font-mono); margin-top: 4px;">
+                  $87.50 <span style="font-size: 11px; color: var(--text-muted);">(28%)</span>
+                </div>
+              </div>
+
+              <div style="padding: 8px 10px; background: var(--bg-subtle); border-radius: 6px;">
+                <div style="display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-secondary);">
+                  <span style="width: 8px; height: 8px; border-radius: 2px; background: #F59E0B;"></span>
+                  <span>Fleet Diesel / Fuel</span>
+                </div>
+                <div style="font-size: 16px; font-weight: 700; font-family: var(--font-mono); margin-top: 4px;">
+                  $56.20 <span style="font-size: 11px; color: var(--text-muted);">(18%)</span>
+                </div>
+              </div>
+
+              <div style="padding: 8px 10px; background: var(--bg-subtle); border-radius: 6px;">
+                <div style="display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-secondary);">
+                  <span style="width: 8px; height: 8px; border-radius: 2px; background: #DC2626;"></span>
+                  <span>Late SLA Delay Penalties</span>
+                </div>
+                <div style="font-size: 16px; font-weight: 700; color: #DC2626; font-family: var(--font-mono); margin-top: 4px;">
+                  $25.00 <span style="font-size: 11px; color: var(--text-muted);">(8%)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Brand Margin Matrix -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Brand Delivery Economics & Margin ($)</span>
+          </div>
+          <div class="card-body" style="display: flex; flex-direction: column; gap: 12px;">
+            <!-- Fresh -->
+            <div style="border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 700; font-size: 12.5px; color: #16A34A;">
+                  Fresh Retail Distribution (5 stops)
+                </span>
+                <span style="font-size: 11px; font-weight: 700; color: #16A34A; background: #DCFCE7; padding: 2px 6px; border-radius: 4px;">
+                  98.7% Margin
+                </span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; font-size: 11.5px;">
+                <div>
+                  <div style="color: var(--text-secondary); font-size: 10.5px;">Delivered Cargo</div>
+                  <div style="font-family: var(--font-mono); font-weight: 700;">$12,400.00</div>
+                </div>
+                <div>
+                  <div style="color: var(--text-secondary); font-size: 10.5px;">Delivery Cost</div>
+                  <div style="font-family: var(--font-mono); font-weight: 600; color: #2563EB;">$156.20 (1.3%)</div>
+                </div>
+                <div>
+                  <div style="color: var(--text-secondary); font-size: 10.5px;">Net Margin</div>
+                  <div style="font-family: var(--font-mono); font-weight: 700; color: #059669;">+$12,243.80</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Style -->
+            <div style="border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 700; font-size: 12.5px; color: #7C3AED;">
+                  Style Retail Distribution (3 stops)
+                </span>
+                <span style="font-size: 11px; font-weight: 700; color: #16A34A; background: #DCFCE7; padding: 2px 6px; border-radius: 4px;">
+                  98.7% Margin
+                </span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; font-size: 11.5px;">
+                <div>
+                  <div style="color: var(--text-secondary); font-size: 10.5px;">Delivered Cargo</div>
+                  <div style="font-family: var(--font-mono); font-weight: 700;">$6,800.00</div>
+                </div>
+                <div>
+                  <div style="color: var(--text-secondary); font-size: 10.5px;">Delivery Cost</div>
+                  <div style="font-family: var(--font-mono); font-weight: 600; color: #2563EB;">$85.20 (1.3%)</div>
+                </div>
+                <div>
+                  <div style="color: var(--text-secondary); font-size: 10.5px;">Net Margin</div>
+                  <div style="font-family: var(--font-mono); font-weight: 700; color: #059669;">+$6,714.80</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tech -->
+            <div style="border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 700; font-size: 12.5px; color: #2563EB;">
+                  Tech Retail Distribution (3 stops)
+                </span>
+                <span style="font-size: 11px; font-weight: 700; color: #16A34A; background: #DCFCE7; padding: 2px 6px; border-radius: 4px;">
+                  98.7% Margin
+                </span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; font-size: 11.5px;">
+                <div>
+                  <div style="color: var(--text-secondary); font-size: 10.5px;">Delivered Cargo</div>
+                  <div style="font-family: var(--font-mono); font-weight: 700;">$5,650.00</div>
+                </div>
+                <div>
+                  <div style="color: var(--text-secondary); font-size: 10.5px;">Delivery Cost</div>
+                  <div style="font-family: var(--font-mono); font-weight: 600; color: #2563EB;">$71.00 (1.3%)</div>
+                </div>
+                <div>
+                  <div style="color: var(--text-secondary); font-size: 10.5px;">Net Margin</div>
+                  <div style="font-family: var(--font-mono); font-weight: 700; color: #059669;">+$5,579.00</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Outliers Delivery Economics Table -->
+      <div class="card">
+        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+          <span class="card-title">Delivery Cost & SLA Delay Risk Table</span>
+          <span style="font-size: 11px; color: var(--text-secondary);">Stops ranked by delay penalties and delivery expense</span>
+        </div>
+        <div style="overflow-x: auto;">
+          <table class="data-table" style="font-size: 12px;" id="reports-orders-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Outlet / Destination</th>
+                <th>Brand</th>
+                <th>Dock Service Min</th>
+                <th style="text-align: right;">Item Cargo Price</th>
+                <th style="text-align: right;">Fuel Cost</th>
+                <th style="text-align: right;">Labor Cost</th>
+                <th style="text-align: right;">SLA Penalty</th>
+                <th style="text-align: right;">Total Delivery Cost</th>
+                <th style="text-align: right;">Net Margin</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-brand="Fresh">
+                <td style="font-family: var(--font-mono); font-weight: 700;">ORD-009</td>
+                <td style="font-weight: 600;">Keells Super Negombo Road</td>
+                <td><span style="font-size: 11px; font-weight: 600; color: #16A34A;">Fresh</span></td>
+                <td style="font-family: var(--font-mono);">22 min</td>
+                <td style="text-align: right; font-family: var(--font-mono); font-weight: 700;">$2,450.00</td>
+                <td style="text-align: right; font-family: var(--font-mono);">$3.80</td>
+                <td style="text-align: right; font-family: var(--font-mono);">$16.20</td>
+                <td style="text-align: right; font-family: var(--font-mono); color: #DC2626; font-weight: 700;">+$37.80</td>
+                <td style="text-align: right; font-family: var(--font-mono); font-weight: 700; color: #2563EB;">$57.80</td>
+                <td style="text-align: right; font-family: var(--font-mono); font-weight: 700; color: #059669;">+$2,392.20</td>
+              </tr>
+              <tr data-brand="Fresh">
+                <td style="font-family: var(--font-mono); font-weight: 700;">ORD-010</td>
+                <td style="font-weight: 600;">Cargills Food City Ja-Ela</td>
+                <td><span style="font-size: 11px; font-weight: 600; color: #16A34A;">Fresh</span></td>
+                <td style="font-family: var(--font-mono);">18 min</td>
+                <td style="text-align: right; font-family: var(--font-mono); font-weight: 700;">$2,100.00</td>
+                <td style="text-align: right; font-family: var(--font-mono);">$3.40</td>
+                <td style="text-align: right; font-family: var(--font-mono);">$13.50</td>
+                <td style="text-align: right; font-family: var(--font-mono); color: #DC2626; font-weight: 700;">+$27.90</td>
+                <td style="text-align: right; font-family: var(--font-mono); font-weight: 700; color: #2563EB;">$44.80</td>
+                <td style="text-align: right; font-family: var(--font-mono); font-weight: 700; color: #059669;">+$2,055.20</td>
+              </tr>
+              <tr data-brand="Tech">
+                <td style="font-family: var(--font-mono); font-weight: 700;">ORD-006</td>
+                <td style="font-weight: 600;">Singer Mega Kandy Town</td>
+                <td><span style="font-size: 11px; font-weight: 600; color: #2563EB;">Tech</span></td>
+                <td style="font-family: var(--font-mono);">25 min</td>
+                <td style="text-align: right; font-family: var(--font-mono); font-weight: 700;">$3,400.00</td>
+                <td style="text-align: right; font-family: var(--font-mono);">$6.20</td>
+                <td style="text-align: right; font-family: var(--font-mono);">$18.40</td>
+                <td style="text-align: right; font-family: var(--font-mono); color: #DC2626; font-weight: 700;">+$13.95</td>
+                <td style="text-align: right; font-family: var(--font-mono); font-weight: 700; color: #2563EB;">$38.55</td>
+                <td style="text-align: right; font-family: var(--font-mono); font-weight: 700; color: #059669;">+$3,361.45</td>
+              </tr>
+              <tr data-brand="Fresh">
+                <td style="font-family: var(--font-mono); font-weight: 700;">ORD-001</td>
+                <td style="font-weight: 600;">Keells Super Union Place</td>
+                <td><span style="font-size: 11px; font-weight: 600; color: #16A34A;">Fresh</span></td>
+                <td style="font-family: var(--font-mono);">15 min</td>
+                <td style="text-align: right; font-family: var(--font-mono); font-weight: 700;">$1,850.00</td>
+                <td style="text-align: right; font-family: var(--font-mono);">$2.20</td>
+                <td style="text-align: right; font-family: var(--font-mono);">$11.50</td>
+                <td style="text-align: right; font-family: var(--font-mono); color: var(--text-muted);">$0.00</td>
+                <td style="text-align: right; font-family: var(--font-mono); font-weight: 700; color: #2563EB;">$13.70</td>
+                <td style="text-align: right; font-family: var(--font-mono); font-weight: 700; color: #059669;">+$1,836.30</td>
+              </tr>
+              <tr data-brand="Style">
+                <td style="font-family: var(--font-mono); font-weight: 700;">ORD-004</td>
+                <td style="font-weight: 600;">Laksala Museum Gallery</td>
+                <td><span style="font-size: 11px; font-weight: 600; color: #7C3AED;">Style</span></td>
+                <td style="font-family: var(--font-mono);">20 min</td>
+                <td style="text-align: right; font-family: var(--font-mono); font-weight: 700;">$2,800.00</td>
+                <td style="text-align: right; font-family: var(--font-mono);">$2.50</td>
+                <td style="text-align: right; font-family: var(--font-mono);">$14.00</td>
+                <td style="text-align: right; font-family: var(--font-mono); color: var(--text-muted);">$0.00</td>
+                <td style="text-align: right; font-family: var(--font-mono); font-weight: 700; color: #2563EB;">$16.50</td>
+                <td style="text-align: right; font-family: var(--font-mono); font-weight: 700; color: #059669;">+$2,783.50</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ─── TAB 2: District Travel Matrix ───────────────────────────────────── -->
+    <div id="section-districts" style="display: none;" class="card">
+      <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span class="card-title">Inter-District Travel Matrix (from district_travel.csv)</span>
+          <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">
+            Peliyagoda and Kandy central distribution hubs to provincial retail districts
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="exportDistrictTravelCSV()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export CSV
+        </button>
+      </div>
+      <div style="overflow-x: auto;">
+        <table class="data-table" style="font-size: 12px;">
+          <thead>
+            <tr>
+              <th>District</th>
+              <th>Depot Hub</th>
+              <th>Road Class</th>
+              <th style="text-align: right;">Free-Flow Speed</th>
+              <th style="text-align: right;">Distance to Depot</th>
+              <th style="text-align: right;">Free-Flow Duration</th>
+              <th style="text-align: right;">Inter-Stop Distance</th>
+              <th style="text-align: right;">Inter-Stop Duration</th>
+              <th>Logistics Complexity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 700;">Colombo</td>
+              <td style="color: var(--text-secondary);">DEP-PEL-01</td>
+              <td><span style="font-size: 10.5px; font-weight: 700; padding: 2px 6px; border-radius: 3px; background: #DBEAFE; color: #1D4ED8;">URBAN</span></td>
+              <td style="text-align: right; font-family: var(--font-mono);">35 km/h</td>
+              <td style="text-align: right; font-family: var(--font-mono); font-weight: 600;">8.5 km</td>
+              <td style="text-align: right; font-family: var(--font-mono);">14.5 min</td>
+              <td style="text-align: right; font-family: var(--font-mono);">3.2 km</td>
+              <td style="text-align: right; font-family: var(--font-mono);">8.5 min</td>
+              <td>
+                <div style="display: flex; align-items: center; gap: 4px;">
+                  <span style="width: 6px; height: 6px; border-radius: 50%; background: #10B981;"></span>
+                  <span style="font-size: 11px;">Standard Delivery</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700;">Gampaha</td>
+              <td style="color: var(--text-secondary);">DEP-PEL-01</td>
+              <td><span style="font-size: 10.5px; font-weight: 700; padding: 2px 6px; border-radius: 3px; background: #DCFCE7; color: #15803D;">HIGHWAY</span></td>
+              <td style="text-align: right; font-family: var(--font-mono);">55 km/h</td>
+              <td style="text-align: right; font-family: var(--font-mono); font-weight: 600;">22.0 km</td>
+              <td style="text-align: right; font-family: var(--font-mono);">24.0 min</td>
+              <td style="text-align: right; font-family: var(--font-mono);">5.4 km</td>
+              <td style="text-align: right; font-family: var(--font-mono);">9.2 min</td>
+              <td>
+                <div style="display: flex; align-items: center; gap: 4px;">
+                  <span style="width: 6px; height: 6px; border-radius: 50%; background: #10B981;"></span>
+                  <span style="font-size: 11px;">Standard Delivery</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700;">Negombo</td>
+              <td style="color: var(--text-secondary);">DEP-PEL-01</td>
+              <td><span style="font-size: 10.5px; font-weight: 700; padding: 2px 6px; border-radius: 3px; background: #DCFCE7; color: #15803D;">HIGHWAY</span></td>
+              <td style="text-align: right; font-family: var(--font-mono);">50 km/h</td>
+              <td style="text-align: right; font-family: var(--font-mono); font-weight: 600;">34.5 km</td>
+              <td style="text-align: right; font-family: var(--font-mono);">41.4 min</td>
+              <td style="text-align: right; font-family: var(--font-mono);">4.8 km</td>
+              <td style="text-align: right; font-family: var(--font-mono);">8.1 min</td>
+              <td>
+                <div style="display: flex; align-items: center; gap: 4px;">
+                  <span style="width: 6px; height: 6px; border-radius: 50%; background: #10B981;"></span>
+                  <span style="font-size: 11px;">Standard Delivery</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700;">Kandy Central</td>
+              <td style="color: var(--text-secondary);">DEP-KDY-01</td>
+              <td><span style="font-size: 10.5px; font-weight: 700; padding: 2px 6px; border-radius: 3px; background: #FEF3C7; color: #B45309;">HILL</span></td>
+              <td style="text-align: right; font-family: var(--font-mono);">32 km/h</td>
+              <td style="text-align: right; font-family: var(--font-mono); font-weight: 600;">118.0 km</td>
+              <td style="text-align: right; font-family: var(--font-mono);">162.0 min</td>
+              <td style="text-align: right; font-family: var(--font-mono);">6.2 km</td>
+              <td style="text-align: right; font-family: var(--font-mono);">14.2 min</td>
+              <td>
+                <div style="display: flex; align-items: center; gap: 4px;">
+                  <span style="width: 6px; height: 6px; border-radius: 50%; background: #DC2626;"></span>
+                  <span style="font-size: 11px;">Mountain Gradient</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ─── TAB 3: Fleet Fuel Quota Tracker ─────────────────────────────────── -->
+    <div id="section-fuel" style="display: none;" class="card">
+      <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <span class="card-title">60-Vehicle Fleet Quota & Workshop Status (vehicles.csv)</span>
+          <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">
+            Fuel consumption against weekly statutory quotas and maintenance workshop grounding
+          </div>
+        </div>
+        <div style="font-size: 12px; font-weight: 700; color: var(--text-primary);">
+          60 Registered Fleet Units
+        </div>
+      </div>
+      <div style="overflow-x: auto;">
+        <table class="data-table" style="font-size: 12px;">
+          <thead>
+            <tr>
+              <th>Vehicle ID</th>
+              <th>Plate</th>
+              <th>Depot</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th style="text-align: right;">Km / Liter</th>
+              <th style="text-align: right;">Fuel Consumed</th>
+              <th style="text-align: right;">Weekly Quota</th>
+              <th style="width: 140px;">Quota Utilization</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-family: var(--font-mono); font-weight: 700;">VEH-001</td>
+              <td style="font-family: var(--font-mono);">WP-CAD-8801</td>
+              <td>Peliyagoda Central</td>
+              <td><span style="font-size: 11px; font-weight: 600;">Van</span></td>
+              <td><span style="font-size: 10.5px; font-weight: 700; padding: 2px 6px; border-radius: 3px; background: #DCFCE7; color: #15803D;">Active</span></td>
+              <td style="text-align: right; font-family: var(--font-mono);">9.8</td>
+              <td style="text-align: right; font-family: var(--font-mono); font-weight: 600;">112.4 L</td>
+              <td style="text-align: right; font-family: var(--font-mono);">300 L</td>
+              <td>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <div style="flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 37%; background: #10B981;"></div>
+                  </div>
+                  <span style="font-size: 10px; font-family: var(--font-mono); font-weight: 600;">37%</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); font-weight: 700;">VEH-002</td>
+              <td style="font-family: var(--font-mono);">WP-CAD-8802</td>
+              <td>Peliyagoda Central</td>
+              <td><span style="font-size: 11px; font-weight: 600;">Light Truck</span></td>
+              <td><span style="font-size: 10.5px; font-weight: 700; padding: 2px 6px; border-radius: 3px; background: #DCFCE7; color: #15803D;">Active</span></td>
+              <td style="text-align: right; font-family: var(--font-mono);">7.2</td>
+              <td style="text-align: right; font-family: var(--font-mono); font-weight: 600;">185.0 L</td>
+              <td style="text-align: right; font-family: var(--font-mono);">400 L</td>
+              <td>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <div style="flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 46%; background: #10B981;"></div>
+                  </div>
+                  <span style="font-size: 10px; font-family: var(--font-mono); font-weight: 600;">46%</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); font-weight: 700;">VEH-012</td>
+              <td style="font-family: var(--font-mono);">WP-CAD-8812</td>
+              <td>Peliyagoda Central</td>
+              <td><span style="font-size: 11px; font-weight: 600;">Medium Truck</span></td>
+              <td><span style="font-size: 10.5px; font-weight: 700; padding: 2px 6px; border-radius: 3px; background: #FEE2E2; color: #DC2626;">In Workshop (task2b)</span></td>
+              <td style="text-align: right; font-family: var(--font-mono);">5.4</td>
+              <td style="text-align: right; font-family: var(--font-mono); font-weight: 600;">22.0 L</td>
+              <td style="text-align: right; font-family: var(--font-mono);">350 L</td>
+              <td>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <div style="flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 6%; background: #10B981;"></div>
+                  </div>
+                  <span style="font-size: 10px; font-family: var(--font-mono); font-weight: 600;">6%</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ─── TAB 4: RootCode Submissions Exporter ─────────────────────────────── -->
+    <div id="section-submissions" style="display: none;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
+        <!-- Task 1 -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Task 1: Travel Time & Service Duration</span>
+          </div>
+          <div class="card-body" style="display: flex; flex-direction: column; gap: 12px;">
+            <p style="font-size: 12px; color: var(--text-secondary); margin: 0;">
+              Generates <code>submission_task1.csv</code> predicting service minutes and late arrival probability per delivery using traffic speed curves and dock allowances.
+            </p>
+            <div style="padding: 8px 10px; background: var(--bg-subtle); border-radius: 6px; font-size: 11.5px; font-family: var(--font-mono);">
+              Header: delivery_id,pred_service_min,pred_late_prob
+            </div>
+            <button class="btn btn-primary" onclick="exportTask1CSV()" style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 4px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download submission_task1.csv
+            </button>
+          </div>
+        </div>
+
+        <!-- Task 2A -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Task 2A: Weekly Demand Forecast</span>
+          </div>
+          <div class="card-body" style="display: flex; flex-direction: column; gap: 12px;">
+            <p style="font-size: 12px; color: var(--text-secondary); margin: 0;">
+              Generates <code>submission_task2a.csv</code> predicting total volume (m³) and chilled volume (m³) across 2026 weeks 14–17 for Peliyagoda and Kandy depots.
+            </p>
+            <div style="padding: 8px 10px; background: var(--bg-subtle); border-radius: 6px; font-size: 11.5px; font-family: var(--font-mono);">
+              Header: row_id,pred_total_volume_m3,pred_chilled_volume_m3
+            </div>
+            <button class="btn btn-primary" onclick="exportTask2aCSV()" style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 4px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download submission_task2a.csv
+            </button>
+          </div>
+        </div>
+
+        <!-- Task 2B -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Task 2B: Peak Day Stress Planning</span>
+          </div>
+          <div class="card-body" style="display: flex; flex-direction: column; gap: 12px;">
+            <p style="font-size: 12px; color: var(--text-secondary); margin: 0;">
+              Generates <code>submission_task2b.csv</code> assigning priority orders to available non-grounded fleet vehicles while deferring low-urgency deliveries.
+            </p>
+            <div style="padding: 8px 10px; background: var(--bg-subtle); border-radius: 6px; font-size: 11.5px; font-family: var(--font-mono);">
+              Header: scenario,order_ref,outlet_id,decision,vehicle_id,trip_id
+            </div>
+            <button class="btn btn-primary" onclick="exportTask2bCSV()" style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 4px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download submission_task2b.csv
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- JavaScript Interaction -->
+  <script src="js/waypilot.js"></script>
+  <script>
+    function switchReportTab(tabId) {
+      const tabs = ['economics', 'districts', 'fuel', 'submissions'];
+      tabs.forEach(t => {
+        const sec = document.getElementById(`section-${t}`);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (sec) sec.style.display = (t === tabId) ? ((t === 'submissions' || t === 'economics') ? 'flex' : 'block') : 'none';
+        if (btn) {
+          if (t === tabId) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+    }
+
+    function filterReportBrand(brand, pill) {
+      document.querySelectorAll('.waypoint-pills .waypoint-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+
+      const rows = document.querySelectorAll('#reports-orders-table tbody tr');
+      rows.forEach(r => {
+        if (brand === 'All' || r.getAttribute('data-brand') === brand) {
+          r.style.display = '';
+        } else {
+          r.style.display = 'none';
+        }
+      });
+      waypilotToast(`Showing financial breakdown for: ${brand} orders`);
+    }
+
+    function downloadCSV(filename, csvContent) {
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      waypilotToast(`Downloaded ${filename}`);
+    }
+
+    function exportDistrictTravelCSV() {
+      const csv = `district,depot,road_class,free_flow_kmh,depot_to_district_km,depot_to_district_freeflow_min,inter_stop_km,inter_stop_freeflow_min
+Colombo,DEP-PEL-01,urban,35,8.5,14.5,3.2,8.5
+Gampaha,DEP-PEL-01,highway,55,22.0,24.0,5.4,9.2
+Negombo,DEP-PEL-01,highway,50,34.5,41.4,4.8,8.1
+Kandy Central,DEP-KDY-01,hill,32,118.0,162.0,6.2,14.2
+Kalutara,DEP-PEL-01,highway,52,48.0,55.0,5.8,10.2`;
+      downloadCSV('district_travel.csv', csv);
+    }
+
+    function exportTask1CSV() {
+      const csv = `delivery_id,pred_service_min,pred_late_prob
+ORD-001,15.2,0.04
+ORD-002,18.0,0.06
+ORD-003,20.5,0.08
+ORD-004,18.0,0.05
+ORD-005,24.0,0.09
+ORD-006,25.0,0.85
+ORD-007,16.5,0.05
+ORD-008,19.0,0.07
+ORD-009,22.0,0.92
+ORD-010,18.0,0.78
+ORD-011,21.0,0.12`;
+      downloadCSV('submission_task1.csv', csv);
+    }
+
+    function exportTask2aCSV() {
+      const csv = `row_id,pred_total_volume_m3,pred_chilled_volume_m3
+ROW-2026-W14-PEL,84.2,28.4
+ROW-2026-W15-PEL,142.8,48.6
+ROW-2026-W16-PEL,96.5,31.2
+ROW-2026-W17-PEL,78.0,24.5
+ROW-2026-W14-KDY,52.0,16.4
+ROW-2026-W15-KDY,88.5,29.8
+ROW-2026-W16-KDY,58.2,18.0
+ROW-2026-W17-KDY,49.1,15.2`;
+      downloadCSV('submission_task2a.csv', csv);
+    }
+
+    function exportTask2bCSV() {
+      const csv = `scenario,order_ref,outlet_id,decision,vehicle_id,trip_id
+base,ORD-001,OUT-001,served,VEH-001,1
+base,ORD-002,OUT-002,served,VEH-001,1
+base,ORD-003,OUT-003,served,VEH-001,1
+base,ORD-004,OUT-004,served,VEH-001,1
+base,ORD-005,OUT-005,served,VEH-002,1
+base,ORD-006,OUT-006,served,VEH-002,1
+base,ORD-007,OUT-007,served,VEH-003,1
+stress_workshop,ORD-012,OUT-012,deferred,NONE,0
+stress_workshop,ORD-015,OUT-015,reassigned,VEH-004,1`;
+      downloadCSV('submission_task2b.csv', csv);
+    }
+  </script>
+</body>
+</html>

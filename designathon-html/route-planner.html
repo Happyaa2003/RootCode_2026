@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WayPilot — Route Planner & Optimization Engine</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="stylesheet" href="css/waypilot.css">
+  <link rel="stylesheet" href="css/extensions.css">
+</head>
+<body style="margin: 0; overflow: hidden; height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Global WayPilot Header -->
+  <header class="waypoint-header">
+    <a href="index.html" class="waypoint-brand" title="Return to Designathon Showcase">
+      <div class="waypoint-brand-icon">
+        <img src="assets/logo.svg" alt="WayPilot Logo" width="22" height="22">
+      </div>
+      <span class="waypoint-brand-title">Way Pilot</span>
+      <span class="waypoint-brand-badge">PRO</span>
+    </a>
+
+    <!-- Navigation Tabs -->
+    <nav class="waypoint-tabs">
+      <a href="route-planner.html" class="waypoint-tab active">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Plan and Optimize</span>
+      </a>
+
+      <a href="live-operations.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
+        <span>Live</span>
+      </a>
+
+      <a href="reports.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Analytics & Cost</span>
+      </a>
+
+      <!-- Operations Dropdown -->
+      <div class="waypoint-dropdown-tab">
+        <button class="waypoint-tab dropdown-trigger">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Operations</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="waypoint-dropdown-menu" style="display: none;">
+          <a href="dispatcher.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            <span>Dispatcher Dashboard</span>
+          </a>
+          <a href="orders.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <span>Orders Queue</span>
+          </a>
+          <a href="fleet.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <span>Fleet & Vehicles</span>
+          </a>
+          <a href="loader.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+            <span>Loading Checklist</span>
+          </a>
+          <a href="driver.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            <span>Driver Application</span>
+          </a>
+          <a href="store-manager.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <span>Store Receiving</span>
+          </a>
+          <a href="forecast.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span>Demand Forecast</span>
+          </a>
+          <a href="exceptions.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+            <span>Active Exceptions</span>
+          </a>
+          <a href="offline.html" class="waypoint-dropdown-item" style="color: #DC2626;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/></svg>
+            <span>Offline Degraded Mode</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Right Header Controls -->
+    <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+      <div class="waypoint-dataset-btn" title="Operating Hub">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #16A34A;"></span>
+        <span style="font-weight: 700;">Peliyagoda Hub</span>
+      </div>
+
+      <button class="waypoint-icon-btn" data-action="toggle-theme" title="Toggle Light/Dark Theme">
+        <span data-theme-icon></span>
+      </button>
+
+      <a href="index.html" class="waypoint-link-btn" title="Designathon Showcase Home">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>All Screens</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Route Planner View -->
+  <main class="waypoint-view" style="display: flex; flex-direction: column; height: 100%; overflow: hidden;">
+
+    <!-- 1. TOP ACTION BAR (OptimoRoute Benchmark) -->
+    <div class="planner-action-bar">
+      <!-- Left: Summary Status Pill -->
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="planner-counts-pill">
+          <div class="planner-counts-pill-item">
+            <span class="planner-counts-pill-num" style="color: #16A34A;">234</span>
+            <span class="planner-counts-pill-lbl">Scheduled</span>
+          </div>
+          <div style="width: 1px; height: 20px; background: var(--border);"></div>
+          <div class="planner-counts-pill-item">
+            <span class="planner-counts-pill-num" style="color: #D97706;">14</span>
+            <span class="planner-counts-pill-lbl">Unscheduled</span>
+          </div>
+          <div style="width: 1px; height: 20px; background: var(--border);"></div>
+          <div class="planner-counts-pill-item">
+            <span class="planner-counts-pill-num" style="color: var(--text-primary);">248</span>
+            <span class="planner-counts-pill-lbl">Total</span>
+          </div>
+          <div style="width: 1px; height: 20px; background: var(--border);"></div>
+          <div class="planner-counts-pill-item">
+            <span class="planner-counts-pill-num" style="color: #2563EB;">6</span>
+            <span class="planner-counts-pill-lbl">Routes</span>
+          </div>
+        </div>
+
+        <!-- Undo / Redo / Discard / Apply Changes Buttons -->
+        <div class="planner-btn-group">
+          <button class="planner-top-btn" title="Undo scheduling edit" onclick="window.showToast('Reverted previous route adjustment', 'warning')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            <span>Undo</span>
+          </button>
+
+          <button class="planner-top-btn" title="Redo edit" onclick="window.showToast('Reapplied route adjustment')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            <span>Redo</span>
+          </button>
+
+          <button class="planner-top-btn" title="Discard unsaved edits">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            <span>Discard</span>
+          </button>
+
+          <button class="planner-top-btn apply-btn" title="Save & commit route scheduling changes" onclick="window.showToast('Route dispatch plan committed to live execution!')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Apply changes</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Toolbar Actions -->
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 6px; background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; font-size: 11.5px; font-weight: 600; color: var(--text-primary);">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>28.09.2026 Day (Peliyagoda)</span>
+        </div>
+
+        <button class="planner-top-btn" style="color: #2563EB; font-weight: 700;" onclick="window.showToast('Import wizard: 248 orders loaded from CSV')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Import Orders</span>
+        </button>
+
+        <!-- AI Plan Routes Button -->
+        <button class="planner-top-btn" style="background: #0F172A; color: #FFFFFF; border-color: #0F172A;" data-open-modal="optimize-modal">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+          <span>Plan Routes</span>
+        </button>
+
+        <button class="planner-top-btn" onclick="window.showToast('Route manifest exported to CSV')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          <span>Share Routes ▾</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. UPPER HALF: Routes & Fleet Capacity + Tactical Map + Floating Unscheduled Queue -->
+    <div class="waypoint-split-top" style="height: 48%; min-height: 270px;">
+      
+      <!-- Left: Routes List -->
+      <div class="waypoint-driver-panel">
+        <div class="waypoint-route-mode">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="font-size: 11px; color: var(--text-secondary); font-weight: 600;">Plan View:</span>
+            <span style="font-size: 11px; font-weight: 700; color: var(--text-primary);">All 6 Routes</span>
+          </div>
+          <button style="border: none; background: none; color: #2563EB; font-size: 11px; font-weight: 700; cursor: pointer;" data-open-modal="optimize-modal">
+            Optimize
+          </button>
+        </div>
+
+        <!-- Driver Counts -->
+        <div class="waypoint-driver-counts">
+          <div>
+            <div class="waypoint-driver-count-num" style="color: #2563EB;">6</div>
+            <div>Routes</div>
+          </div>
+          <div>
+            <div class="waypoint-driver-count-num" style="color: #16A34A;">234</div>
+            <div>Stops</div>
+          </div>
+          <div>
+            <div class="waypoint-driver-count-num" style="color: #D97706;">14</div>
+            <div>Unassigned</div>
+          </div>
+        </div>
+
+        <!-- Routes Rows -->
+        <div class="waypoint-driver-list">
+          <div class="waypoint-driver-row selected">
+            <input type="checkbox" checked style="cursor: pointer; accent-color: #2563EB;">
+            <span style="width: 7px; height: 7px; border-radius: 50%; background: #2563EB;"></span>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: 12px; font-weight: 700; color: var(--text-primary);">Sunil Perera</div>
+              <div style="font-size: 10px; color: var(--text-muted);">Route 01 · 12 stops · 10.4 m³</div>
+            </div>
+            <span style="font-size: 10px; font-weight: 700; color: #16A34A; background: var(--success-tint); padding: 1px 5px; border-radius: 3px;">84%</span>
+          </div>
+
+          <div class="waypoint-driver-row">
+            <input type="checkbox" checked style="cursor: pointer; accent-color: #10B981;">
+            <span style="width: 7px; height: 7px; border-radius: 50%; background: #10B981;"></span>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: 12px; font-weight: 700; color: var(--text-primary);">Chaminda Silva</div>
+              <div style="font-size: 10px; color: var(--text-muted);">Route 02 · 9 stops · 7.2 m³</div>
+            </div>
+            <span style="font-size: 10px; font-weight: 700; color: #D97706; background: var(--warning-tint); padding: 1px 5px; border-radius: 3px;">88%</span>
+          </div>
+
+          <div class="waypoint-driver-row">
+            <input type="checkbox" checked style="cursor: pointer; accent-color: #8B5CF6;">
+            <span style="width: 7px; height: 7px; border-radius: 50%; background: #8B5CF6;"></span>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: 12px; font-weight: 700; color: var(--text-primary);">Nuwan Pradeep</div>
+              <div style="font-size: 10px; color: var(--text-muted);">Route 03 · 14 stops · 15.2 m³</div>
+            </div>
+            <span style="font-size: 10px; font-weight: 700; color: #16A34A; background: var(--success-tint); padding: 1px 5px; border-radius: 3px;">82%</span>
+          </div>
+
+          <div class="waypoint-driver-row">
+            <input type="checkbox" checked style="cursor: pointer; accent-color: #F59E0B;">
+            <span style="width: 7px; height: 7px; border-radius: 50%; background: #F59E0B;"></span>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: 12px; font-weight: 700; color: var(--text-primary);">Kasun Fernando</div>
+              <div style="font-size: 10px; color: var(--text-muted);">Route 04 · 8 stops · 9.8 m³</div>
+            </div>
+            <span style="font-size: 10px; font-weight: 700; color: #D97706; background: var(--warning-tint); padding: 1px 5px; border-radius: 3px;">89%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center: Tactical Route Map -->
+      <div style="flex: 1; position: relative;">
+        <div class="tactical-map-container">
+          <img src="assets/maps/colombo-tactical-map.svg" alt="Tactical Routes Map" style="width: 100%; height: 100%; object-fit: cover;">
+
+          <!-- Floating Map Zoom -->
+          <div class="waypoint-map-zoom">
+            <button title="Zoom in">+</button>
+            <button title="Zoom out">−</button>
+          </div>
+
+          <!-- Floating Unscheduled Orders Queue Panel -->
+          <div style="position: absolute; top: 12px; right: 12px; width: 280px; max-height: calc(100% - 24px); background: var(--bg-surface); border: 1px solid var(--border-strong); border-radius: 8px; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; overflow: hidden; z-index: 25;">
+            <div style="padding: 10px 14px; background: var(--bg-subtle); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 11px; font-weight: 800; font-family: var(--font-mono); text-transform: uppercase; color: #D97706;">UNASSIGNED QUEUE</span>
+                <span style="font-size: 10px; font-weight: 700; background: #FEF3C7; color: #B45309; padding: 1px 6px; border-radius: 10px;">14</span>
+              </div>
+              <button class="btn btn-primary btn-xs" data-open-modal="optimize-modal">Auto-Fit</button>
+            </div>
+
+            <div style="padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; max-height: 200px;">
+              <!-- Card 1 -->
+              <div style="padding: 8px 10px; background: var(--bg-subtle); border: 1px dashed var(--border-strong); border-radius: 6px; cursor: grab;" onclick="window.showToast('Order WD-1028 selected. Drag onto Route 01 or click Auto-Fit')">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                  <span style="font-family: var(--font-mono); font-weight: 700; font-size: 11px; color: var(--text-primary);">WD-1028</span>
+                  <span style="font-family: var(--font-mono); font-size: 10px; color: #16A34A; font-weight: 700;">18% RISK</span>
+                </div>
+                <div style="font-size: 11.5px; font-weight: 600; color: var(--text-primary);">FreshMart Nugegoda</div>
+                <div style="font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); margin: 2px 0;">08:30–11:00 · 2.4 m³</div>
+                <span class="tag tag-chilled" style="font-size: 9px; padding: 1px 5px;">REFINED CHILLED</span>
+              </div>
+
+              <!-- Card 2 -->
+              <div style="padding: 8px 10px; background: var(--bg-subtle); border: 1px dashed var(--border-strong); border-radius: 6px; cursor: grab;" onclick="window.showToast('Order WD-1039 selected')">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                  <span style="font-family: var(--font-mono); font-weight: 700; font-size: 11px; color: var(--text-primary);">WD-1039</span>
+                  <span style="font-family: var(--font-mono); font-size: 10px; color: #D97706; font-weight: 700;">55% RISK</span>
+                </div>
+                <div style="font-size: 11.5px; font-weight: 600; color: var(--text-primary);">Keells Kalutara</div>
+                <div style="font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); margin: 2px 0;">08:00–10:00 · 3.8 m³</div>
+                <span class="tag tag-chilled" style="font-size: 9px; padding: 1px 5px;">REFINED CHILLED</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. LOWER HALF: Planner Tabs (Timeline | Orders | Routes | Not Scheduled) -->
+    <div class="waypoint-split-bottom" style="height: 52%; display: flex; flex-direction: column;">
+      
+      <!-- OptimoRoute Tab Navigation Bar -->
+      <div class="planner-tabs-bar" data-tab-group="planner-views">
+        <button class="planner-tab-btn active" data-tab-target="tab-timeline">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Timeline Gantt</span>
+        </button>
+
+        <button class="planner-tab-btn" data-tab-target="tab-orders">
+          <span>Orders</span>
+          <span style="font-size: 10px; padding: 1px 6px; border-radius: 10px; background: var(--bg-muted); color: var(--text-muted);">248</span>
+        </button>
+
+        <button class="planner-tab-btn" data-tab-target="tab-routes">
+          <span>Routes</span>
+          <span style="font-size: 10px; padding: 1px 6px; border-radius: 10px; background: var(--bg-muted); color: var(--text-muted);">6</span>
+        </button>
+
+        <button class="planner-tab-btn" data-tab-target="tab-unscheduled">
+          <span>Not Scheduled</span>
+          <span style="font-size: 10px; padding: 1px 6px; border-radius: 10px; background: #FEF3C7; color: #B45309; font-weight: 700;">14</span>
+        </button>
+      </div>
+
+      <!-- ─── TAB 1: Gantt Timeline View ─── -->
+      <div id="tab-timeline" data-tab-content="planner-views" style="flex: 1; overflow-y: auto; overflow-x: auto; background: var(--bg-surface); padding: 12px 16px;">
+        
+        <!-- Timeline Hour Markers -->
+        <div style="display: flex; border-bottom: 2px solid var(--border); padding-bottom: 6px; margin-bottom: 12px; min-width: 900px;">
+          <div style="width: 160px; flex-shrink: 0; font-size: 11px; font-weight: 700; color: var(--text-muted); font-family: var(--font-mono);">DRIVER / ROUTE</div>
+          <div style="flex: 1; display: grid; grid-template-columns: repeat(12, 1fr); font-size: 10.5px; font-family: var(--font-mono); color: var(--text-secondary); text-align: center;">
+            <span>07:00</span>
+            <span>08:00</span>
+            <span>09:00</span>
+            <span>10:00</span>
+            <span>11:00</span>
+            <span>12:00</span>
+            <span>13:00</span>
+            <span>14:00</span>
+            <span>15:00</span>
+            <span>16:00</span>
+            <span>17:00</span>
+            <span>18:00</span>
+          </div>
+        </div>
+
+        <!-- Driver 1 Timeline Row -->
+        <div style="display: flex; align-items: center; margin-bottom: 12px; min-width: 900px; height: 38px; background: var(--bg-subtle); border-radius: 6px; padding: 0 10px; border: 1px solid var(--border);">
+          <div style="width: 150px; flex-shrink: 0; display: flex; align-items: center; gap: 8px;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #2563EB;"></span>
+            <div>
+              <div style="font-size: 11.5px; font-weight: 700; color: var(--text-primary);">Sunil Perera</div>
+              <div style="font-size: 9.5px; color: var(--text-muted); font-family: var(--font-mono);">Route 01 · Reefer</div>
+            </div>
+          </div>
+          <!-- Gantt Stops Track -->
+          <div style="flex: 1; position: relative; height: 26px;">
+            <!-- Stop 1 Block -->
+            <div style="position: absolute; left: 8%; width: 5%; height: 100%; background: #2563EB; border-radius: 4px; color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer;" title="Stop 1: Fort Port Drop (08:28 AM)" onclick="window.showToast('Stop 1: Fort Port Drop (08:28 AM)')">1</div>
+            <!-- Leg line -->
+            <div style="position: absolute; left: 13%; width: 4%; top: 12px; height: 2px; background: #93C5FD;"></div>
+            <!-- Stop 2 Block -->
+            <div style="position: absolute; left: 17%; width: 5%; height: 100%; background: #2563EB; border-radius: 4px; color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer;" title="Stop 2: Kollupitiya (08:54 AM)" onclick="window.showToast('Stop 2: Kollupitiya')">2</div>
+            <div style="position: absolute; left: 22%; width: 5%; top: 12px; height: 2px; background: #93C5FD;"></div>
+            <!-- Stop 3 Block -->
+            <div style="position: absolute; left: 27%; width: 7%; height: 100%; background: #2563EB; border-radius: 4px; color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer;" title="Stop 3: FreshMart Bambalapitiya" onclick="window.showToast('Stop 3: FreshMart Bambalapitiya')">3 (Bamba)</div>
+            <div style="position: absolute; left: 34%; width: 6%; top: 12px; height: 2px; background: #93C5FD;"></div>
+            <!-- Stop 4 Block -->
+            <div style="position: absolute; left: 40%; width: 6%; height: 100%; background: #2563EB; border-radius: 4px; color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer;" title="Stop 4: Nugegoda Super">4 (Nugegoda)</div>
+          </div>
+        </div>
+
+        <!-- Driver 2 Timeline Row -->
+        <div style="display: flex; align-items: center; margin-bottom: 12px; min-width: 900px; height: 38px; background: var(--bg-subtle); border-radius: 6px; padding: 0 10px; border: 1px solid var(--border);">
+          <div style="width: 150px; flex-shrink: 0; display: flex; align-items: center; gap: 8px;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #10B981;"></span>
+            <div>
+              <div style="font-size: 11.5px; font-weight: 700; color: var(--text-primary);">Chaminda Silva</div>
+              <div style="font-size: 9.5px; color: var(--text-muted); font-family: var(--font-mono);">Route 02 · Standard</div>
+            </div>
+          </div>
+          <div style="flex: 1; position: relative; height: 26px;">
+            <div style="position: absolute; left: 10%; width: 6%; height: 100%; background: #10B981; border-radius: 4px; color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center;" title="Stop 1: Battaramulla">1</div>
+            <div style="position: absolute; left: 16%; width: 8%; top: 12px; height: 2px; background: #A7F3D0;"></div>
+            <div style="position: absolute; left: 24%; width: 7%; height: 100%; background: #10B981; border-radius: 4px; color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center;" title="Stop 2: Malabe Express">2 (Malabe)</div>
+            <div style="position: absolute; left: 31%; width: 8%; top: 12px; height: 2px; background: #A7F3D0;"></div>
+            <div style="position: absolute; left: 39%; width: 7%; height: 100%; background: #10B981; border-radius: 4px; color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center;" title="Stop 3: Kaduwela Super">3 (Kaduwela)</div>
+          </div>
+        </div>
+
+        <!-- Driver 3 Timeline Row -->
+        <div style="display: flex; align-items: center; margin-bottom: 12px; min-width: 900px; height: 38px; background: var(--bg-subtle); border-radius: 6px; padding: 0 10px; border: 1px solid var(--border);">
+          <div style="width: 150px; flex-shrink: 0; display: flex; align-items: center; gap: 8px;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #8B5CF6;"></span>
+            <div>
+              <div style="font-size: 11.5px; font-weight: 700; color: var(--text-primary);">Nuwan Pradeep</div>
+              <div style="font-size: 9.5px; color: var(--text-muted); font-family: var(--font-mono);">Route 03 · Reefer</div>
+            </div>
+          </div>
+          <div style="flex: 1; position: relative; height: 26px;">
+            <div style="position: absolute; left: 6%; width: 6%; height: 100%; background: #8B5CF6; border-radius: 4px; color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center;" title="Stop 1: Wattala Drop">1</div>
+            <div style="position: absolute; left: 12%; width: 10%; top: 12px; height: 2px; background: #DDD6FE;"></div>
+            <div style="position: absolute; left: 22%; width: 7%; height: 100%; background: #8B5CF6; border-radius: 4px; color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center;" title="Stop 2: Kandana">2 (Kandana)</div>
+            <div style="position: absolute; left: 29%; width: 9%; top: 12px; height: 2px; background: #DDD6FE;"></div>
+            <div style="position: absolute; left: 38%; width: 8%; height: 100%; background: #8B5CF6; border-radius: 4px; color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center;" title="Stop 3: Ja-Ela Interchange">3 (Ja-Ela)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── TAB 2: Orders Full Table ─── -->
+      <div id="tab-orders" data-tab-content="planner-views" style="display: none; flex: 1; overflow-y: auto;">
+        <table class="data-table" style="font-size: 12px;">
+          <thead>
+            <tr>
+              <th style="width: 90px;">Order ID</th>
+              <th>Outlet Destination</th>
+              <th style="width: 80px;">Brand</th>
+              <th style="width: 100px;">District</th>
+              <th style="width: 105px;">Window</th>
+              <th style="width: 100px;">Scheduled Route</th>
+              <th style="width: 100px; text-align: right;">Cargo Value</th>
+              <th style="width: 100px; text-align: right;">Delivery Cost</th>
+              <th style="width: 90px;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span style="font-family: var(--font-mono); font-weight: 700;">ORD028</span></td>
+              <td style="font-weight: 600;">FreshMart Nugegoda</td>
+              <td><span style="color: #16A34A; font-weight: 600;">Fresh</span></td>
+              <td class="muted">Colombo</td>
+              <td class="secondary">08:28–08:38</td>
+              <td><span style="color: #2563EB; font-weight: 600;">Route 01</span></td>
+              <td style="text-align: right; font-family: var(--font-mono); font-weight: 700;">$1,240.00</td>
+              <td style="text-align: right; font-family: var(--font-mono); font-weight: 600;">$28.40</td>
+              <td><span class="status-badge badge-delivered">Delivered</span></td>
+            </tr>
+            <tr>
+              <td><span style="font-family: var(--font-mono); font-weight: 700;">ORD009</span></td>
+              <td style="font-weight: 600;">Keells Cambridge / Kollupitiya</td>
+              <td><span style="color: #16A34A; font-weight: 600;">Fresh</span></td>
+              <td class="muted">Colombo</td>
+              <td class="secondary">08:43–08:58</td>
+              <td><span style="color: #2563EB; font-weight: 600;">Route 01</span></td>
+              <td style="text-align: right; font-family: var(--font-mono); font-weight: 700;">$980.00</td>
+              <td style="text-align: right; font-family: var(--font-mono); font-weight: 600;">$24.10</td>
+              <td><span class="status-badge badge-delivered">Delivered</span></td>
+            </tr>
+            <tr>
+              <td><span style="font-family: var(--font-mono); font-weight: 700;">ORD020</span></td>
+              <td style="font-weight: 600;">Cargills Food City Moratuwa</td>
+              <td><span style="color: #16A34A; font-weight: 600;">Fresh</span></td>
+              <td class="muted">Moratuwa</td>
+              <td class="secondary">09:15–09:45</td>
+              <td><span style="color: #10B981; font-weight: 600;">Route 02</span></td>
+              <td style="text-align: right; font-family: var(--font-mono); font-weight: 700;">$1,450.00</td>
+              <td style="text-align: right; font-family: var(--font-mono); font-weight: 600;">$32.50</td>
+              <td><span class="status-badge badge-en-route">En Route</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ─── TAB 3: Routes List ─── -->
+      <div id="tab-routes" data-tab-content="planner-views" style="display: none; flex: 1; overflow-y: auto; padding: 14px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">
+          <div class="route-card" style="border-left: 4px solid #2563EB;">
+            <div class="route-card-header">
+              <span class="route-label">Route 01 — Sunil Perera</span>
+              <span class="status-badge badge-active">Active</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); margin-bottom: 8px;">Vehicle: WP-CAD-4821 (Reefer 12.4 m³)</div>
+            <div style="display: flex; justify-content: space-between; font-size: 11.5px; margin-bottom: 6px;">
+              <span>Stops: 12</span>
+              <span>Distance: 54.2 km</span>
+              <span>Duration: 4h 30m</span>
+            </div>
+          </div>
+
+          <div class="route-card" style="border-left: 4px solid #10B981;">
+            <div class="route-card-header">
+              <span class="route-label">Route 02 — Chaminda Silva</span>
+              <span class="status-badge badge-active">Active</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); margin-bottom: 8px;">Vehicle: WP-DAE-9102 (Standard 8.2 m³)</div>
+            <div style="display: flex; justify-content: space-between; font-size: 11.5px; margin-bottom: 6px;">
+              <span>Stops: 9</span>
+              <span>Distance: 48.0 km</span>
+              <span>Duration: 3h 50m</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── TAB 4: Unscheduled Orders ─── -->
+      <div id="tab-unscheduled" data-tab-content="planner-views" style="display: none; flex: 1; overflow-y: auto;">
+        <table class="data-table" style="font-size: 12px;">
+          <thead>
+            <tr>
+              <th style="width: 100px;">Order ID</th>
+              <th>Outlet Name</th>
+              <th>Address</th>
+              <th style="width: 100px;">District</th>
+              <th style="width: 80px;">Volume</th>
+              <th style="width: 90px;">Temp</th>
+              <th style="width: 80px;">Risk</th>
+              <th style="width: 120px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span style="font-family: var(--font-mono); font-weight: 700;">WD-1028</span></td>
+              <td style="font-weight: 600;">FreshMart Nugegoda</td>
+              <td class="muted">42 Old Kesbewa Rd</td>
+              <td>Colombo</td>
+              <td>2.4 m³</td>
+              <td><span class="tag tag-chilled">CHILLED</span></td>
+              <td><span class="risk-score risk-low">18%</span></td>
+              <td><button class="btn btn-secondary btn-xs" onclick="window.showToast('Assigned WD-1028 to Route 01')">+ Route 01</button></td>
+            </tr>
+            <tr>
+              <td><span style="font-family: var(--font-mono); font-weight: 700;">WD-1039</span></td>
+              <td style="font-weight: 600;">Keells Kalutara</td>
+              <td class="muted">Main Street, Kalutara</td>
+              <td>Kalutara</td>
+              <td>3.8 m³</td>
+              <td><span class="tag tag-chilled">CHILLED</span></td>
+              <td><span class="risk-score risk-medium">55%</span></td>
+              <td><button class="btn btn-secondary btn-xs" onclick="window.showToast('Assigned WD-1039 to Route 02')">+ Route 02</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- ─── AI ROUTE OPTIMIZATION MODAL ─── -->
+  <div id="optimize-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title">AI Optimization Engine (Peliyagoda Hub)</div>
+          <div class="modal-subtitle">248 orders · 6 vehicles · multi-depot Sri Lankan road constraints</div>
+        </div>
+        <button class="drawer-close" data-close-modal="optimize-modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Config Phase -->
+      <div id="optim-view-config" class="modal-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <div>
+            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); font-family: var(--font-mono); margin-bottom: 12px;">Active Constraints</div>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: #2563EB;">
+                <span>Delivery time windows & SLA strictness</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: #2563EB;">
+                <span>Vehicle volume & weight capacities</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: #2563EB;">
+                <span>Reefer temperature compartment compliance</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: #2563EB;">
+                <span>Sri Lankan road conditions & bridge limits</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: #2563EB;">
+                <span>Minimize driver turnaround & fuel burn</span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); font-family: var(--font-mono); margin-bottom: 12px;">Current Baseline vs Target</div>
+            <div style="background: var(--bg-subtle); padding: 14px; border-radius: 8px; border: 1px solid var(--border);">
+              <div style="display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 8px;">
+                <span style="color: var(--text-secondary);">Active Routes:</span>
+                <strong style="font-family: var(--font-mono);">6 Routes</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 8px;">
+                <span style="color: var(--text-secondary);">Unassigned Orders:</span>
+                <strong style="color: #D97706; font-family: var(--font-mono);">14 Orders</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 8px;">
+                <span style="color: var(--text-secondary);">At Risk SLA Deliveries:</span>
+                <strong style="color: #DC2626; font-family: var(--font-mono);">13 Orders</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 12.5px;">
+                <span style="color: var(--text-secondary);">Fleet Utilization:</span>
+                <strong style="color: #16A34A; font-family: var(--font-mono);">84.2%</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 10px;">
+          <button class="btn btn-secondary" data-close-modal="optimize-modal">Cancel</button>
+          <button id="btn-start-optimization" class="btn btn-primary" style="background: #2563EB; font-weight: 700;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span>Run Neural Optimization</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Running Phase -->
+      <div id="optim-view-running" class="modal-body" style="display: none; text-align: center; padding: 40px 20px;">
+        <div style="width: 48px; height: 48px; border: 4px solid var(--border); border-top-color: #2563EB; border-radius: 50%; margin: 0 auto 16px; animation: spin 0.8s linear infinite;"></div>
+        <div style="font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Computing Optimal Wave Allocation...</div>
+        <div id="optim-running-status" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 24px;">Analyzing delivery windows and Sri Lankan road constraints...</div>
+        
+        <div style="max-width: 380px; margin: 0 auto; height: 6px; background: var(--bg-muted); border-radius: 3px; overflow: hidden;">
+          <div id="optim-progress-bar" style="width: 25%; height: 100%; background: #2563EB; transition: width 0.3s ease;"></div>
+        </div>
+      </div>
+
+      <!-- Results Phase -->
+      <div id="optim-view-results" class="modal-body" style="display: none;">
+        <div style="display: flex; align-items: center; gap: 10px; background: #DCFCE7; border: 1px solid #86EFAC; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <div style="color: #15803D; font-size: 13px; font-weight: 700;">Optimization Complete! 100% of Unscheduled Orders (14) Fitted with 0 Breached SLAs.</div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; text-align: center;">
+          <div style="background: var(--bg-subtle); border: 1px solid var(--border); padding: 12px; border-radius: 6px;">
+            <div style="font-size: 10px; color: var(--text-muted); font-family: var(--font-mono);">SAVED KM</div>
+            <div style="font-size: 20px; font-weight: 800; color: #16A34A; font-family: var(--font-mono); margin-top: 4px;">-58 km</div>
+          </div>
+          <div style="background: var(--bg-subtle); border: 1px solid var(--border); padding: 12px; border-radius: 6px;">
+            <div style="font-size: 10px; color: var(--text-muted); font-family: var(--font-mono);">RISK DROP</div>
+            <div style="font-size: 20px; font-weight: 800; color: #16A34A; font-family: var(--font-mono); margin-top: 4px;">13 → 1</div>
+          </div>
+          <div style="background: var(--bg-subtle); border: 1px solid var(--border); padding: 12px; border-radius: 6px;">
+            <div style="font-size: 10px; color: var(--text-muted); font-family: var(--font-mono);">UTILIZATION</div>
+            <div style="font-size: 20px; font-weight: 800; color: #2563EB; font-family: var(--font-mono); margin-top: 4px;">92.4%</div>
+          </div>
+          <div style="background: var(--bg-subtle); border: 1px solid var(--border); padding: 12px; border-radius: 6px;">
+            <div style="font-size: 10px; color: var(--text-muted); font-family: var(--font-mono);">EST. SAVINGS</div>
+            <div style="font-size: 20px; font-weight: 800; color: #059669; font-family: var(--font-mono); margin-top: 4px;">+$418/day</div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button class="btn btn-secondary" data-close-modal="optimize-modal">Dismiss</button>
+          <button class="btn btn-primary" style="background: #16A34A; font-weight: 700;" onclick="window.closeModal('optimize-modal'); window.showToast('Optimized routes applied to live dispatch matrix!')">
+            Apply Solution to Dispatch
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+  </style>
+
+  <script src="js/waypilot.js"></script>
+</body>
+</html>

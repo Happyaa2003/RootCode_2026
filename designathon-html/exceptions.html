@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WayPilot — Active Exceptions & Groundings</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="stylesheet" href="css/waypilot.css">
+  <link rel="stylesheet" href="css/extensions.css">
+</head>
+<body style="margin: 0; overflow: hidden; height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Global WayPilot Header -->
+  <header class="waypoint-header">
+    <a href="index.html" class="waypoint-brand" title="Return to Designathon Showcase">
+      <div class="waypoint-brand-icon">
+        <img src="assets/logo.svg" alt="WayPilot Logo" width="22" height="22">
+      </div>
+      <span class="waypoint-brand-title">Way Pilot</span>
+      <span class="waypoint-brand-badge">PRO</span>
+    </a>
+
+    <!-- Navigation Tabs -->
+    <nav class="waypoint-tabs">
+      <a href="route-planner.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Plan and Optimize</span>
+      </a>
+
+      <a href="live-operations.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
+        <span>Live</span>
+      </a>
+
+      <a href="reports.html" class="waypoint-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Analytics & Cost</span>
+      </a>
+
+      <!-- Operations Dropdown -->
+      <div class="waypoint-dropdown-tab">
+        <button class="waypoint-tab dropdown-trigger active">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Operations</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="waypoint-dropdown-menu" style="display: none;">
+          <a href="dispatcher.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            <span>Dispatcher Dashboard</span>
+          </a>
+          <a href="orders.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <span>Orders Queue</span>
+          </a>
+          <a href="fleet.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <span>Fleet & Vehicles</span>
+          </a>
+          <a href="loader.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+            <span>Loading Checklist</span>
+          </a>
+          <a href="driver.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            <span>Driver Application</span>
+          </a>
+          <a href="store-manager.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <span>Store Receiving</span>
+          </a>
+          <a href="forecast.html" class="waypoint-dropdown-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span>Demand Forecast</span>
+          </a>
+          <a href="exceptions.html" class="waypoint-dropdown-item active">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+            <span>Active Exceptions</span>
+          </a>
+          <a href="offline.html" class="waypoint-dropdown-item" style="color: #DC2626;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/></svg>
+            <span>Offline Degraded Mode</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Right Header Controls -->
+    <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+      <div class="waypoint-dataset-btn" title="Operating Hub">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #16A34A;"></span>
+        <span style="font-weight: 700;">Peliyagoda Hub</span>
+      </div>
+
+      <button class="waypoint-icon-btn" data-action="toggle-theme" title="Toggle Light/Dark Theme">
+        <span data-theme-icon></span>
+      </button>
+
+      <a href="index.html" class="waypoint-link-btn" title="Designathon Showcase Home">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>All Screens</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Exceptions Layout -->
+  <main style="flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-app);">
+    
+    <!-- Top Filter Header -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <div class="sidebar-search" style="width: 260px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input id="exception-search" placeholder="Search exceptions & incidents...">
+        </div>
+        <div class="filter-bar" id="severity-filters">
+          <button class="filter-select active" data-sev="All">All</button>
+          <button class="filter-select" data-sev="Critical">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Critical
+          </button>
+          <button class="filter-select" data-sev="High">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+            High
+          </button>
+          <button class="filter-select" data-sev="Medium">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Medium
+          </button>
+          <button class="filter-select" data-sev="Low">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Low
+          </button>
+        </div>
+      </div>
+      <div class="page-header-right">
+        <div class="tab-strip" style="border-bottom: none; padding: 0; gap: 4px;">
+          <button class="tab-item active" id="tab-active-incidents">
+            Active Incidents (<span id="active-incidents-count">5</span>)
+          </button>
+          <button class="tab-item" id="tab-resolved-incidents">
+            Resolved (<span id="resolved-incidents-count">0</span>)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Severity Summary Strip -->
+    <div style="display: flex; border-bottom: 1px solid var(--border); background: var(--bg-subtle); flex-shrink: 0;">
+      <div style="flex: 1; padding: 12px 20px; border-right: 1px solid var(--border); display: flex; alignItems: center; gap: 12px;">
+        <div style="width: 32px; height: 32px; border-radius: var(--radius-md); background: var(--danger-tint); display: flex; align-items: center; justify-content: center;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div>
+          <div style="font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--danger); line-height: 1;" id="stat-critical">2</div>
+          <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Critical Incidents</div>
+        </div>
+      </div>
+
+      <div style="flex: 1; padding: 12px 20px; border-right: 1px solid var(--border); display: flex; align-items: center; gap: 12px;">
+        <div style="width: 32px; height: 32px; border-radius: var(--radius-md); background: var(--warning-tint); display: flex; align-items: center; justify-content: center;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+        </div>
+        <div>
+          <div style="font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--warning); line-height: 1;" id="stat-high">2</div>
+          <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">High Incidents</div>
+        </div>
+      </div>
+
+      <div style="flex: 1; padding: 12px 20px; border-right: 1px solid var(--border); display: flex; align-items: center; gap: 12px;">
+        <div style="width: 32px; height: 32px; border-radius: var(--radius-md); background: var(--brand-tint); display: flex; align-items: center; justify-content: center;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </div>
+        <div>
+          <div style="font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--brand); line-height: 1;" id="stat-medium">1</div>
+          <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Medium Incidents</div>
+        </div>
+      </div>
+
+      <div style="flex: 1; padding: 12px 20px; display: flex; align-items: center; gap: 12px;">
+        <div style="width: 32px; height: 32px; border-radius: var(--radius-md); background: var(--bg-muted); display: flex; align-items: center; justify-content: center;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </div>
+        <div>
+          <div style="font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--n400); line-height: 1;" id="stat-low">0</div>
+          <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Low Incidents</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exception List Stream -->
+    <div id="exception-container" style="flex: 1; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 10px;">
+      
+      <!-- Incident 1: Grounded Vehicle (Task 2b) -->
+      <div class="exception-row critical" data-id="EXC-VEH-1" data-sev="Critical" data-search="wp-cad-8812 veh-012 vehicle grounded workshop task2b">
+        <div style="flex-shrink: 0; padding-top: 2px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="exception-content" style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <span class="exception-severity severity-critical">Critical</span>
+            <span style="font-size: 11px; color: var(--text-muted);">07:15 AM</span>
+            <span style="font-size: 11px; font-weight: 600; background: var(--bg-muted); padding: 1px 6px; border-radius: 3px; color: var(--text-secondary);">Vehicle</span>
+            <span class="exception-entity">WP-CAD-8812 (VEH-012) · Medium Truck</span>
+          </div>
+          <div class="exception-problem">Vehicle Grounded in Maintenance Workshop</div>
+          <div class="exception-detail">Fleet unit VEH-012 is flagged <code>in_workshop</code> (task2b_peak_day_fleet.csv). Vehicle unavailable for route dispatch due to transmission hydraulic pressure drop.</div>
+          <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">
+            Impact: <strong>Lost capacity: 8.5 m³ (1,400 kg). Fuel quota frozen at 350 L. Requires re-routing 4 scheduled supermarket drops.</strong>
+          </div>
+          <div style="display: flex; gap: 6px; margin-top: 10px; align-items: center;">
+            <button class="btn btn-sm btn-secondary" onclick="waypilotToast('Reassigning deliveries to VEH-004 standby...')">Reassign Scheduled Deliveries</button>
+            <button class="btn btn-sm btn-ghost" onclick="waypilotToast('Automated SMS sent to Fleet Supervisor Bandara.')">Notify Fleet Supervisor</button>
+            <button class="btn btn-sm btn-ghost" onclick="waypilotToast('Hydraulic seal arrival expected at 14:00 PM.')">Inspect Repair ETA</button>
+            <button class="btn btn-ghost btn-sm btn-resolve" style="margin-left: auto; color: var(--success); font-weight: 600;" onclick="resolveException(this)">
+              ✓ Mark resolved
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Incident 2: Grounded Vehicle (Task 2b) -->
+      <div class="exception-row critical" data-id="EXC-VEH-2" data-sev="Critical" data-search="wp-cad-8813 veh-015 vehicle grounded workshop reefer">
+        <div style="flex-shrink: 0; padding-top: 2px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="exception-content" style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <span class="exception-severity severity-critical">Critical</span>
+            <span style="font-size: 11px; color: var(--text-muted);">07:30 AM</span>
+            <span style="font-size: 11px; font-weight: 600; background: var(--bg-muted); padding: 1px 6px; border-radius: 3px; color: var(--text-secondary);">Vehicle</span>
+            <span class="exception-entity">WP-CAD-8813 (VEH-015) · Reefer Heavy</span>
+          </div>
+          <div class="exception-problem">Chilled Refrigeration Unit Compressor Fault</div>
+          <div class="exception-detail">Fleet unit VEH-015 temperature sensor reporting +8.4°C (Safe dairy threshold: &lt;4.0°C). Unit grounded in workshop bay 03 for thermal cycle replacement.</div>
+          <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">
+            Impact: <strong>Lost refrigerated capacity: 14.0 m³ (2,800 kg). Fresh milk & yogurt loads must transfer to VEH-008.</strong>
+          </div>
+          <div style="display: flex; gap: 6px; margin-top: 10px; align-items: center;">
+            <button class="btn btn-sm btn-secondary" onclick="waypilotToast('Transferring Fresh chilled route to VEH-008 Reefer...')">Reassign Scheduled Deliveries</button>
+            <button class="btn btn-sm btn-ghost" onclick="waypilotToast('Cold-chain technician alerted.')">Notify Fleet Supervisor</button>
+            <button class="btn btn-sm btn-ghost" onclick="waypilotToast('Compressor sensor replacement ETA: 16:30 PM.')">Inspect Repair ETA</button>
+            <button class="btn btn-ghost btn-sm btn-resolve" style="margin-left: auto; color: var(--success); font-weight: 600;" onclick="resolveException(this)">
+              ✓ Mark resolved
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Incident 3: Late SLA Penalty Order (ORD-009) -->
+      <div class="exception-row high" data-id="EXC-ORD-1" data-sev="High" data-search="ord-009 keells super negombo delay 8 minutes penalty high">
+        <div style="flex-shrink: 0; padding-top: 2px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+        </div>
+        <div class="exception-content" style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <span class="exception-severity severity-high">High</span>
+            <span style="font-size: 11px; color: var(--text-muted);">08:45 AM</span>
+            <span style="font-size: 11px; font-weight: 600; background: var(--bg-muted); padding: 1px 6px; border-radius: 3px; color: var(--text-secondary);">Order</span>
+            <span class="exception-entity">ORD-009 · Keells Super Negombo Road</span>
+          </div>
+          <div class="exception-problem">Delivery Delayed by 8.4 Minutes (SLA Incurred: $37.80)</div>
+          <div class="exception-detail">Arrival occurred behind scheduled window (08:30 AM). Dock allowance: 22m for Fresh dairy drops. Delay accrued on A3 Negombo corridor bottleneck.</div>
+          <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">
+            Impact: <strong>Financial SLA penalty: +$37.80 charged against route gross margin. Store manager notified.</strong>
+          </div>
+          <div style="display: flex; gap: 6px; margin-top: 10px; align-items: center;">
+            <button class="btn btn-sm btn-secondary" onclick="waypilotToast('Exception approved: Traffic force-majeure documented.')">Approve Delay Exception</button>
+            <button class="btn btn-sm btn-ghost" onclick="waypilotToast('ETAs for remaining 5 stops recalculated (+6m).')">Recalculate Next ETA</button>
+            <button class="btn btn-sm btn-ghost" onclick="waypilotToast('Receiving bay manager confirmed dock space reserved.')">Contact Store Receiving</button>
+            <button class="btn btn-ghost btn-sm btn-resolve" style="margin-left: auto; color: var(--success); font-weight: 600;" onclick="resolveException(this)">
+              ✓ Mark resolved
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Incident 4: Late SLA Penalty Order (ORD-010) -->
+      <div class="exception-row high" data-id="EXC-ORD-2" data-sev="High" data-search="ord-010 cargills food city ja-ela delay 6 minutes high">
+        <div style="flex-shrink: 0; padding-top: 2px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+        </div>
+        <div class="exception-content" style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <span class="exception-severity severity-high">High</span>
+            <span style="font-size: 11px; color: var(--text-muted);">09:10 AM</span>
+            <span style="font-size: 11px; font-weight: 600; background: var(--bg-muted); padding: 1px 6px; border-radius: 3px; color: var(--text-secondary);">Order</span>
+            <span class="exception-entity">ORD-010 · Cargills Food City Ja-Ela</span>
+          </div>
+          <div class="exception-problem">Delivery Delayed by 6.2 Minutes (SLA Incurred: $27.90)</div>
+          <div class="exception-detail">Vehicle VEH-002 arrived at 09:16 AM vs target 09:10 AM. Unloading delayed due to store pallet lift congestion.</div>
+          <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">
+            Impact: <strong>Financial penalty: +$27.90. Downstream stop ORD-011 at risk of slipping into 10:00 AM window.</strong>
+          </div>
+          <div style="display: flex; gap: 6px; margin-top: 10px; align-items: center;">
+            <button class="btn btn-sm btn-secondary" onclick="waypilotToast('Delay waiver requested from retail operations.')">Approve Delay Exception</button>
+            <button class="btn btn-sm btn-ghost" onclick="waypilotToast('Dynamic route recalculation sent to driver tablet.')">Recalculate Next ETA</button>
+            <button class="btn btn-sm btn-ghost" onclick="waypilotToast('Ja-Ela receiving dock signaled for fast-track.')">Contact Store Receiving</button>
+            <button class="btn btn-ghost btn-sm btn-resolve" style="margin-left: auto; color: var(--success); font-weight: 600;" onclick="resolveException(this)">
+              ✓ Mark resolved
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Incident 5: Minor Delay (ORD-006) -->
+      <div class="exception-row medium" data-id="EXC-ORD-3" data-sev="Medium" data-search="ord-006 singer mega kandy delay 3 minutes medium tech">
+        <div style="flex-shrink: 0; padding-top: 2px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </div>
+        <div class="exception-content" style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <span class="exception-severity severity-medium">Medium</span>
+            <span style="font-size: 11px; color: var(--text-muted);">09:35 AM</span>
+            <span style="font-size: 11px; font-weight: 600; background: var(--bg-muted); padding: 1px 6px; border-radius: 3px; color: var(--text-secondary);">Order</span>
+            <span class="exception-entity">ORD-006 · Singer Mega Kandy Town</span>
+          </div>
+          <div class="exception-problem">Delivery Delayed by 3.1 Minutes (SLA Incurred: $13.95)</div>
+          <div class="exception-detail">Hill corridor rain slowing VEH-006 on Kadugannawa pass. Dock allowance: 25m for high-value Tech appliances.</div>
+          <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">
+            Impact: <strong>Minor penalty: +$13.95. Driver currently ascending pass at 32 km/h.</strong>
+          </div>
+          <div style="display: flex; gap: 6px; margin-top: 10px; align-items: center;">
+            <button class="btn btn-sm btn-secondary" onclick="waypilotToast('Weather delay logged into dispatch ledger.')">Approve Delay Exception</button>
+            <button class="btn btn-sm btn-ghost" onclick="waypilotToast('ETA updated to 09:42 AM.')">Recalculate Next ETA</button>
+            <button class="btn btn-sm btn-ghost" onclick="waypilotToast('Singer warehouse coordinator confirmed.')">Contact Store Receiving</button>
+            <button class="btn btn-ghost btn-sm btn-resolve" style="margin-left: auto; color: var(--success); font-weight: 600;" onclick="resolveException(this)">
+              ✓ Mark resolved
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State (hidden by default) -->
+      <div id="exception-empty" class="empty-state" style="display: none; padding: 60px 20px;">
+        <div class="empty-state-icon" style="width: 48px; height: 48px; border-radius: 50%; background: #DCFCE7; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="empty-state-title" style="color: var(--success); font-size: 16px; font-weight: 700;">No active exceptions</div>
+        <div class="empty-state-desc" style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">
+          All dispatch routes, fleet units, and store deliveries are operating on schedule without breach.
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- JavaScript Interaction -->
+  <script src="js/waypilot.js"></script>
+  <script>
+    // Tab switching: Active vs Resolved
+    let currentTab = 'active';
+    let currentSev = 'All';
+    const container = document.getElementById('exception-container');
+    const emptyState = document.getElementById('exception-empty');
+    const tabActive = document.getElementById('tab-active-incidents');
+    const tabResolved = document.getElementById('tab-resolved-incidents');
+    const searchInput = document.getElementById('exception-search');
+
+    tabActive.addEventListener('click', () => {
+      currentTab = 'active';
+      tabActive.classList.add('active');
+      tabResolved.classList.remove('active');
+      filterIncidents();
+    });
+
+    tabResolved.addEventListener('click', () => {
+      currentTab = 'resolved';
+      tabResolved.classList.add('active');
+      tabActive.classList.remove('active');
+      filterIncidents();
+    });
+
+    // Severity filter buttons
+    document.querySelectorAll('#severity-filters .filter-select').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#severity-filters .filter-select').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentSev = btn.getAttribute('data-sev');
+        filterIncidents();
+      });
+    });
+
+    // Search filter
+    searchInput.addEventListener('input', () => {
+      filterIncidents();
+    });
+
+    function filterIncidents() {
+      const q = searchInput.value.toLowerCase().trim();
+      const rows = document.querySelectorAll('.exception-row');
+      let visibleCount = 0;
+
+      rows.forEach(row => {
+        const isResolved = row.classList.contains('resolved');
+        const sev = row.getAttribute('data-sev');
+        const searchBlob = (row.getAttribute('data-search') || '').toLowerCase();
+
+        const tabMatch = (currentTab === 'active' && !isResolved) || (currentTab === 'resolved' && isResolved);
+        const sevMatch = (currentSev === 'All') || (sev === currentSev);
+        const searchMatch = !q || searchBlob.includes(q);
+
+        if (tabMatch && sevMatch && searchMatch) {
+          row.style.display = 'flex';
+          visibleCount++;
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      if (visibleCount === 0) {
+        emptyState.style.display = 'block';
+        if (currentTab === 'resolved') {
+          emptyState.querySelector('.empty-state-title').textContent = 'No resolved exceptions in current session';
+          emptyState.querySelector('.empty-state-desc').textContent = 'Items marked as resolved will archive here for the current shift.';
+        } else {
+          emptyState.querySelector('.empty-state-title').textContent = 'No active exceptions found';
+          emptyState.querySelector('.empty-state-desc').textContent = 'No exceptions match your active filter criteria.';
+        }
+      } else {
+        emptyState.style.display = 'none';
+      }
+    }
+
+    function resolveException(btn) {
+      const row = btn.closest('.exception-row');
+      const id = row.getAttribute('data-id');
+      row.classList.add('resolved');
+      
+      // Update counters
+      const activeTotal = document.querySelectorAll('.exception-row:not(.resolved)').length;
+      const resolvedTotal = document.querySelectorAll('.exception-row.resolved').length;
+      document.getElementById('active-incidents-count').textContent = activeTotal;
+      document.getElementById('resolved-incidents-count').textContent = resolvedTotal;
+
+      // Update severity counters
+      const sev = row.getAttribute('data-sev').toLowerCase();
+      const statElem = document.getElementById(`stat-${sev}`);
+      if (statElem) {
+        const cur = parseInt(statElem.textContent, 10);
+        if (cur > 0) statElem.textContent = cur - 1;
+      }
+
+      waypilotToast(`Incident ${id} marked as resolved!`);
+      filterIncidents();
+    }
+  </script>
+</body>
+</html>
