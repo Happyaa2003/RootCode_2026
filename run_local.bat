@@ -1,4 +1,4 @@
-1@echo off
+@echo off
 setlocal enabledelayedexpansion
 title WayPilot Logistics - Local Launcher
 
@@ -22,7 +22,7 @@ if %errorlevel% neq 0 (
 where npm >nul 2>&1
 if %errorlevel% neq 0 (
     echo [ERROR] Node.js / npm was not found in PATH!
-    echo Please install Node.js (v18+) from nodejs.org.
+    echo Please install Node.js v18 or newer from nodejs.org.
     pause
     exit /b 1
 )
@@ -42,16 +42,16 @@ if not exist "backend\venv\Scripts\python.exe" (
 
 :: 4. Setup Frontend node_modules if missing
 if not exist "frontend\node_modules" (
-    echo [*] Installing frontend npm packages (this only runs once)...
+    echo [*] Installing frontend npm packages - please wait...
     cd frontend && call npm install && cd ..
 )
 
 echo.
 echo [*] Starting FastAPI Backend on http://localhost:8000 ...
-start "WayPilot Backend (Port 8000)" cmd /k "cd /d "%~dp0backend" && .\venv\Scripts\python.exe main.py"
+start "WayPilot Backend" cmd /k "cd /d %~dp0backend && .\venv\Scripts\python.exe main.py"
 
 echo [*] Starting Vite Frontend on http://localhost:5173 ...
-start "WayPilot Frontend (Port 5173)" cmd /k "cd /d "%~dp0frontend" && npm run dev"
+start "WayPilot Frontend" cmd /k "cd /d %~dp0frontend && npm run dev"
 
 echo.
 echo =====================================================================
@@ -60,7 +60,7 @@ echo =====================================================================
 echo    - Frontend Web App:  http://localhost:5173
 echo    - FastAPI Swagger:   http://localhost:8000/api/v1/docs
 echo.
-echo    DEMO EVALUATION CREDENTIALS (Pre-seeded with real bcrypt hash):
+echo    DEMO EVALUATION CREDENTIALS:
 echo    - Dispatcher:   kamal.perera@waypilot.com    / password123
 echo    - Planner:      anura.j@waypointroot.com     / password123
 echo    - Fleet Mgr:    suneth.b@waypointroot.com    / password123
