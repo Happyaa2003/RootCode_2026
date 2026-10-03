@@ -27,6 +27,7 @@ import OrderDetailPage from './pages/OrderDetail';
 import OfflineModePage from './pages/OfflineMode';
 import StartupLoader from './components/common/StartupLoader';
 import UserManagementPage from './pages/UserManagement';
+import ProtectedRoute from './components/common/ProtectedRoute';
 
 type Theme = 'light' | 'dark';
 
@@ -103,20 +104,20 @@ function App() {
             <Route path="/"              element={<Shell><WaypointLiveView /></Shell>} />
             <Route path="/live"          element={<Shell><WaypointLiveView /></Shell>} />
             <Route path="/overview"      element={<Shell><Overview /></Shell>} />
-            <Route path="/dispatcher"    element={<Shell><DispatcherPage /></Shell>} />
+            <Route path="/dispatcher"    element={<Shell><ProtectedRoute allowedRoles={['Admin', 'Dispatcher']}><DispatcherPage /></ProtectedRoute></Shell>} />
             <Route path="/orders"        element={<Shell><OrdersPage /></Shell>} />
             <Route path="/orders/:orderId" element={<Shell><OrderDetailPage /></Shell>} />
             <Route path="/order-detail"  element={<Shell><OrderDetailPage /></Shell>} />
-            <Route path="/planner"       element={<Shell><PlannerPage /></Shell>} />
-            <Route path="/fleet"         element={<Shell><FleetPage /></Shell>} />
-            <Route path="/loading"       element={<Shell><LoadingPage /></Shell>} />
-            <Route path="/driver"        element={<Shell><DriverPage /></Shell>} />
+            <Route path="/planner"       element={<Shell><ProtectedRoute allowedRoles={['Admin', 'Planner', 'Dispatcher']}><PlannerPage /></ProtectedRoute></Shell>} />
+            <Route path="/fleet"         element={<Shell><ProtectedRoute allowedRoles={['Admin', 'Fleet Manager']}><FleetPage /></ProtectedRoute></Shell>} />
+            <Route path="/loading"       element={<Shell><ProtectedRoute allowedRoles={['Admin', 'Dispatcher', 'Fleet Manager', 'Driver']}><LoadingPage /></ProtectedRoute></Shell>} />
+            <Route path="/driver"        element={<Shell><ProtectedRoute allowedRoles={['Admin', 'Driver', 'Dispatcher', 'Fleet Manager']}><DriverPage /></ProtectedRoute></Shell>} />
             <Route path="/store-manager" element={<Shell><StoreManagerPage /></Shell>} />
-            <Route path="/forecast"      element={<Shell><ForecastPage /></Shell>} />
-            <Route path="/exceptions"    element={<Shell><ExceptionsPage /></Shell>} />
+            <Route path="/forecast"      element={<Shell><ProtectedRoute allowedRoles={['Admin', 'Planner', 'Fleet Manager']}><ForecastPage /></ProtectedRoute></Shell>} />
+            <Route path="/exceptions"    element={<Shell><ProtectedRoute allowedRoles={['Admin', 'Dispatcher', 'Fleet Manager']}><ExceptionsPage /></ProtectedRoute></Shell>} />
             <Route path="/offline"       element={<Shell><OfflineModePage /></Shell>} />
             <Route path="/reports"       element={<Shell><ReportsPage /></Shell>} />
-            <Route path="/users"         element={<Shell><UserManagementPage /></Shell>} />
+            <Route path="/users"         element={<Shell><ProtectedRoute allowedRoles={['Admin']}><UserManagementPage /></ProtectedRoute></Shell>} />
           </Routes>
         </DatasetProvider>
       </CurrencyProvider>

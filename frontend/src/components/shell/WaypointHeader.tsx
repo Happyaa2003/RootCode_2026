@@ -267,50 +267,53 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
           {theme === 'dark' ? <Sun size={17} color="#F59E0B" /> : <Moon size={17} color="#64748B" />}
         </button>
 
-        {/* Administration dropdown */}
-        <div style={{ position: 'relative' }}>
-          <button
-            onClick={() => setAdminOpen(o => !o)}
-            className="waypoint-link-btn"
-          >
-            <Settings size={15} />
-            <span style={{ fontSize: 13 }}>Admin</span>
-            <ChevronDown size={12} />
-          </button>
-
-          {adminOpen && (
-            <div
-              className="waypoint-dropdown-menu"
-              style={{ right: 0, left: 'auto', minWidth: 170 }}
-              onMouseLeave={() => setAdminOpen(false)}
+        {/* Administration dropdown (Admin role only) */}
+        {user?.role === 'Admin' && (
+          <div style={{ position: 'relative' }}>
+            <button
+              onClick={() => setAdminOpen(o => !o)}
+              className="waypoint-link-btn"
+              style={{ background: 'rgba(124, 58, 237, 0.1)', borderColor: 'rgba(124, 58, 237, 0.3)', color: '#7C3AED' }}
             >
+              <Settings size={15} color="#7C3AED" />
+              <span style={{ fontSize: 13, fontWeight: 700 }}>Admin</span>
+              <ChevronDown size={12} color="#7C3AED" />
+            </button>
+
+            {adminOpen && (
               <div
-                className="waypoint-dropdown-item"
-                style={{ cursor: 'pointer' }}
-                onClick={() => openAdminTab('dispatch-rules')}
+                className="waypoint-dropdown-menu"
+                style={{ right: 0, left: 'auto', minWidth: 180 }}
+                onMouseLeave={() => setAdminOpen(false)}
               >
-                <Settings size={14} />
-                <span>Dispatch Rules</span>
+                <div
+                  className="waypoint-dropdown-item"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => openAdminTab('dispatch-rules')}
+                >
+                  <Settings size={14} />
+                  <span>Dispatch Rules</span>
+                </div>
+                <div
+                  className="waypoint-dropdown-item"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => openAdminTab('depot-settings')}
+                >
+                  <Package size={14} />
+                  <span>Depot Settings</span>
+                </div>
+                <div
+                  className="waypoint-dropdown-item"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => openAdminTab('api-keys')}
+                >
+                  <Layers size={14} />
+                  <span>API Keys & Webhooks</span>
+                </div>
               </div>
-              <div
-                className="waypoint-dropdown-item"
-                style={{ cursor: 'pointer' }}
-                onClick={() => openAdminTab('depot-settings')}
-              >
-                <Package size={14} />
-                <span>Depot Settings</span>
-              </div>
-              <div
-                className="waypoint-dropdown-item"
-                style={{ cursor: 'pointer' }}
-                onClick={() => openAdminTab('api-keys')}
-              >
-                <Layers size={14} />
-                <span>API Keys & Webhooks</span>
-              </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
 
         {/* User Account / Auth Dropdown */}
         {user ? (
