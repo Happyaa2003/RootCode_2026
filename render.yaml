@@ -1,0 +1,60 @@
+# ==============================================================================
+# WayPilot Logistics & Fleet Intelligence — Render Blueprint Specification
+# Deploys both FastAPI Backend and Vite React Frontend under 100% Free Tier
+# ==============================================================================
+
+services:
+  # ─── 1. FastAPI Backend API Web Service (Free Tier) ─────────────────────────
+  - type: web
+    name: waypilot-api
+    runtime: python
+    region: singapore
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: ENVIRONMENT
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "1440"
+      - key: DATABASE_URL
+        value: "sqlite+aiosqlite:///./waypoint.db"
+      - key: GEMINI_API_KEY
+        value: "AQ.Ab8RN6IwvnMlh1dtG-fzzEmj0QHa4pfvs61pnbJQbGEtAr0muQ"
+      - key: GEMINI_MODEL
+        value: "gemini-3.8-flash"
+      - key: GEMINI_PROJECT_NAME
+        value: "projects/854827363499"
+      - key: GEMINI_PROJECT_NUMBER
+        value: "854827363499"
+
+  # ─── 2. React Vite Frontend Static Site (Free Tier) ─────────────────────────
+  - type: web
+    name: waypilot-app
+    runtime: static
+    region: singapore
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      # Single-Page Application (SPA) Client Routing Rewrite
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: waypilot-api
+          property: host
+      - key: VITE_GEMINI_API_KEY
+        value: "AQ.Ab8RN6IwvnMlh1dtG-fzzEmj0QHa4pfvs61pnbJQbGEtAr0muQ"
