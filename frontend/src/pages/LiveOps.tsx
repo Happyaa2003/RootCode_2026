@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Truck, Clock, ShieldCheck, AlertTriangle } from 'lucide-react';
 import OperationalMap from '../components/map/OperationalMap';
 import StatusBadge from '../components/common/StatusBadge';
-import { routes, kpiSummary } from '../data/mockData';
+import { useDataset } from '../context/DatasetContext';
 import type { Route } from '../types';
 
 const LiveOps: React.FC = () => {
+  const { routes, kpis: kpiSummary } = useDataset();
   const [selectedRoute, setSelectedRoute] = useState<Route | null>(null);
 
   const atRiskCount = routes.flatMap(r => r.stops).filter(s => s.status === 'At Risk').length;

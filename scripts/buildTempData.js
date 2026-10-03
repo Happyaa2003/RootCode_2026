@@ -39,8 +39,8 @@ const task2aTestInputs = parseCSV(path.join(baseDir, 'Test Data', 'task2a_test_i
 const task2bPeakFleet = parseCSV(path.join(baseDir, 'Test Data', 'task2b_peak_day_fleet.csv'));
 const task2bPeakScenarios = parseCSV(path.join(baseDir, 'Test Data', 'task2b_peak_day_scenarios.csv'));
 
-// Sample relevant training / test deliveries (50 high quality deliveries)
-const deliveriesSample = task1TestInputs.slice(0, 60);
+// Sample relevant training / test deliveries (150 real deliveries from task1)
+const deliveriesSample = task1TestInputs.slice(0, 150);
 
 // Calendar: take days around operating and festivals
 const calendarSample = calendar.filter(c => c.is_operating === '1' || c.festival || c.is_holiday === '1').slice(0, 150);
@@ -57,6 +57,7 @@ const bundled = {
     totalServiceAllowances: serviceAllowance.length,
     totalForecastCases: task2aTestInputs.length,
     totalPeakScenarios: task2bPeakScenarios.length,
+    totalDeliveries: deliveriesSample.length,
   },
   outlets,
   vehicles,
@@ -71,7 +72,7 @@ const bundled = {
   deliveries: deliveriesSample,
 };
 
-const outputPath = path.resolve('src', 'data', 'tempDataParsed.json');
+const outputPath = path.resolve(__dirname, '..', 'frontend', 'src', 'data', 'tempDataParsed.json');
 fs.writeFileSync(outputPath, JSON.stringify(bundled, null, 2), 'utf8');
 
 console.log('Successfully written parsed data to', outputPath);

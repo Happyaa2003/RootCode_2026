@@ -59,6 +59,12 @@ const PlannerPage: React.FC = () => {
   const [isAddOrderOpen, setIsAddOrderOpen] = useState(false);
   const [hoveredRouteDropId, setHoveredRouteDropId] = useState<string | null>(null);
   const [mapDropActive, setMapDropActive] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const today = new Date();
+    return today.toISOString().split('T')[0]; // 'YYYY-MM-DD'
+  });
+  const [shareOpen, setShareOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   React.useEffect(() => {
     setVisibleRouteIds(routes.map(r => r.id));
@@ -209,23 +215,30 @@ const PlannerPage: React.FC = () => {
 
         {/* Right Toolbar Actions */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          {/* Date Selector */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-              background: 'var(--bg-subtle)',
-              border: '1px solid var(--border)',
-              borderRadius: 4,
-              padding: '3px 8px',
-              fontSize: 11.5,
-              fontWeight: 600,
-              color: 'var(--text-primary)',
-            }}
-          >
-            <Calendar size={12} color="#2563EB" />
-            <span>19.06.2024 Day</span>
+          {/* ── Date Selector (working input) ── */}
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+            <label
+              htmlFor="planner-date"
+              style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                background: 'var(--bg-subtle)', border: '1px solid var(--border)',
+                borderRadius: 4, padding: '3px 8px', fontSize: 11.5, fontWeight: 600,
+                color: 'var(--text-primary)', cursor: 'pointer', userSelect: 'none',
+              }}
+            >
+              <Calendar size={12} color="#2563EB" />
+              <span>{selectedDate}</span>
+            </label>
+            <input
+              id="planner-date"
+              type="date"
+              value={selectedDate}
+              onChange={e => setSelectedDate(e.target.value)}
+              style={{
+                position: 'absolute', inset: 0, opacity: 0,
+                cursor: 'pointer', width: '100%',
+              }}
+            />
           </div>
 
           <button
@@ -246,23 +259,106 @@ const PlannerPage: React.FC = () => {
             <span>Plan Routes</span>
           </button>
 
-          <button
-            onClick={() => {
-              const csv = `data:text/csv;charset=utf-8,Order ID,Outlet,Scheduled Route,ETA,Cargo Value,Delivery Cost\n` +
-                orders.map(o => `${o.id},"${o.outlet.name}",${o.routeId || 'Unscheduled'},${o.scheduledAt || 'N/A'},${o.itemPrice || 0},${o.deliveryCost || 0}`).join('\n');
-              const encodedUri = encodeURI(csv);
-              const link = document.createElement('a');
-              link.setAttribute('href', encodedUri);
-              link.setAttribute('download', `waypoint_routes_${mode}.csv`);
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-            }}
-            className="planner-top-btn"
-          >
-            <Share2 size={13} />
-            <span>Share Routes ▾</span>
-          </button>
+          {/* ── Share Routes Dropdown ── */}
+          <div style={{ position: 'relative' }}>
+            <button
+              onClick={() => setShareOpen(o => !o)}
+              className="planner-top-btn"
+              style={shareOpen ? { borderColor: '#2563EB', color: '#2563EB' } : {}}
+            >
+              <Share2 size={13} />
+              <span>Share Routes ▾</span>
+            </button>
+
+            {shareOpen && (
+              <div
+                onMouseLeave={() => setShareOpen(false)}
+                style={{
+                  position: 'absolute', top: '100%', right: 0, marginTop: 4,
+                  background: 'var(--bg-surface)', border: '1px solid var(--border)',
+                  borderRadius: 8, boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+                  zIndex: 200, minWidth: 200, overflow: 'hidden',
+                }}
+              >
+                {[
+                  {
+                    icon: '📄', label: 'Download CSV',
+                    sublabel: 'Spreadsheet format',
+                    action: () => {
+                      const csv = `Order ID,Outlet,Route,ETA,Cargo Value,Delivery Cost\n` +
+                        orders.map(o => `${o.id},"${o.outlet.name}",${o.routeId || 'Unscheduled'},${o.scheduledAt || 'N/A'},${o.itemPrice || 0},${o.deliveryCost || 0}`).join('\n');
+                      const link = document.createElement('a');
+                      link.href = encodeURI(`data:text/csv;charset=utf-8,${csv}`);
+                      link.download = `waypilot_routes_${selectedDate}.csv`;
+                      link.click();
+                    }
+                  },
+                  {
+                    icon: '🗂️', label: 'Download JSON',
+                    sublabel: 'Full route data',
+                    action: () => {
+                      const blob = new Blob([JSON.stringify({ date: selectedDate, routes, orders }, null, 2)], { type: 'application/json' });
+                      const link = document.createElement('a');
+                      link.href = URL.createObjectURL(blob);
+                      link.download = `waypilot_routes_${selectedDate}.json`;
+                      link.click();
+                    }
+                  },
+                  {
+                    icon: '🖨️', label: 'Print Route Sheet',
+                    sublabel: 'Printable manifest',
+                    action: () => {
+                      const printWin = window.open('', '_blank');
+                      if (!printWin) return;
+                      printWin.document.write(`<html><head><title>WayPilot Route Sheet — ${selectedDate}</title>
+                        <style>body{font-family:sans-serif;font-size:12px;padding:20px}
+                        table{border-collapse:collapse;width:100%}
+                        th,td{border:1px solid #ddd;padding:6px 8px;text-align:left}
+                        th{background:#f1f5f9;font-weight:700}h2{margin-bottom:8px}</style></head>
+                        <body><h2>WayPilot Route Sheet — ${selectedDate}</h2>
+                        <table><thead><tr><th>Order ID</th><th>Outlet</th><th>Route</th><th>ETA</th><th>Weight</th><th>Volume</th></tr></thead>
+                        <tbody>${orders.map(o => `<tr><td>${o.id}</td><td>${o.outlet.name}</td><td>${o.routeId || 'Unscheduled'}</td><td>${o.scheduledAt || o.window.start}</td><td>${o.weight}kg</td><td>${o.volume}m³</td></tr>`).join('')}</tbody></table>
+                        </body></html>`);
+                      printWin.document.close();
+                      printWin.focus();
+                      printWin.print();
+                    }
+                  },
+                  {
+                    icon: '🔗', label: 'Copy Share Link',
+                    sublabel: 'Link to this plan',
+                    action: () => {
+                      const url = `${window.location.origin}/planner?date=${selectedDate}&depot=${encodeURIComponent(depots[0]?.name || '')}`;
+                      navigator.clipboard.writeText(url).then(() => {
+                        setCopied(true);
+                        setTimeout(() => setCopied(false), 2000);
+                      });
+                    }
+                  },
+                ].map(item => (
+                  <button
+                    key={item.label}
+                    onClick={() => { item.action(); setShareOpen(false); }}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 10,
+                      width: '100%', padding: '9px 14px', border: 'none',
+                      background: 'transparent', cursor: 'pointer', textAlign: 'left',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'var(--bg-subtle)')}
+                    onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                  >
+                    <span style={{ fontSize: 16 }}>{item.icon}</span>
+                    <div>
+                      <div style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--text-primary)' }}>
+                        {item.label === 'Copy Share Link' && copied ? '✓ Copied!' : item.label}
+                      </div>
+                      <div style={{ fontSize: 10.5, color: 'var(--text-muted)' }}>{item.sublabel}</div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

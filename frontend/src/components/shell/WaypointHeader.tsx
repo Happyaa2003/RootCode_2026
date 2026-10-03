@@ -4,7 +4,8 @@ import {
   Calendar, Radio, BarChart2, ChevronDown, Search,
   Sun, Moon, Settings, LogOut, Package,
   Truck, Warehouse, AlertTriangle, Layers, Database,
-  Clock, LogIn, UserPlus
+  Clock, LogIn, UserPlus, LayoutDashboard, Smartphone, Store,
+  WifiOff
 } from 'lucide-react';
 import { useDataset } from '../../context/DatasetContext';
 import { useCurrency } from '../../context/CurrencyContext';
@@ -84,7 +85,7 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
         {/* More Operations Modules Dropdown */}
         <div className="waypoint-dropdown-tab" style={{ position: 'relative' }}>
           <button
-            className={`waypoint-tab ${['/orders', '/fleet', '/loading', '/forecast', '/exceptions'].includes(location.pathname) ? 'active' : ''}`}
+            className={`waypoint-tab ${['/dispatcher', '/overview', '/orders', '/fleet', '/loading', '/driver', '/store-manager', '/forecast', '/exceptions', '/offline'].includes(location.pathname) ? 'active' : ''}`}
             onClick={() => setMoreOpen(o => !o)}
           >
             <Layers size={16} />
@@ -95,25 +96,57 @@ const WaypointHeader: React.FC<WaypointHeaderProps> = ({ onSearchOpen, theme, on
           {moreOpen && (
             <div
               className="waypoint-dropdown-menu"
+              style={{ minWidth: 230 }}
               onMouseLeave={() => setMoreOpen(false)}
             >
               {[
+                { path: '/dispatcher', label: 'Dispatcher Dashboard', icon: LayoutDashboard },
+                { path: '/overview', label: 'Executive Overview', icon: BarChart2 },
                 { path: '/orders', label: 'Orders Queue', icon: Package },
                 { path: '/fleet', label: 'Fleet & Vehicles', icon: Truck },
                 { path: '/loading', label: 'Loading Checklist', icon: Warehouse },
-                { path: '/forecast', label: 'Demand Forecast', icon: BarChart2 },
+                { path: '/driver', label: 'Driver Mobile App', icon: Smartphone },
+                { path: '/store-manager', label: 'Store Receiving', icon: Store },
+                { path: '/forecast', label: 'Demand Forecast', icon: Calendar },
                 { path: '/exceptions', label: 'Active Exceptions', icon: AlertTriangle },
+                { path: '/offline', label: 'Offline Degraded Mode', icon: WifiOff, color: '#DC2626' },
               ].map(item => (
                 <Link
                   key={item.path}
                   to={item.path}
                   onClick={() => setMoreOpen(false)}
                   className={`waypoint-dropdown-item ${location.pathname === item.path ? 'active' : ''}`}
+                  style={item.color ? { color: item.color } : undefined}
                 >
-                  <item.icon size={15} color="var(--text-secondary)" />
+                  <item.icon size={15} color={item.color || 'var(--text-secondary)'} />
                   <span>{item.label}</span>
                 </Link>
               ))}
+
+              {/* Admin-only: User Management */}
+              {user?.role === 'Admin' && (
+                <>
+                  <div style={{ height: 1, background: 'var(--border)', margin: '6px 0' }} />
+                  <Link
+                    to="/users"
+                    onClick={() => setMoreOpen(false)}
+                    className={`waypoint-dropdown-item ${location.pathname === '/users' ? 'active' : ''}`}
+                    style={{ color: '#7C3AED' }}
+                  >
+                    <UserPlus size={15} color="#7C3AED" />
+                    <span>User Management</span>
+                    <span style={{
+                      marginLeft: 'auto',
+                      background: '#7C3AED',
+                      color: '#fff',
+                      borderRadius: 9999,
+                      padding: '1px 6px',
+                      fontSize: 10,
+                      fontWeight: 700,
+                    }}>Admin</span>
+                  </Link>
+                </>
+              )}
             </div>
           )}
         </div>

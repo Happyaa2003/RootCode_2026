@@ -16,6 +16,7 @@ import {
   trafficSpeedProfiles,
   calculateDatasetEconomics,
 } from '../data/tempDataService';
+import { api } from '../services/api';
 import type {
   Order, Route, Vehicle, Driver, Depot, Outlet,
   DistrictTravelInfo, Task2aForecastItem, PeakFleetStatus, PeakDayScenario, KpiSummary,
@@ -49,6 +50,7 @@ interface DatasetContextType {
   calendarEvents: any[];
   trafficSpeedProfiles: any[];
   kpis: KpiSummary;
+  backendConnected: boolean;
   // Dynamic order assignment and unscheduling
   scheduleOrder: (orderId: string, routeId: string, insertIndex?: number) => void;
   unscheduleOrder: (orderId: string) => void;
@@ -60,47 +62,115 @@ interface DatasetContextType {
   hasUnsavedChanges: boolean;
   applyChanges: () => void;
   discardChanges: () => void;
+  refreshFromBackend: () => Promise<void>;
 }
 
 const DatasetContext = createContext<DatasetContextType | undefined>(undefined);
 
 export const DatasetProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Always lock dataset to Peliyagoda (RootCode logistics)
   const [mode, setMode] = useState<DatasetMode>('peliyagoda');
+  const [backendConnected, setBackendConnected] = useState(false);
 
-  useEffect(() => {
-    // Clear any obsolete stored mode from previous versions
-    localStorage.removeItem('waypoint-dataset-mode');
-  }, []);
-
-  const baseDepots = peliyagodaDepots;
-  const baseOutlets = peliyagodaOutlets;
-  const baseAllOutlets = all120PeliyagodaOutlets;
-  const baseDrivers = peliyagodaDrivers;
-  const baseVehicles = peliyagodaVehicles;
-  const baseAllVehicles = all60PeliyagodaVehicles;
-  const baseInitialOrders = peliyagodaOrders;
-  const baseInitialRoutes = peliyagodaRoutes;
-
-  // Active state for orders and routes
-  const [orders, setOrders] = useState<Order[]>(baseInitialOrders);
-  const [routes, setRoutes] = useState<Route[]>(baseInitialRoutes);
-  const [activeDepot, setActiveDepot] = useState<Depot>(baseDepots[0]);
+  // Entities state
+  const [depots, setDepots] = useState<Depot[]>(peliyagodaDepots);
+  const [outlets, setOutlets] = useState<Outlet[]>(peliyagodaOutlets);
+  const [allOutlets, setAllOutlets] = useState<Outlet[]>(all120PeliyagodaOutlets);
+  const [drivers, setDrivers] = useState<Driver[]>(peliyagodaDrivers);
+  const [vehicles, setVehicles] = useState<Vehicle[]>(peliyagodaVehicles);
+  const [allVehicles, setAllVehicles] = useState<Vehicle[]>(all60PeliyagodaVehicles);
+  const [orders, setOrders] = useState<Order[]>(peliyagodaOrders);
+  const [routes, setRoutes] = useState<Route[]>(peliyagodaRoutes);
+  const [activeDepot, setActiveDepot] = useState<Depot>(peliyagodaDepots[0]);
 
   // Undo / Redo history
   const [history, setHistory] = useState<HistoryState[]>([]);
   const [future, setFuture] = useState<HistoryState[]>([]);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
-  // Sync state when mode changes (safety fallback)
+  // Fetch initial live state from Backend API
+  const refreshFromBackend = useCallback(async () => {
+    try {
+      const [fetchedOrders, fetchedRoutes, fetchedVehicles, fetchedDepots, fetchedDrivers, fetchedOutlets] = await Promise.all([
+        api.getOrders({ limit: 100 }),
+        api.getRoutes(),
+        api.getVehicles(),
+        api.getDepots(),
+        api.getDrivers(),
+        api.getOutlets({ limit: 120 }),
+      ]);
+
+      if (fetchedOrders?.length) setOrders(fetchedOrders);
+      if (fetchedRoutes?.length) setRoutes(fetchedRoutes);
+      if (fetchedVehicles?.length) {
+        setVehicles(fetchedVehicles.slice(0, 8));
+        setAllVehicles(fetchedVehicles);
+      }
+      if (fetchedDepots?.length) {
+        setDepots(fetchedDepots);
+        setActiveDepot(fetchedDepots[0]);
+      }
+      if (fetchedDrivers?.length) setDrivers(fetchedDrivers);
+      if (fetchedOutlets?.length) {
+        setOutlets(fetchedOutlets.slice(0, 24));
+        setAllOutlets(fetchedOutlets);
+      }
+      setBackendConnected(true);
+    } catch (err) {
+      console.warn('Backend API currently unreachable, using initialized dataset:', err);
+    }
+  }, []);
+
   useEffect(() => {
-    setOrders(peliyagodaOrders);
-    setRoutes(peliyagodaRoutes);
-    setActiveDepot(peliyagodaDepots[0]);
-    setHistory([]);
-    setFuture([]);
-    setHasUnsavedChanges(false);
-  }, [mode]);
+    refreshFromBackend();
+  }, [refreshFromBackend]);
+
+  // Real-time WebSocket telematics subscriber
+  useEffect(() => {
+    let ws: WebSocket | null = null;
+    let reconnectTimeout: any = null;
+
+    const connectWS = () => {
+      try {
+        ws = new WebSocket('ws://127.0.0.1:8000/api/v1/ws/telemetry');
+        ws.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data);
+            if (data.type === 'FLEET_TELEMETRY_UPDATE' && Array.isArray(data.vehicles)) {
+              setVehicles(prev =>
+                prev.map(v => {
+                  const match = data.vehicles.find((tv: any) => tv.id === v.id);
+                  if (match) {
+                    return {
+                      ...v,
+                      location: { lat: match.lat, lng: match.lng },
+                      heading: match.heading ?? v.heading,
+                      lastSeen: 'Just now',
+                    };
+                  }
+                  return v;
+                })
+              );
+            }
+          } catch {
+            // ignore non-json
+          }
+        };
+        ws.onerror = () => {
+          // auto reconnect after delay
+          reconnectTimeout = setTimeout(connectWS, 10000);
+        };
+      } catch {
+        // ws not available
+      }
+    };
+
+    connectWS();
+
+    return () => {
+      if (reconnectTimeout) clearTimeout(reconnectTimeout);
+      if (ws) ws.close();
+    };
+  }, []);
 
   // Push current state to undo history before making mutations
   const pushHistory = useCallback(() => {
@@ -130,7 +200,6 @@ export const DatasetProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setRoutes(prevRoutes =>
       prevRoutes.map(r => {
         if (r.id !== routeId) {
-          // If the order was previously on another route, remove it from that route
           return {
             ...r,
             stops: r.stops.filter(s => s.order.id !== orderId),
@@ -152,7 +221,6 @@ export const DatasetProvider: React.FC<{ children: React.ReactNode }> = ({ child
           newStops.push(newStop);
         }
 
-        // Re-index sequences
         const reindexedStops = newStops.map((s, idx) => ({ ...s, sequence: idx + 1 }));
 
         return {
@@ -163,6 +231,11 @@ export const DatasetProvider: React.FC<{ children: React.ReactNode }> = ({ child
         };
       })
     );
+
+    // Call backend API asynchronously
+    api.scheduleOrder(orderId, routeId, insertIndex).catch(err => {
+      console.warn('Backend scheduleOrder error:', err);
+    });
   }, [orders, pushHistory]);
 
   // Unschedule an order back to the unscheduled pool
@@ -200,12 +273,22 @@ export const DatasetProvider: React.FC<{ children: React.ReactNode }> = ({ child
         };
       })
     );
+
+    // Call backend API asynchronously
+    api.unscheduleOrder(orderId).catch(err => {
+      console.warn('Backend unscheduleOrder error:', err);
+    });
   }, [orders, pushHistory]);
 
   // Add a newly created order directly into the dataset (unscheduled)
   const addOrder = useCallback((newOrder: Order) => {
     pushHistory();
     setOrders(prev => [newOrder, ...prev]);
+
+    // Call backend API asynchronously
+    api.createOrder(newOrder).catch(err => {
+      console.warn('Backend createOrder error:', err);
+    });
   }, [pushHistory]);
 
   // Undo
@@ -237,28 +320,27 @@ export const DatasetProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // Discard Changes
   const discardChanges = useCallback(() => {
-    setOrders(peliyagodaOrders);
-    setRoutes(peliyagodaRoutes);
+    refreshFromBackend();
     setHistory([]);
     setFuture([]);
     setHasUnsavedChanges(false);
-  }, []);
+  }, [refreshFromBackend]);
 
   const kpis = useMemo(() => {
-    return calculateDatasetEconomics(orders, baseVehicles);
-  }, [orders, baseVehicles]);
+    return calculateDatasetEconomics(orders, vehicles);
+  }, [orders, vehicles]);
 
   return (
     <DatasetContext.Provider
       value={{
         mode,
         setMode,
-        depots: baseDepots,
-        outlets: baseOutlets,
-        allOutlets: baseAllOutlets,
-        drivers: baseDrivers,
-        vehicles: baseVehicles,
-        allVehicles: baseAllVehicles,
+        depots,
+        outlets,
+        allOutlets,
+        drivers,
+        vehicles,
+        allVehicles,
         orders,
         routes,
         activeDepot,
@@ -270,6 +352,7 @@ export const DatasetProvider: React.FC<{ children: React.ReactNode }> = ({ child
         calendarEvents,
         trafficSpeedProfiles,
         kpis,
+        backendConnected,
         scheduleOrder,
         unscheduleOrder,
         addOrder,
@@ -280,6 +363,7 @@ export const DatasetProvider: React.FC<{ children: React.ReactNode }> = ({ child
         hasUnsavedChanges,
         applyChanges,
         discardChanges,
+        refreshFromBackend,
       }}
     >
       {children}

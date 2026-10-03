@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Package, Truck } from 'lucide-react';
-import { orders, routes, vehicles, drivers } from '../../data/mockData';
+import { useNavigate } from 'react-router-dom';
+import {
+  Search, Package, Truck, LayoutDashboard, Smartphone,
+  Store, WifiOff, Calendar, AlertTriangle, BarChart2, Radio
+} from 'lucide-react';
+import { useDataset } from '../../context/DatasetContext';
 
 interface CommandPaletteProps {
   open: boolean;
@@ -8,6 +12,8 @@ interface CommandPaletteProps {
 }
 
 const CommandPalette: React.FC<CommandPaletteProps> = ({ open, onClose }) => {
+  const navigate = useNavigate();
+  const { orders, routes, allVehicles: vehicles, drivers } = useDataset();
   const [query, setQuery] = useState('');
 
   useEffect(() => {
@@ -18,6 +24,28 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ open, onClose }) => {
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [open, onClose]);
+
+  const goTo = (path: string) => {
+    navigate(path);
+    onClose();
+  };
+
+  const navPages = [
+    { title: 'Dispatcher Dashboard', path: '/dispatcher', icon: LayoutDashboard, desc: 'Tactical command center & AI' },
+    { title: 'Driver Mobile App', path: '/driver', icon: Smartphone, desc: 'Turn-by-turn navigation & POD' },
+    { title: 'Store Receiving Terminal', path: '/store-manager', icon: Store, desc: 'FreshMart dock & temperature' },
+    { title: 'Offline Degraded Mode', path: '/offline', icon: WifiOff, desc: 'IndexedDB cache & sync queue' },
+    { title: 'Executive Overview', path: '/overview', icon: BarChart2, desc: 'KPI cards & fleet health' },
+    { title: 'Live Operations', path: '/live', icon: Radio, desc: 'Real-time telemetry map' },
+    { title: 'Route Planner', path: '/planner', icon: Calendar, desc: 'Gantt timeline & optimizer' },
+    { title: 'Demand Forecast', path: '/forecast', icon: BarChart2, desc: 'Festival surge & capacity' },
+    { title: 'Active Exceptions', path: '/exceptions', icon: AlertTriangle, desc: 'Workshop groundings & SLA' },
+  ];
+
+  const filteredPages = navPages.filter(p =>
+    !query || p.title.toLowerCase().includes(query.toLowerCase()) ||
+    p.desc.toLowerCase().includes(query.toLowerCase())
+  ).slice(0, 4);
 
   const filteredOrders = orders.filter(o =>
     !query || o.id.toLowerCase().includes(query.toLowerCase()) ||
@@ -54,11 +82,26 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ open, onClose }) => {
         </div>
 
         <div className="cmd-results">
+          {filteredPages.length > 0 && (
+            <>
+              <div className="cmd-group-label">Quick Navigation</div>
+              {filteredPages.map(page => (
+                <div key={page.path} className="cmd-result-item" onClick={() => goTo(page.path)}>
+                  <div className="cmd-result-icon"><page.icon size={16} /></div>
+                  <div>
+                    <div className="cmd-result-label">{page.title}</div>
+                    <div className="cmd-result-sub">{page.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+
           {filteredOrders.length > 0 && (
             <>
               <div className="cmd-group-label">Orders</div>
               {filteredOrders.map(o => (
-                <div key={o.id} className="cmd-result-item" onClick={onClose}>
+                <div key={o.id} className="cmd-result-item" onClick={() => goTo(`/orders/${o.id}`)}>
                   <div className="cmd-result-icon"><Package size={16} /></div>
                   <div>
                     <div className="cmd-result-label">{o.id}</div>
@@ -108,8 +151,8 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ open, onClose }) => {
           {filteredDrivers.length > 0 && (
             <>
               <div className="cmd-group-label">Drivers</div>
-              {filteredDrivers.map(d => (
-                <div key={d.id} className="cmd-result-item" onClick={onClose}>
+              {filteredDrivers.map((d, idx) => (
+                <div key={`${d.id}-${idx}`} className="cmd-result-item" onClick={onClose}>
                   <div className="cmd-result-icon">
                     <div style={{
                       width: 24, height: 24, borderRadius: '50%', background: 'var(--brand-tint)',

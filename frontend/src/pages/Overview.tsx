@@ -6,21 +6,67 @@ import {
 import OperationalMap from '../components/map/OperationalMap';
 import StatusBadge from '../components/common/StatusBadge';
 import CapacityBar from '../components/common/CapacityBar';
-import { routes, exceptions, aiRecommendations } from '../data/mockData';
-
-const kpiItems = [
-  { label: 'Total Orders',    value: 248,  cls: 'brand',   trend: '+14 Today',       icon: Package },
-  { label: 'Planned',         value: 221,  cls: 'brand',   trend: '89.1% Wave 1',    icon: CheckCircle2 },
-  { label: 'Unassigned',      value: 14,   cls: 'warning', trend: 'Requires Review', icon: AlertTriangle },
-  { label: 'At Risk',         value: 13,   cls: 'danger',  trend: 'Time Window SL',  icon: AlertOctagon },
-  { label: 'Active Fleet',    value: 42,   cls: 'brand',   trend: '94% Utilization', icon: Truck },
-  { label: 'On Schedule',     value: 31,   cls: 'success', trend: '98.4% SLA Target',icon: Clock },
-  { label: 'Completed',       value: 4,    cls: 'success', trend: '14.2 m³ Done',    icon: ShieldCheck },
-  { label: 'Depot Idle',      value: 2,    cls: 'muted',   trend: 'Standby Wave 2',  icon: PowerOff },
-];
+import { useDataset } from '../context/DatasetContext';
+import { aiRecommendations } from '../data/mockData';
+import type { Exception } from '../types';
 
 const Overview: React.FC = () => {
+  const { routes, kpis } = useDataset();
   const [selectedRoute, setSelectedRoute] = useState<string | undefined>();
+
+  // Fallback exceptions list for executive overview
+  const exceptions: Exception[] = [
+    {
+      id: 'EXC-001',
+      severity: 'Critical',
+      timestamp: '07:15 AM',
+      entityType: 'Vehicle',
+      entityId: 'VEH-019',
+      entityName: 'WP-CAD-8812 (VEH-019)',
+      problem: 'Vehicle Grounded in Workshop',
+      detail: 'Fleet unit flagged in maintenance workshop. Lost capacity: 12.4 m³.',
+      impact: 'Lost capacity',
+      resolved: false,
+      actions: ['Reassign', 'Supervisor'],
+    },
+    {
+      id: 'EXC-002',
+      severity: 'High',
+      timestamp: '08:43 AM',
+      entityType: 'Order',
+      entityId: 'ORD-009',
+      entityName: 'ORD-009 · Keells Nugegoda',
+      problem: 'Delayed by 4m (+ $18.00 SLA)',
+      detail: 'Service start delayed due to High-Level Road water main repair.',
+      impact: 'SLA risk',
+      resolved: false,
+      actions: ['Approve', 'Recalculate'],
+    },
+    {
+      id: 'EXC-003',
+      severity: 'Medium',
+      timestamp: '08:54 AM',
+      entityType: 'Order',
+      entityId: 'ORD-012',
+      entityName: 'ORD-012 · Cargills Moratuwa',
+      problem: 'Dock Space Unavailable',
+      detail: 'Receiving dock congested. Driver waiting on perimeter apron.',
+      impact: 'Dock turnaround',
+      resolved: false,
+      actions: ['Store Portal'],
+    },
+  ];
+
+  const kpiItems = [
+    { label: 'Total Orders',    value: kpis.totalOrders,    cls: 'brand',   trend: '+14 Today',       icon: Package },
+    { label: 'Planned',         value: kpis.planned,        cls: 'brand',   trend: 'Wave 1 Active',   icon: CheckCircle2 },
+    { label: 'Unassigned',      value: kpis.unassigned,     cls: 'warning', trend: 'Requires Review', icon: AlertTriangle },
+    { label: 'At Risk',         value: kpis.atRisk,         cls: 'danger',  trend: 'Time Window SL',  icon: AlertOctagon },
+    { label: 'Active Fleet',    value: kpis.activeVehicles, cls: 'brand',   trend: 'High Utilization', icon: Truck },
+    { label: 'On Schedule',     value: kpis.onSchedule,     cls: 'success', trend: '98.4% SLA Target',icon: Clock },
+    { label: 'Completed',       value: kpis.completed,      cls: 'success', trend: 'Delivered',       icon: ShieldCheck },
+    { label: 'Depot Idle',      value: kpis.offline,        cls: 'muted',   trend: 'Standby Wave 2',  icon: PowerOff },
+  ];
 
   return (
     <div style={{ height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>

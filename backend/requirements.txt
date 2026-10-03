@@ -1,0 +1,25 @@
+# Core Framework & Server
+fastapi>=0.115.0
+uvicorn[standard]>=0.34.0
+pydantic>=2.10.0
+pydantic-settings>=2.8.0
+
+# Database & ORM
+sqlalchemy>=2.0.0
+aiosqlite>=0.21.0
+asyncpg>=0.30.0
+
+# Security & Auth
+python-jose[cryptography]>=3.3.0
+bcrypt>=5.0.0
+python-multipart>=0.0.20
+
+# Realtime & WebSockets
+websockets>=14.0
+
+# Utilities & Data
+python-dotenv>=1.0.0
+httpx>=0.28.0
+
+# AI / Gemini
+google-generativeai>=0.8.0

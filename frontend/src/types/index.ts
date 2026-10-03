@@ -127,6 +127,8 @@ export interface UserProfile {
   role: 'Dispatcher' | 'Fleet Manager' | 'Planner' | 'Driver' | 'Admin';
   depot: string;
   initials: string;
+  status?: 'ACTIVE' | 'PENDING_APPROVAL' | 'REJECTED';
+  createdAt?: string;
 }
 
 export interface DeliveryTimeEstimationResult {

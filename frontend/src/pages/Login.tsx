@@ -42,23 +42,30 @@ export const Login: React.FC<LoginProps> = ({ theme = 'dark', onThemeToggle }) =
     setLoading(true);
     setError(null);
     try {
-      await login(email);
+      await login(email, password);
       setTimeout(() => {
         navigate('/planner');
       }, 350);
-    } catch {
-      setError('Authentication failed. Check credentials.');
+    } catch (err: any) {
+      setError(err?.message || 'Authentication failed. Check credentials.');
       setLoading(false);
     }
   };
 
   const handleQuickLogin = async (demoEmail: string, role: any, depot: string) => {
     setEmail(demoEmail);
+    setPassword('password123');
     setLoading(true);
-    await login(demoEmail, role, depot);
-    setTimeout(() => {
-      navigate('/planner');
-    }, 300);
+    setError(null);
+    try {
+      await login(demoEmail, 'password123', role, depot);
+      setTimeout(() => {
+        navigate('/planner');
+      }, 300);
+    } catch (err: any) {
+      setError(err?.message || 'Quick login failed.');
+      setLoading(false);
+    }
   };
 
   return (
@@ -465,16 +472,21 @@ export const Login: React.FC<LoginProps> = ({ theme = 'dark', onThemeToggle }) =
               style={{
                 padding: '10px 14px',
                 borderRadius: 8,
-                background: '#FEE2E2',
-                color: '#B91C1C',
+                background: error.toLowerCase().includes('awaiting') || error.toLowerCase().includes('declined')
+                  ? '#FEF3C7'
+                  : '#FEE2E2',
+                color: error.toLowerCase().includes('awaiting') || error.toLowerCase().includes('declined')
+                  ? '#92400E'
+                  : '#B91C1C',
+                border: `1px solid ${error.toLowerCase().includes('awaiting') || error.toLowerCase().includes('declined') ? '#FCD34D' : '#FECACA'}`,
                 fontSize: 12,
                 marginBottom: 16,
                 display: 'flex',
-                alignItems: 'center',
+                alignItems: 'flex-start',
                 gap: 8,
               }}
             >
-              <ShieldCheck size={14} />
+              <ShieldCheck size={14} style={{ marginTop: 1, flexShrink: 0 }} />
               <span>{error}</span>
             </div>
           )}

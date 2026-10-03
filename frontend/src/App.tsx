@@ -5,6 +5,7 @@ import { CurrencyProvider } from './context/CurrencyContext';
 import { AuthProvider } from './context/AuthContext';
 import WaypointHeader from './components/shell/WaypointHeader';
 import CommandPalette from './components/shell/CommandPalette';
+import AIChatbot from './components/common/AIChatbot';
 
 // Pages
 import Landing from './pages/Landing';
@@ -18,7 +19,14 @@ import LoadingPage from './pages/Loading';
 import ForecastPage from './pages/Forecast';
 import ExceptionsPage from './pages/Exceptions';
 import ReportsPage from './pages/Reports';
+import Overview from './pages/Overview';
+import DispatcherPage from './pages/Dispatcher';
+import DriverPage from './pages/Driver';
+import StoreManagerPage from './pages/StoreManager';
+import OrderDetailPage from './pages/OrderDetail';
+import OfflineModePage from './pages/OfflineMode';
 import StartupLoader from './components/common/StartupLoader';
+import UserManagementPage from './pages/UserManagement';
 
 type Theme = 'light' | 'dark';
 
@@ -54,6 +62,7 @@ const AppShell: React.FC<{
         {children}
       </main>
       <CommandPalette open={cmdOpen} onClose={closeCmd} />
+      <AIChatbot />
     </div>
   );
 };
@@ -91,15 +100,23 @@ function App() {
             <Route path="/landing" element={<Landing theme={theme} onThemeToggle={toggleTheme} />} />
             <Route path="/login" element={<Login theme={theme} onThemeToggle={toggleTheme} />} />
             <Route path="/signup" element={<Signup theme={theme} onThemeToggle={toggleTheme} />} />
-            <Route path="/"          element={<Shell><WaypointLiveView /></Shell>} />
-            <Route path="/live"      element={<Shell><WaypointLiveView /></Shell>} />
-            <Route path="/orders"    element={<Shell><OrdersPage /></Shell>} />
-            <Route path="/planner"   element={<Shell><PlannerPage /></Shell>} />
-            <Route path="/fleet"     element={<Shell><FleetPage /></Shell>} />
-            <Route path="/loading"   element={<Shell><LoadingPage /></Shell>} />
-            <Route path="/forecast"  element={<Shell><ForecastPage /></Shell>} />
-            <Route path="/exceptions" element={<Shell><ExceptionsPage /></Shell>} />
-            <Route path="/reports"   element={<Shell><ReportsPage /></Shell>} />
+            <Route path="/"              element={<Shell><WaypointLiveView /></Shell>} />
+            <Route path="/live"          element={<Shell><WaypointLiveView /></Shell>} />
+            <Route path="/overview"      element={<Shell><Overview /></Shell>} />
+            <Route path="/dispatcher"    element={<Shell><DispatcherPage /></Shell>} />
+            <Route path="/orders"        element={<Shell><OrdersPage /></Shell>} />
+            <Route path="/orders/:orderId" element={<Shell><OrderDetailPage /></Shell>} />
+            <Route path="/order-detail"  element={<Shell><OrderDetailPage /></Shell>} />
+            <Route path="/planner"       element={<Shell><PlannerPage /></Shell>} />
+            <Route path="/fleet"         element={<Shell><FleetPage /></Shell>} />
+            <Route path="/loading"       element={<Shell><LoadingPage /></Shell>} />
+            <Route path="/driver"        element={<Shell><DriverPage /></Shell>} />
+            <Route path="/store-manager" element={<Shell><StoreManagerPage /></Shell>} />
+            <Route path="/forecast"      element={<Shell><ForecastPage /></Shell>} />
+            <Route path="/exceptions"    element={<Shell><ExceptionsPage /></Shell>} />
+            <Route path="/offline"       element={<Shell><OfflineModePage /></Shell>} />
+            <Route path="/reports"       element={<Shell><ReportsPage /></Shell>} />
+            <Route path="/users"         element={<Shell><UserManagementPage /></Shell>} />
           </Routes>
         </DatasetProvider>
       </CurrencyProvider>

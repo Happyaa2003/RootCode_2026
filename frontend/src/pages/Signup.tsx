@@ -28,6 +28,7 @@ export const Signup: React.FC<SignupProps> = ({ theme = 'dark', onThemeToggle })
   const [depot, setDepot] = useState('Colombo Central Dispatch Hub');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [pendingApproval, setPendingApproval] = useState(false);
 
   const typewriterPhrases = [
     'Join Sri Lanka\'s next-gen dispatch network with Way Pilot',
@@ -45,12 +46,18 @@ export const Signup: React.FC<SignupProps> = ({ theme = 'dark', onThemeToggle })
     setLoading(true);
     setError(null);
     try {
-      await signup(name, email, role, depot);
-      setTimeout(() => {
-        navigate('/planner');
-      }, 350);
-    } catch {
-      setError('Could not complete account creation.');
+      await signup(name, email, password, role, depot);
+      // If signup returns without throwing, something went wrong — fallback
+      navigate('/planner');
+    } catch (err: any) {
+      const msg: string = err?.message || '';
+      if (msg === 'PENDING_APPROVAL') {
+        // Expected: show the pending approval screen
+        setPendingApproval(true);
+        setLoading(false);
+        return;
+      }
+      setError(msg || 'Could not complete account creation.');
       setLoading(false);
     }
   };
@@ -69,6 +76,152 @@ export const Signup: React.FC<SignupProps> = ({ theme = 'dark', onThemeToggle })
       }}
       className="waypoint-login-wrapper"
     >
+      {/* ─── PENDING APPROVAL FULL-SCREEN OVERLAY ─── */}
+      {pendingApproval && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: theme === 'dark'
+              ? 'linear-gradient(135deg, #040711 0%, #0B1120 100%)'
+              : 'linear-gradient(135deg, #F0F9FF 0%, #EFF6FF 100%)',
+          }}
+        >
+          <div
+            style={{
+              maxWidth: 480,
+              width: '90%',
+              textAlign: 'center',
+              padding: '48px 40px',
+              borderRadius: 20,
+              background: theme === 'dark' ? 'rgba(15, 23, 42, 0.95)' : '#FFFFFF',
+              border: '1px solid rgba(37, 99, 235, 0.25)',
+              boxShadow: '0 24px 64px rgba(0, 0, 0, 0.35)',
+            }}
+          >
+            {/* Clock Icon */}
+            <div
+              style={{
+                width: 72,
+                height: 72,
+                borderRadius: '50%',
+                background: 'rgba(234, 179, 8, 0.12)',
+                border: '2px solid rgba(234, 179, 8, 0.4)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 24px',
+              }}
+            >
+              <span style={{ fontSize: 32 }}>⏳</span>
+            </div>
+
+            {/* Badge */}
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '4px 14px',
+                borderRadius: 20,
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                background: 'rgba(234, 179, 8, 0.12)',
+                border: '1px solid rgba(234, 179, 8, 0.35)',
+                color: '#D97706',
+                marginBottom: 20,
+              }}
+            >
+              ▲ PENDING ADMIN APPROVAL
+            </span>
+
+            <h2
+              style={{
+                fontSize: 24,
+                fontWeight: 800,
+                color: 'var(--text-primary)',
+                letterSpacing: '-0.025em',
+                margin: '0 0 12px 0',
+              }}
+            >
+              Registration Submitted!
+            </h2>
+
+            <p
+              style={{
+                fontSize: 14,
+                color: 'var(--text-secondary)',
+                lineHeight: 1.6,
+                margin: '0 0 28px 0',
+              }}
+            >
+              Your operator account for <strong style={{ color: 'var(--text-primary)' }}>{email}</strong> has been submitted successfully.
+              <br /><br />
+              An administrator will review your request and activate your access. You will be able to sign in once approved.
+            </p>
+
+            {/* Info card */}
+            <div
+              style={{
+                background: 'rgba(37, 99, 235, 0.07)',
+                border: '1px solid rgba(37, 99, 235, 0.2)',
+                borderRadius: 10,
+                padding: '14px 18px',
+                textAlign: 'left',
+                marginBottom: 28,
+                fontSize: 12.5,
+                color: 'var(--text-secondary)',
+                lineHeight: 1.55,
+              }}
+            >
+              <strong style={{ color: '#2563EB', display: 'block', marginBottom: 6 }}>What happens next?</strong>
+              1. Admin receives your request in the <em>User Management</em> panel.<br />
+              2. Admin approves or rejects your account.<br />
+              3. You can sign in with your registered email & password once approved.
+            </div>
+
+            <button
+              onClick={() => navigate('/login')}
+              style={{
+                padding: '12px 28px',
+                borderRadius: 9999,
+                border: 'none',
+                background: '#0F172A',
+                color: '#FFFFFF',
+                fontSize: 14,
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                boxShadow: '0 4px 18px rgba(15, 23, 42, 0.35)',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'translateY(-1.5px)';
+                e.currentTarget.style.boxShadow = '0 8px 24px rgba(15, 23, 42, 0.45)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'none';
+                e.currentTarget.style.boxShadow = '0 4px 18px rgba(15, 23, 42, 0.35)';
+              }}
+            >
+              ← Back to Sign In
+            </button>
+
+            <p style={{ marginTop: 18, fontSize: 11, color: 'var(--text-muted)' }}>
+              Way Pilot · Sri Lanka Logistics Intelligence · v2.4
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* ─── LEFT SIDE: Sri Lanka Delivery Vehicle Hero Image & National Logistics Telemetry ─── */}
       <div
         style={{

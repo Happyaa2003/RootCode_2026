@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { Search, ChevronUp, ChevronDown } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Search, ChevronUp, ChevronDown, ArrowRight } from 'lucide-react';
 import StatusBadge from '../components/common/StatusBadge';
 import Drawer from '../components/common/Drawer';
 import { useDataset } from '../context/DatasetContext';
@@ -343,6 +344,19 @@ const OrdersPage: React.FC = () => {
                 Dock Type: <strong>{selectedOrder.dockType || 'street'}</strong> · Parking: <strong>{selectedOrder.parkingConstraint || 'normal'}</strong> · Service Allowance: <strong>{selectedOrder.serviceAllowanceMin || 18} min</strong>
               </p>
             </div>
+
+            <Link
+              to={`/orders/${selectedOrder.id}`}
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                padding: '10px 16px', background: '#2563EB', color: '#FFFFFF',
+                borderRadius: 8, textDecoration: 'none', fontWeight: 700, fontSize: 13,
+                marginTop: 4
+              }}
+            >
+              <span>Open Full Order Specification & Economics</span>
+              <ArrowRight size={14} />
+            </Link>
           </div>
         )}
       </Drawer>

@@ -175,7 +175,7 @@ const WaypointLiveView: React.FC = () => {
 
               return (
                 <div
-                  key={drv.id}
+                  key={`${drv.routeId}-${drv.id}`}
                   className={`waypoint-driver-row ${isSelected ? 'selected' : ''}`}
                   onClick={() => setSelectedDriverId(drv.id)}
                 >

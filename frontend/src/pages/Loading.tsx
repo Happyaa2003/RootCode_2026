@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { CheckSquare, Square, Truck } from 'lucide-react';
-import { routes } from '../data/mockData';
+import { useDataset } from '../context/DatasetContext';
 
 const LoadingPage: React.FC = () => {
-  const route = routes[0]; // Show Route 01 as active loading
+  const { routes } = useDataset();
+  const route = routes[0] || {
+    name: 'TRIP 01',
+    vehicle: { plate: 'WP CAD-1000' },
+    driver: { name: 'Kamal Perera' },
+    stops: []
+  };
   const [loaded, setLoaded] = useState<Set<number>>(new Set([0, 1]));
 
   const toggle = (i: number) => setLoaded(prev => {
